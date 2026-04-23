@@ -1,0 +1,147 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@source '../../packages/ui/src';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: 'Space Grotesk', sans-serif;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* ── Dark base ── */
+  --color-background: #0a0a0a;
+  --color-foreground: #f5f5f5;
+  --color-card: #1a1a1a;
+  --color-card-foreground: #f5f5f5;
+  --color-card-dark: #131313;
+  --color-border: #2a2a2a;
+  --color-input: #1a1a1a;
+  --color-ring: #a3e635;
+  --color-popover: #1a1a1a;
+  --color-popover-foreground: #f5f5f5;
+
+  /* ── Primary (lima) ── */
+  --color-primary: #a3e635;
+  --color-primary-foreground: #0f0f0f;
+  --color-primary-light: #111d00;
+  --color-primary-mid: #65a30d;
+
+  /* ── Semantic ── */
+  --color-secondary: #1a1a1a;
+  --color-secondary-foreground: #f5f5f5;
+  --color-muted: #737373;
+  --color-muted-foreground: #737373;
+  --color-soft: #4a4a4a;
+  --color-accent: #a3e635;
+  --color-accent-foreground: #0f0f0f;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+
+  /* ── Muscle map ── */
+  --color-muscle-hot: #22c55e;
+  --color-muscle-warm: #86efac;
+  --color-muscle-rest: #252525;
+
+  /* ── Radius ── */
+  --radius: 0.75rem;
+  --radius-card: 16px;
+  --radius-item: 12px;
+  --radius-pill: 99px;
+
+  /* ── Shadows ── */
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.5), 0 1px 2px -1px rgb(0 0 0 / 0.5);
+  --shadow-primary: 0 4px 24px rgba(163, 230, 53, 0.2);
+}
+
+/* ── Light theme overrides (aplica cuando html.light) ── */
+html.light {
+  --color-background: #f5f5f5;
+  --color-foreground: #0a0a0a;
+  --color-card: #ffffff;
+  --color-card-foreground: #0a0a0a;
+  --color-card-dark: #efefef;
+  --color-border: #e4e4e7;
+  --color-input: #ffffff;
+  --color-ring: #65a30d;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #0a0a0a;
+
+  --color-primary: #65a30d;
+  --color-primary-foreground: #ffffff;
+  --color-primary-light: #f0fde4;
+  --color-primary-mid: #4d7c0f;
+
+  --color-secondary: #f3f4f6;
+  --color-secondary-foreground: #0a0a0a;
+  --color-muted: #6b7280;
+  --color-muted-foreground: #6b7280;
+  --color-soft: #9ca3af;
+  --color-accent: #65a30d;
+  --color-accent-foreground: #ffffff;
+  --color-destructive: #dc2626;
+  --color-destructive-foreground: #ffffff;
+
+  --color-muscle-rest: #e5e7eb;
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-primary: 0 4px 24px rgba(101, 163, 13, 0.2);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    touch-action: manipulation;
+  }
+
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    overscroll-behavior: none;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font-family: inherit;
+  }
+
+  /* iOS: evita zoom en inputs < 16px en standalone PWA */
+  @media (max-width: 768px) {
+    input,
+    select,
+    textarea {
+      font-size: 16px;
+    }
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}

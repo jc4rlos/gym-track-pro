@@ -1,0 +1,33 @@
+import { createFileRoute, useNavigate, useParams } from '@tanstack/react-router'
+import { useRoutineDetail, useUpdateRoutine } from '@/features/routines/use-routines'
+import { RoutineBuilder, type ExerciseForBuilder } from '@/features/routines/routine-builder'
+
+function EditRoutinePage() {
+  const { routineId } = useParams({ from: '/_app/routines/$routineId' })
+  const navigate = useNavigate()
+  const { data: routine } = useRoutineDetail(routineId)
+  const updateMutation = useUpdateRoutine()
+
+  const handleSave = async (name: string) => {
+    try {
+      await updateMutation.mutateAsync({ id: routineId, name })
+      navigate({ to: '/routines' })
+    } catch (error) {
+      console.error('Error saving routine:', error)
+    }
+  }
+
+  return (
+    <RoutineBuilder
+      routineId={routineId}
+      routineName={routine?.name || ''}
+      onBack={() => navigate({ to: '/routines' })}
+      onSave={handleSave}
+      isSaving={updateMutation.isPending}
+    />
+  )
+}
+
+export const Route = createFileRoute('/_app/routines/%24routineId')({
+  component: EditRoutinePage,
+})

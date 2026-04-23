@@ -1,0 +1,14 @@
+{
+  "name": "@acme/gym-track-pro",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "pnpm --filter @acme/chanchi-app dev",
+    "build": "pnpm --filter @acme/chanchi-app build",
+    "lint": "pnpm --filter @acme/chanchi-app lint",
+    "preview": "pnpm --filter @acme/chanchi-app preview",
+    "format:check": "pnpm --filter @acme/chanchi-app format:check",
+    "format": "pnpm --filter @acme/chanchi-app format",
+    "gen:types": "pnpm --filter @acme/chanchi-app gen:types"
+  }
+}

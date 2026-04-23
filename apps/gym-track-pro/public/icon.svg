@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#16A34A"/>
+  <!-- ears -->
+  <ellipse cx="162" cy="178" rx="38" ry="48" fill="#FCD9BD" transform="rotate(-20 162 178)"/>
+  <ellipse cx="350" cy="178" rx="38" ry="48" fill="#FCD9BD" transform="rotate(20 350 178)"/>
+  <ellipse cx="162" cy="178" rx="22" ry="30" fill="#f9a8a5" transform="rotate(-20 162 178)"/>
+  <ellipse cx="350" cy="178" rx="22" ry="30" fill="#f9a8a5" transform="rotate(20 350 178)"/>
+  <!-- head -->
+  <circle cx="256" cy="270" r="145" fill="#FCD9BD"/>
+  <!-- eyes -->
+  <circle cx="200" cy="225" r="22" fill="white"/>
+  <circle cx="312" cy="225" r="22" fill="white"/>
+  <circle cx="200" cy="225" r="12" fill="#1a1a1a"/>
+  <circle cx="312" cy="225" r="12" fill="#1a1a1a"/>
+  <circle cx="204" cy="221" r="4" fill="white"/>
+  <circle cx="316" cy="221" r="4" fill="white"/>
+  <!-- snout -->
+  <ellipse cx="256" cy="305" rx="62" ry="48" fill="#f4a0a0"/>
+  <circle cx="230" cy="308" r="16" fill="#c96e5a"/>
+  <circle cx="282" cy="308" r="16" fill="#c96e5a"/>
+  <!-- cheeks -->
+  <circle cx="170" cy="295" r="22" fill="#f9a8a5" opacity="0.5"/>
+  <circle cx="342" cy="295" r="22" fill="#f9a8a5" opacity="0.5"/>
+</svg>

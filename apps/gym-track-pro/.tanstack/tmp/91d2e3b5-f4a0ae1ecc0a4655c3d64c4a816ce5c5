@@ -1,0 +1,74 @@
+import { createFileRoute } from '@tanstack/react-router'
+import { useEffect, useState } from 'react'
+import { supabase } from '@/lib/supabase'
+
+function DebugPage() {
+  const [status, setStatus] = useState<string>('Loading...')
+  const [exercises, setExercises] = useState<any[]>([])
+
+  useEffect(() => {
+    const test = async () => {
+      try {
+        setStatus('Conectando a Supabase...')
+        const { data, error } = await supabase
+          .from('exercises')
+          .select('*')
+          .limit(5)
+
+        if (error) {
+          setStatus(`❌ Error: ${error.message}`)
+          return
+        }
+
+        if (!data || data.length === 0) {
+          setStatus('⚠️ Tabla exercises vacía. Necesita importar ejercicios desde ExerciseDB')
+          setExercises([])
+          return
+        }
+
+        setStatus(`✅ Conectado. ${data.length} ejercicios encontrados`)
+        setExercises(data)
+      } catch (err) {
+        setStatus(`❌ Error: ${String(err)}`)
+      }
+    }
+
+    test()
+  }, [])
+
+  return (
+    <div className='p-5 space-y-3'>
+      <h1 className='text-2xl font-bold'>Debug — Exercises DB</h1>
+      <div className='p-3 rounded-lg bg-card border border-border'>
+        <p className='text-sm'>{status}</p>
+      </div>
+
+      {exercises.length > 0 && (
+        <div className='space-y-2'>
+          <h2 className='text-lg font-bold'>Primeros 5 ejercicios:</h2>
+          {exercises.map((ex) => (
+            <div key={ex.id} className='p-3 bg-card-dark rounded-lg text-sm'>
+              <p className='font-bold'>{ex.name_es || ex.name}</p>
+              <p className='text-xs text-muted mt-1'>ID: {ex.id}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className='p-3 bg-primary-light border border-[#2a4a1a] rounded-lg'>
+        <p className='text-sm text-primary font-semibold'>Próximos pasos:</p>
+        <p className='text-xs text-[#4a7a4a] mt-2'>
+          1. Ejecuta script para importar de ExerciseDB a Supabase
+          <br />
+          2. O inserta datos manualmente en tabla exercises
+          <br />
+          3. Verifica RLS policies
+        </p>
+      </div>
+    </div>
+  )
+}
+
+export const Route = createFileRoute('/_app/exercises/debug')({
+  component: DebugPage,
+})

@@ -1,0 +1,1811 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GymTrack Pro — Mockups</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Bebas+Neue&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Space Grotesk', sans-serif;
+        background: #0a0a0a;
+        color: #f5f5f5;
+      }
+      .phone {
+        width: 390px;
+        min-height: 844px;
+        background: #0a0a0a;
+        border-radius: 44px;
+        overflow: hidden;
+        border: 2px solid #2a2a2a;
+        box-shadow:
+          0 40px 80px rgba(0, 0, 0, 0.9),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        position: relative;
+        flex-shrink: 0;
+      }
+      .notch {
+        width: 126px;
+        height: 34px;
+        background: #000;
+        border-radius: 0 0 20px 20px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 20;
+      }
+      .screen {
+        color: #f5f5f5;
+        min-height: 810px;
+      }
+      .scroll-screen {
+        overflow-y: auto;
+        max-height: 810px;
+      }
+      .scroll-screen::-webkit-scrollbar {
+        display: none;
+      }
+      .bottom-nav {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(8, 8, 8, 0.97);
+        backdrop-filter: blur(12px);
+        border-top: 1px solid #1a1a1a;
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0 20px;
+      }
+      .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        font-size: 10px;
+        font-weight: 500;
+        color: #4a4a4a;
+        cursor: pointer;
+      }
+      .nav-item.active {
+        color: #a3e635;
+      }
+      .card {
+        background: #1a1a1a;
+        border-radius: 16px;
+        border: 1px solid #2a2a2a;
+      }
+      .card-dark {
+        background: #131313;
+        border-radius: 16px;
+        border: 1px solid #1e1e1e;
+      }
+      .btn-primary {
+        background: #a3e635;
+        color: #0f0f0f;
+        border-radius: 14px;
+        padding: 14px;
+        font-size: 15px;
+        font-weight: 700;
+        text-align: center;
+        cursor: pointer;
+        font-family: 'Space Grotesk', sans-serif;
+        border: none;
+        width: 100%;
+      }
+      .btn-secondary {
+        background: #1a1a1a;
+        color: #f5f5f5;
+        border-radius: 14px;
+        padding: 14px;
+        font-size: 15px;
+        font-weight: 500;
+        text-align: center;
+        cursor: pointer;
+        border: 1px solid #2a2a2a;
+        width: 100%;
+        font-family: 'Space Grotesk', sans-serif;
+      }
+      .input-field {
+        background: #1a1a1a;
+        border: 1px solid #2a2a2a;
+        border-radius: 12px;
+        padding: 13px 16px;
+        color: #f5f5f5;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 15px;
+        width: 100%;
+        outline: none;
+      }
+      .input-field::placeholder {
+        color: #4a4a4a;
+      }
+      .prog {
+        height: 6px;
+        background: #1a1a1a;
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .prog-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #65a30d, #a3e635);
+        border-radius: 3px;
+      }
+      .chip-done {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+        background: #111d11;
+        color: #4ade80;
+        border: 1px solid #1a3a1a;
+      }
+      .chip-todo {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+        background: #1a1a1a;
+        color: #4a4a4a;
+        border: 1px solid #2a2a2a;
+      }
+      .mitem {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        background: #1a1a1a;
+        border-radius: 14px;
+        border: 1.5px solid #2a2a2a;
+      }
+      .mitem-done {
+        background: #0d1a0d;
+        border-color: #1a3a1a;
+      }
+      .mcheck {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 2px solid #3a3a3a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        background: #0f0f0f;
+      }
+      .mcheck-done {
+        background: #a3e635;
+        border-color: #a3e635;
+      }
+      .bebas {
+        font-family: 'Bebas Neue', sans-serif;
+        letter-spacing: 0.04em;
+      }
+      .toggle-wrap {
+        display: flex;
+        background: #0f0f0f;
+        border-radius: 20px;
+        padding: 3px;
+        border: 1px solid #2a2a2a;
+      }
+      .toggle-opt {
+        flex: 1;
+        text-align: center;
+        padding: 5px 14px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        color: #737373;
+      }
+      .toggle-on {
+        background: #a3e635;
+        color: #0f0f0f;
+      }
+      .section-lbl {
+        font-size: 11px;
+        font-weight: 600;
+        color: #737373;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+      }
+      .screen-wrap {
+        display: none;
+      }
+      .screen-wrap.active {
+        display: block;
+      }
+      .phone-label {
+        color: #737373;
+        font-size: 12px;
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 10px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      .nav-pills {
+        background: #141414;
+        border-radius: 20px;
+        padding: 16px 20px;
+        max-width: 940px;
+        margin: 0 auto 28px;
+        border: 1px solid #1e1e1e;
+      }
+      .nav-pills h2 {
+        color: #a3e635;
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+      .nav-pills-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .npbtn {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+        background: #1e1e1e;
+        color: #b0b0b0;
+        border: 1px solid #2a2a2a;
+        cursor: pointer;
+        font-family: 'Space Grotesk', sans-serif;
+        transition: all 0.15s;
+      }
+      .npbtn:hover,
+      .npbtn.on {
+        background: #a3e635;
+        color: #0f0f0f;
+        border-color: #a3e635;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="padding: 28px 20px 0; text-align: center">
+      <div class="bebas" style="font-size: 36px; color: #a3e635">
+        GymTrack Pro
+      </div>
+      <div style="font-size: 13px; color: #737373; margin-top: 2px">
+        Mockups mobile · 14 pantallas · Tema oscuro
+      </div>
+    </div>
+
+    <div class="nav-pills" style="margin-top: 20px">
+      <h2>Navegá las pantallas</h2>
+      <div class="nav-pills-row">
+        <button class="npbtn on" onclick="go('s0', this)">0. Splash</button>
+        <button class="npbtn" onclick="go('s1', this)">1. Login</button>
+        <button class="npbtn" onclick="go('s2', this)">2. Registro</button>
+        <button class="npbtn" onclick="go('s3', this)">3. Onboarding</button>
+        <button class="npbtn" onclick="go('s4', this)">4. Dashboard</button>
+        <button class="npbtn" onclick="go('s5', this)">5. Sesión hoy</button>
+        <button class="npbtn" onclick="go('s6', this)">6. Plan semanal</button>
+        <button class="npbtn" onclick="go('s7', this)">7. Sin plan</button>
+        <button class="npbtn" onclick="go('s8', this)">8. IMC</button>
+        <button class="npbtn" onclick="go('s9', this)">9. Ejercicios</button>
+        <button class="npbtn" onclick="go('s10', this)">10. Ej. Detalle</button>
+        <button class="npbtn" onclick="go('s11', this)">11. Rutina</button>
+        <button class="npbtn" onclick="go('s12', this)">12. Historial</button>
+        <button class="npbtn" onclick="go('s13', this)">13. Perfil</button>
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: center; padding: 0 20px 60px">
+      <!-- ══════════════════════════════════════════════════ S0 SPLASH -->
+      <div id="s0" class="screen-wrap active">
+        <div class="phone-label">0 · Splash</div>
+        <div class="phone">
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              min-height: 844px;
+              background: #0a0a0a;
+            "
+          >
+            <div
+              style="
+                width: 88px;
+                height: 88px;
+                background: #a3e635;
+                border-radius: 26px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 44px;
+                margin-bottom: 22px;
+                box-shadow: 0 0 48px rgba(163, 230, 53, 0.25);
+              "
+            >
+              💪
+            </div>
+            <div
+              class="bebas"
+              style="font-size: 44px; color: #f5f5f5; line-height: 1"
+            >
+              GymTrack
+            </div>
+            <div
+              class="bebas"
+              style="
+                font-size: 44px;
+                color: #a3e635;
+                line-height: 1;
+                margin-bottom: 10px;
+              "
+            >
+              Pro
+            </div>
+            <div style="font-size: 13px; color: #4a4a4a; margin-bottom: 52px">
+              Tu cuerpo, tu récord
+            </div>
+            <div style="width: 200px">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  margin-bottom: 8px;
+                "
+              >
+                <span style="font-size: 11px; color: #4a4a4a">Cargando...</span
+                ><span style="font-size: 11px; color: #a3e635; font-weight: 600"
+                  >70%</span
+                >
+              </div>
+              <div class="prog">
+                <div class="prog-fill" style="width: 70%"></div>
+              </div>
+            </div>
+            <div
+              style="
+                position: absolute;
+                bottom: 36px;
+                font-size: 11px;
+                color: #2a2a2a;
+              "
+            >
+              v2.0.0 · PWA
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════ S1 LOGIN -->
+      <div id="s1" class="screen-wrap">
+        <div class="phone-label">1 · Login</div>
+        <div class="phone">
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              min-height: 844px;
+              background: #0a0a0a;
+            "
+          >
+            <div
+              style="
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 40px 24px 0;
+              "
+            >
+              <div
+                style="
+                  width: 68px;
+                  height: 68px;
+                  background: #a3e635;
+                  border-radius: 22px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 34px;
+                  margin-bottom: 20px;
+                "
+              >
+                💪
+              </div>
+              <div
+                class="bebas"
+                style="font-size: 36px; color: #f5f5f5; line-height: 1"
+              >
+                GymTrack
+              </div>
+              <div
+                class="bebas"
+                style="
+                  font-size: 36px;
+                  color: #a3e635;
+                  line-height: 1;
+                  margin-bottom: 30px;
+                "
+              >
+                Pro
+              </div>
+              <div
+                style="
+                  width: 100%;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 12px;
+                "
+              >
+                <div>
+                  <div
+                    style="
+                      font-size: 12px;
+                      color: #737373;
+                      margin-bottom: 6px;
+                      font-weight: 500;
+                    "
+                  >
+                    Correo electrónico
+                  </div>
+                  <input
+                    class="input-field"
+                    type="email"
+                    placeholder="carlos@gmail.com"
+                  />
+                </div>
+                <div>
+                  <div
+                    style="
+                      font-size: 12px;
+                      color: #737373;
+                      margin-bottom: 6px;
+                      font-weight: 500;
+                    "
+                  >
+                    Contraseña
+                  </div>
+                  <input
+                    class="input-field"
+                    type="password"
+                    placeholder="••••••••"
+                  />
+                </div>
+                <div style="text-align: right">
+                  <span style="font-size: 12px; color: #a3e635; cursor: pointer"
+                    >¿Olvidaste tu contraseña?</span
+                  >
+                </div>
+                <button class="btn-primary" style="margin-top: 6px">
+                  Iniciar sesión
+                </button>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 12px;
+                  margin: 20px 0;
+                  width: 100%;
+                "
+              >
+                <div style="flex: 1; height: 1px; background: #1e1e1e"></div>
+                <span style="font-size: 12px; color: #3a3a3a"
+                  >o continuar con</span
+                >
+                <div style="flex: 1; height: 1px; background: #1e1e1e"></div>
+              </div>
+              <div style="display: flex; gap: 10px; width: 100%">
+                <button
+                  class="btn-secondary"
+                  style="
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    padding: 12px;
+                  "
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24">
+                    <path
+                      fill="#4285F4"
+                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                    />
+                    <path
+                      fill="#34A853"
+                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                    />
+                    <path
+                      fill="#FBBC05"
+                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                    />
+                    <path
+                      fill="#EA4335"
+                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                    />
+                  </svg>
+                  Google
+                </button>
+                <button
+                  class="btn-secondary"
+                  style="
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    padding: 12px;
+                  "
+                >
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="#f5f5f5"
+                  >
+                    <path
+                      d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
+                    />
+                  </svg>
+                  Apple
+                </button>
+              </div>
+            </div>
+            <div style="padding: 20px 24px 44px; text-align: center">
+              <span style="font-size: 14px; color: #737373"
+                >¿No tenés cuenta? </span
+              ><span
+                style="
+                  font-size: 14px;
+                  color: #a3e635;
+                  font-weight: 700;
+                  cursor: pointer;
+                "
+                >Registrarse</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════ S2 REGISTRO -->
+      <div id="s2" class="screen-wrap">
+        <div class="phone-label">2 · Registro</div>
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="screen scroll-screen" style="padding: 12px 20px">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                padding: 0 4px 4px;
+                font-size: 12px;
+                font-weight: 500;
+              "
+            >
+              <span>9:41</span><span>●●● 🔋</span>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 22px;
+                margin-top: 4px;
+              "
+            >
+              <div
+                style="
+                  width: 36px;
+                  height: 36px;
+                  background: #1a1a1a;
+                  border-radius: 50%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  border: 1px solid #2a2a2a;
+                  cursor: pointer;
+                  flex-shrink: 0;
+                "
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#f5f5f5"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                >
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </div>
+              <div>
+                <div style="font-size: 19px; font-weight: 700">
+                  Crear cuenta
+                </div>
+                <div style="font-size: 12px; color: #737373">
+                  Completá tus datos
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 14px">
+              <div>
+                <div
+                  style="
+                    font-size: 12px;
+                    color: #737373;
+                    margin-bottom: 6px;
+                    font-weight: 500;
+                  "
+                >
+                  Nombre completo
+                </div>
+                <input
+                  class="input-field"
+                  placeholder="Carlos García"
+                  value="Carlos García"
+                />
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 12px;
+                    color: #737373;
+                    margin-bottom: 6px;
+                    font-weight: 500;
+                  "
+                >
+                  Correo electrónico
+                </div>
+                <input
+                  class="input-field"
+                  type="email"
+                  placeholder="carlos@gmail.com"
+                  value="carlos@gmail.com"
+                />
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 12px;
+                    color: #737373;
+                    margin-bottom: 6px;
+                    font-weight: 500;
+                  "
+                >
+                  Contraseña
+                </div>
+                <input
+                  class="input-field"
+                  type="password"
+                  placeholder="Mínimo 8 caracteres"
+                />
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 12px;
+                    color: #737373;
+                    margin-bottom: 10px;
+                    font-weight: 500;
+                  "
+                >
+                  Género
+                </div>
+                <div style="display: flex; gap: 10px">
+                  <div
+                    style="
+                      flex: 1;
+                      padding: 14px 8px;
+                      border-radius: 14px;
+                      border: 2px solid #a3e635;
+                      background: #111d00;
+                      text-align: center;
+                      cursor: pointer;
+                    "
+                  >
+                    <div style="font-size: 26px; margin-bottom: 4px">♂</div>
+                    <div
+                      style="font-size: 13px; font-weight: 700; color: #a3e635"
+                    >
+                      Hombre
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      flex: 1;
+                      padding: 14px 8px;
+                      border-radius: 14px;
+                      border: 1px solid #2a2a2a;
+                      background: #1a1a1a;
+                      text-align: center;
+                      cursor: pointer;
+                    "
+                  >
+                    <div style="font-size: 26px; margin-bottom: 4px">♀</div>
+                    <div
+                      style="font-size: 13px; font-weight: 500; color: #737373"
+                    >
+                      Mujer
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      flex: 1;
+                      padding: 14px 8px;
+                      border-radius: 14px;
+                      border: 1px solid #2a2a2a;
+                      background: #1a1a1a;
+                      text-align: center;
+                      cursor: pointer;
+                    "
+                  >
+                    <div style="font-size: 26px; margin-bottom: 4px">⚥</div>
+                    <div
+                      style="font-size: 13px; font-weight: 500; color: #737373"
+                    >
+                      Otro
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button class="btn-primary" style="margin-top: 4px">
+                Crear cuenta
+              </button>
+              <div
+                style="
+                  text-align: center;
+                  font-size: 12px;
+                  color: #3a3a3a;
+                  padding-bottom: 16px;
+                "
+              >
+                Al registrarte aceptás los
+                <span style="color: #a3e635">Términos</span> y
+                <span style="color: #a3e635">Privacidad</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════ S3 ONBOARDING -->
+      <div id="s3" class="screen-wrap">
+        <div class="phone-label">3 · Onboarding</div>
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="screen scroll-screen" style="padding: 12px 20px">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                padding: 0 4px 4px;
+                font-size: 12px;
+                font-weight: 500;
+              "
+            >
+              <span>9:41</span><span>●●● 🔋</span>
+            </div>
+            <div
+              style="
+                display: flex;
+                gap: 6px;
+                margin-bottom: 20px;
+                margin-top: 4px;
+              "
+            >
+              <div
+                style="
+                  flex: 1;
+                  height: 4px;
+                  border-radius: 2px;
+                  background: #a3e635;
+                "
+              ></div>
+              <div
+                style="
+                  flex: 1;
+                  height: 4px;
+                  border-radius: 2px;
+                  background: #2a2a2a;
+                "
+              ></div>
+            </div>
+            <div style="font-size: 22px; font-weight: 700; margin-bottom: 4px">
+              Tu perfil físico
+            </div>
+            <div style="font-size: 13px; color: #737373; margin-bottom: 20px">
+              Para calcular tu IMC y recomendaciones
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 14px">
+              <div style="display: flex; gap: 12px">
+                <div style="flex: 1">
+                  <div
+                    style="
+                      font-size: 12px;
+                      color: #737373;
+                      margin-bottom: 6px;
+                      font-weight: 500;
+                    "
+                  >
+                    Altura (cm)
+                  </div>
+                  <input class="input-field" value="175" />
+                </div>
+                <div style="flex: 1">
+                  <div
+                    style="
+                      font-size: 12px;
+                      color: #737373;
+                      margin-bottom: 6px;
+                      font-weight: 500;
+                    "
+                  >
+                    Peso (kg)
+                  </div>
+                  <input class="input-field" value="78" />
+                </div>
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 12px;
+                    color: #737373;
+                    margin-bottom: 6px;
+                    font-weight: 500;
+                  "
+                >
+                  Fecha de nacimiento
+                </div>
+                <input class="input-field" type="date" value="1990-03-15" />
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 12px;
+                    color: #737373;
+                    margin-bottom: 10px;
+                    font-weight: 500;
+                  "
+                >
+                  Objetivo principal
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 8px">
+                  <div
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 12px;
+                      padding: 12px 14px;
+                      background: #1a1a1a;
+                      border-radius: 12px;
+                      border: 1px solid #2a2a2a;
+                      cursor: pointer;
+                    "
+                  >
+                    <div
+                      style="
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 50%;
+                        border: 2px solid #2a2a2a;
+                        flex-shrink: 0;
+                      "
+                    ></div>
+                    <div>
+                      <div style="font-size: 13px; font-weight: 500">
+                        Perder peso
+                      </div>
+                      <div style="font-size: 11px; color: #737373">
+                        Déficit calórico
+                      </div>
+                    </div>
+                    <span style="margin-left: auto; font-size: 20px">🔥</span>
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 12px;
+                      padding: 12px 14px;
+                      background: #111d00;
+                      border-radius: 12px;
+                      border: 2px solid #a3e635;
+                      cursor: pointer;
+                    "
+                  >
+                    <div
+                      style="
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 50%;
+                        background: #a3e635;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-shrink: 0;
+                      "
+                    >
+                      <svg width="10" height="10" viewBox="0 0 10 10">
+                        <polyline
+                          points="1.5,5 4,7.5 8.5,2.5"
+                          fill="none"
+                          stroke="#0f0f0f"
+                          stroke-width="1.8"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <div
+                        style="
+                          font-size: 13px;
+                          font-weight: 700;
+                          color: #a3e635;
+                        "
+                      >
+                        Ganar músculo
+                      </div>
+                      <div style="font-size: 11px; color: #4a7a4a">
+                        Superávit calórico
+                      </div>
+                    </div>
+                    <span style="margin-left: auto; font-size: 20px">💪</span>
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 12px;
+                      padding: 12px 14px;
+                      background: #1a1a1a;
+                      border-radius: 12px;
+                      border: 1px solid #2a2a2a;
+                      cursor: pointer;
+                    "
+                  >
+                    <div
+                      style="
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 50%;
+                        border: 2px solid #2a2a2a;
+                        flex-shrink: 0;
+                      "
+                    ></div>
+                    <div>
+                      <div style="font-size: 13px; font-weight: 500">
+                        Mantenerme
+                      </div>
+                      <div style="font-size: 11px; color: #737373">
+                        Balance calórico
+                      </div>
+                    </div>
+                    <span style="margin-left: auto; font-size: 20px">⚖️</span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 12px;
+                    color: #737373;
+                    margin-bottom: 10px;
+                    font-weight: 500;
+                  "
+                >
+                  Días por semana en el gym
+                </div>
+                <div style="display: flex; gap: 8px">
+                  <div
+                    style="
+                      flex: 1;
+                      padding: 10px 4px;
+                      background: #1a1a1a;
+                      border-radius: 10px;
+                      text-align: center;
+                      border: 1px solid #2a2a2a;
+                      cursor: pointer;
+                      font-size: 14px;
+                      font-weight: 500;
+                    "
+                  >
+                    2
+                  </div>
+                  <div
+                    style="
+                      flex: 1;
+                      padding: 10px 4px;
+                      background: #1a1a1a;
+                      border-radius: 10px;
+                      text-align: center;
+                      border: 1px solid #2a2a2a;
+                      cursor: pointer;
+                      font-size: 14px;
+                      font-weight: 500;
+                    "
+                  >
+                    3
+                  </div>
+                  <div
+                    style="
+                      flex: 1;
+                      padding: 10px 4px;
+                      background: #111d00;
+                      border-radius: 10px;
+                      text-align: center;
+                      border: 2px solid #a3e635;
+                      cursor: pointer;
+                      font-size: 14px;
+                      font-weight: 700;
+                      color: #a3e635;
+                    "
+                  >
+                    4
+                  </div>
+                  <div
+                    style="
+                      flex: 1;
+                      padding: 10px 4px;
+                      background: #1a1a1a;
+                      border-radius: 10px;
+                      text-align: center;
+                      border: 1px solid #2a2a2a;
+                      cursor: pointer;
+                      font-size: 14px;
+                      font-weight: 500;
+                    "
+                  >
+                    5
+                  </div>
+                  <div
+                    style="
+                      flex: 1;
+                      padding: 10px 4px;
+                      background: #1a1a1a;
+                      border-radius: 10px;
+                      text-align: center;
+                      border: 1px solid #2a2a2a;
+                      cursor: pointer;
+                      font-size: 14px;
+                      font-weight: 500;
+                    "
+                  >
+                    6
+                  </div>
+                </div>
+              </div>
+              <button class="btn-primary">Continuar →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════ S4 DASHBOARD -->
+      <div id="s4" class="screen-wrap">
+        <div class="phone-label">4 · Dashboard</div>
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="screen scroll-screen" style="padding-bottom: 90px">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                padding: 4px 24px 0;
+                font-size: 12px;
+                font-weight: 500;
+              "
+            >
+              <span>9:41</span><span>●●● 🔋</span>
+            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                padding: 12px 20px 0;
+              "
+            >
+              <div>
+                <div style="font-size: 22px; font-weight: 700">
+                  Hola, Carlos 💪
+                </div>
+                <div style="font-size: 12px; color: #737373; margin-top: 2px">
+                  Semana 16 · 14–20 Abr 2025
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px">
+                <div
+                  style="
+                    background: #111d00;
+                    border: 1px solid #2a4a1a;
+                    border-radius: 20px;
+                    padding: 4px 10px;
+                    font-size: 12px;
+                    color: #a3e635;
+                    font-weight: 700;
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                  "
+                >
+                  🔥 4
+                </div>
+                <div
+                  style="
+                    width: 42px;
+                    height: 42px;
+                    background: #a3e635;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: 700;
+                    font-size: 16px;
+                    color: #0f0f0f;
+                  "
+                >
+                  C
+                </div>
+              </div>
+            </div>
+            <!-- Stamps -->
+            <div style="padding: 14px 20px 0">
+              <div style="display: flex; gap: 5px">
+                <div
+                  style="
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 3px;
+                  "
+                >
+                  <div
+                    style="
+                      width: 38px;
+                      height: 38px;
+                      border-radius: 50%;
+                      background: #a3e635;
+                      color: #0f0f0f;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      font-size: 14px;
+                      font-weight: 700;
+                    "
+                  >
+                    ✓
+                  </div>
+                  <div
+                    style="font-size: 10px; color: #a3e635; font-weight: 500"
+                  >
+                    Lun
+                  </div>
+                </div>
+                <div
+                  style="
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 3px;
+                  "
+                >
+                  <div
+                    style="
+                      width: 38px;
+                      height: 38px;
+                      border-radius: 50%;
+                      background: #a3e635;
+                      color: #0f0f0f;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      font-size: 14px;
+                      font-weight: 700;
+                    "
+                  >
+                    ✓
+                  </div>
+                  <div
+                    style="font-size: 10px; color: #a3e635; font-weight: 500"
+                  >
+                    Mar
+                  </div>
+                </div>
+                <div
+                  style="
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 3px;
+                  "
+                >
+                  <div
+                    style="
+                      width: 38px;
+                      height: 38px;
+                      border-radius: 50%;
+                      background: #180a0a;
+                      border: 1.5px solid #3a1a1a;
+                      color: #4a2a2a;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      font-size: 14px;
+                    "
+                  >
+                    —
+                  </div>
+                  <div style="font-size: 10px; color: #3a2a2a">Mié</div>
+                </div>
+                <div
+                  style="
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 3px;
+                  "
+                >
+                  <div
+                    style="
+                      width: 38px;
+                      height: 38px;
+                      border-radius: 50%;
+                      background: #a3e635;
+                      color: #0f0f0f;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      font-size: 14px;
+                      font-weight: 700;
+                    "
+                  >
+                    ✓
+                  </div>
+                  <div
+                    style="font-size: 10px; color: #a3e635; font-weight: 500"
+                  >
+                    Jue
+                  </div>
+                </div>
+                <div
+                  style="
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 3px;
+                  "
+                >
+                  <div
+                    style="
+                      width: 38px;
+                      height: 38px;
+                      border-radius: 50%;
+                      border: 2px solid #a3e635;
+                      color: #a3e635;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      font-size: 9px;
+                      font-weight: 700;
+                      background: #111d00;
+                    "
+                  >
+                    HOY
+                  </div>
+                  <div
+                    style="font-size: 10px; color: #a3e635; font-weight: 500"
+                  >
+                    Vie
+                  </div>
+                </div>
+                <div
+                  style="
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 3px;
+                  "
+                >
+                  <div
+                    style="
+                      width: 38px;
+                      height: 38px;
+                      border-radius: 50%;
+                      background: #1a1a1a;
+                      border: 1.5px solid #2a2a2a;
+                    "
+                  ></div>
+                  <div style="font-size: 10px; color: #4a4a4a">Sáb</div>
+                </div>
+                <div
+                  style="
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 3px;
+                  "
+                >
+                  <div
+                    style="
+                      width: 38px;
+                      height: 38px;
+                      border-radius: 50%;
+                      background: #1a1a1a;
+                      border: 1.5px solid #2a2a2a;
+                    "
+                  ></div>
+                  <div style="font-size: 10px; color: #4a4a4a">Dom</div>
+                </div>
+              </div>
+            </div>
+            <!-- Body card -->
+            <div
+              style="
+                margin: 14px 20px 0;
+                padding: 14px;
+                background: #131313;
+                border-radius: 20px;
+                border: 1px solid #1e1e1e;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 10px;
+                "
+              >
+                <div style="font-size: 13px; font-weight: 700">
+                  Músculos esta semana
+                </div>
+                <div class="toggle-wrap">
+                  <div class="toggle-opt toggle-on">Frente</div>
+                  <div class="toggle-opt">Espalda</div>
+                </div>
+              </div>
+              <div
+                style="display: flex; justify-content: center; padding: 8px 0"
+              >
+                <svg viewBox="0 0 160 330" width="130">
+                  <path
+                    d="M70 8 C63 5,58 9,56 16 C54 23,56 33,60 38 C56 41,51 46,48 52 C43 59,42 68,42 76 C42 84,44 91,47 96 C43 100,38 108,36 117 C34 126,35 137,38 145 C41 151,46 154,50 154 C50 160,50 168,51 176 C52 184,54 192,55 196 C52 201,50 209,50 218 C50 227,52 234,55 240 C57 245,61 248,65 248 C64 255,63 263,64 271 C65 278,68 285,70 289 C68 296,67 302,68 309 C69 315,71 319,73 322 C72 328,72 333,74 337 L82 337 L83 328 C83 321,83 316,83 311 C84 310,85 310,87 310 C87 316,87 321,88 328 L89 337 L96 337 C98 333,98 328,97 322 C99 319,101 315,102 309 C103 302,102 296,100 289 C102 285,105 278,106 271 C107 263,106 255,105 248 C109 248,113 245,115 240 C118 234,120 227,120 218 C120 209,118 201,115 196 C116 192,118 184,119 176 C120 168,120 160,120 154 C124 154,129 151,132 145 C135 137,136 126,134 117 C132 108,127 100,123 96 C126 91,128 84,128 76 C128 68,127 59,122 52 C119 46,114 41,110 38 C114 33,116 23,114 16 C112 9,107 5,100 8 C97 10,94 11,85 11 C77 11,73 10,70 8 Z"
+                    fill="#1e1e1e"
+                    stroke="#333"
+                    stroke-width="1.2"
+                  />
+                  <ellipse
+                    cx="85"
+                    cy="20"
+                    rx="13"
+                    ry="15"
+                    fill="#252525"
+                    stroke="#333"
+                    stroke-width="1"
+                  />
+                  <!-- Shoulders trained bright -->
+                  <ellipse
+                    cx="44"
+                    cy="66"
+                    rx="13"
+                    ry="9"
+                    fill="#a3e635"
+                    stroke="#65a30d"
+                    stroke-width="1"
+                    opacity=".92"
+                  />
+                  <ellipse
+                    cx="126"
+                    cy="66"
+                    rx="13"
+                    ry="9"
+                    fill="#a3e635"
+                    stroke="#65a30d"
+                    stroke-width="1"
+                    opacity=".92"
+                  />
+                  <!-- Chest trained -->
+                  <path
+                    d="M60 47 Q85 43 110 47 L112 73 Q85 78 58 73 Z"
+                    fill="#a3e635"
+                    stroke="#65a30d"
+                    stroke-width="1"
+                    opacity=".92"
+                  />
+                  <line
+                    x1="85"
+                    y1="47"
+                    x2="85"
+                    y2="75"
+                    stroke="#65a30d"
+                    stroke-width=".8"
+                    opacity=".6"
+                  />
+                  <!-- Biceps trained -->
+                  <path
+                    d="M39 60 Q32 64 29 73 L27 95 Q31 102 37 100 L41 91 L43 60 Z"
+                    fill="#a3e635"
+                    stroke="#65a30d"
+                    stroke-width="1"
+                    opacity=".88"
+                  />
+                  <path
+                    d="M131 60 Q138 64 141 73 L143 95 Q139 102 133 100 L129 91 L127 60 Z"
+                    fill="#a3e635"
+                    stroke="#65a30d"
+                    stroke-width="1"
+                    opacity=".88"
+                  />
+                  <!-- Abs trained week softer -->
+                  <rect
+                    x="67"
+                    y="77"
+                    width="36"
+                    height="50"
+                    rx="8"
+                    fill="#86efac"
+                    stroke="#4ade80"
+                    stroke-width="1"
+                    opacity=".65"
+                  />
+                  <line
+                    x1="85"
+                    y1="77"
+                    x2="85"
+                    y2="127"
+                    stroke="#4ade80"
+                    stroke-width=".7"
+                    opacity=".7"
+                  />
+                  <line
+                    x1="67"
+                    y1="93"
+                    x2="103"
+                    y2="93"
+                    stroke="#4ade80"
+                    stroke-width=".6"
+                    opacity=".6"
+                  />
+                  <line
+                    x1="67"
+                    y1="109"
+                    x2="103"
+                    y2="109"
+                    stroke="#4ade80"
+                    stroke-width=".6"
+                    opacity=".6"
+                  />
+                  <!-- Quads untrained -->
+                  <path
+                    d="M57 162 Q50 166 48 176 L47 218 Q51 226 59 225 L63 216 L64 162 Z"
+                    fill="#252525"
+                    stroke="#333"
+                    stroke-width="1"
+                  />
+                  <path
+                    d="M113 162 Q120 166 122 176 L123 218 Q119 226 111 225 L107 216 L106 162 Z"
+                    fill="#252525"
+                    stroke="#333"
+                    stroke-width="1"
+                  />
+                  <!-- Calves untrained -->
+                  <path
+                    d="M49 238 Q44 246 43 258 L43 290 Q47 298 55 297 L59 286 L59 238 Z"
+                    fill="#252525"
+                    stroke="#333"
+                    stroke-width="1"
+                  />
+                  <path
+                    d="M121 238 Q126 246 127 258 L127 290 Q123 298 115 297 L111 286 L111 238 Z"
+                    fill="#252525"
+                    stroke="#333"
+                    stroke-width="1"
+                  />
+                </svg>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  gap: 14px;
+                  padding-top: 10px;
+                  border-top: 1px solid #1e1e1e;
+                  margin-top: 6px;
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    font-size: 11px;
+                    color: #737373;
+                  "
+                >
+                  <div
+                    style="
+                      width: 10px;
+                      height: 10px;
+                      border-radius: 2px;
+                      background: #a3e635;
+                      flex-shrink: 0;
+                    "
+                  ></div>
+                  Hoy
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    font-size: 11px;
+                    color: #737373;
+                  "
+                >
+                  <div
+                    style="
+                      width: 10px;
+                      height: 10px;
+                      border-radius: 2px;
+                      background: #86efac;
+                      flex-shrink: 0;
+                    "
+                  ></div>
+                  Esta semana
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    font-size: 11px;
+                    color: #737373;
+                  "
+                >
+                  <div
+                    style="
+                      width: 10px;
+                      height: 10px;
+                      border-radius: 2px;
+                      background: #252525;
+                      border: 1px solid #333;
+                      flex-shrink: 0;
+                    "
+                  ></div>
+                  Sin entrenar
+                </div>
+              </div>
+            </div>
+            <!-- Weekly progress -->
+            <div style="padding: 12px 20px 0">
+              <div
+                style="
+                  background: #1a1a1a;
+                  border-radius: 16px;
+                  padding: 14px 16px;
+                  border: 1px solid #2a2a2a;
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 10px;
+                  "
+                >
+                  <span
+                    style="font-size: 13px; color: #737373; font-weight: 500"
+                    >Músculos esta semana</span
+                  >
+                  <span class="bebas" style="font-size: 28px; color: #a3e635"
+                    >8 / 14</span
+                  >
+                </div>
+                <div class="prog" style="margin-bottom: 12px">
+                  <div class="prog-fill" style="width: 57%"></div>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 5px">
+                  <span class="chip-done">Pecho</span
+                  ><span class="chip-done">Hombros</span
+                  ><span class="chip-done">Bíceps</span
+                  ><span class="chip-done">Abs</span
+                  ><span class="chip-done">Oblicuos</span
+                  ><span class="chip-done">Espalda</span
+                  ><span class="chip-done">Dorsales</span
+                  ><span class="chip-done">Trapecios</span
+                  ><span class="chip-todo">Tríceps</span
+                  ><span class="chip-todo">Cuádriceps</span
+                  ><span class="chip-todo">Glúteos</span
+                  ><span class="chip-todo">Isquios</span
+                  ><span class="chip-todo">Pantorrillas</span
+                  ><span class="chip-todo">Antebrazos</span>
+                </div>
+              </div>
+            </div>
+            <!-- Today's plan -->
+            <div style="padding: 12px 20px 0">
+              <div class="section-lbl" style="margin-bottom: 8px">
+                Plan de hoy — Viernes
+              </div>
+              <div
+                style="
+                  background: #111d00;
+                  border-radius: 14px;
+                  padding: 12px 14px;
+                  border: 1px solid #2a4a1a;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  cursor: pointer;
+                "
+              >
+                <div>
+                  <div
+                    style="font-size: 13px; font-weight: 700; color: #a3e635"
+                  >
+                    Pecho · Hombros · Tríceps
+                  </div>
+                  <div style="font-size: 11px; color: #4a7a4a; margin-top: 2px">
+                    8 ejercicios planificados
+                  </div>
+                </div>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#a3e635"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                >
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </div>
+            </div>
+            <div style="padding: 14px 20px 0">
+              <button
+                class="btn-primary"
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 8px;
+                  box-shadow: 0 4px 24px rgba(163, 230, 53, 0.2);
+                "
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#0f0f0f"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                Registrar sesión de hoy
+              </button>
+            </div>
+          </div>
+          <div class="bottom-nav">
+            <div class="nav-item active">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#a3e635"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <rect x="3" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="3" width="7" height="7" rx="1" />
+                <rect x="3" y="14" width="7" height="7" rx="1" />
+                <rect x="14" y="14" width="7" height="7" rx="1" /></svg
+              >Dashboard
+            </div>
+            <div class="nav-item">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#4a4a4a"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <polyline points="9 11 12 14 22 4" />
+                <path
+                  d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"
+                /></svg
+              >Hoy
+            </div>
+            <div class="nav-item">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#4a4a4a"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" /></svg
+              >Plan
+            </div>
+            <div class="nav-item">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#4a4a4a"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" /></svg
+              >Historial
+            </div>
+            <div class="nav-item">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#4a4a4a"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                <circle cx="12" cy="7" r="4" /></svg
+              >Perfil
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end phones area -->
+
+    <script>
+      function go(id, btn) {
+        document
+          .querySelectorAll('.screen-wrap')
+          .forEach((el) => el.classList.remove('active'))
+        document.getElementById(id).classList.add('active')
+        document
+          .querySelectorAll('.npbtn')
+          .forEach((b) => b.classList.remove('on'))
+        btn.classList.add('on')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    </script>
+    <div
+      style="text-align: center; padding: 24px; color: #2a2a2a; font-size: 11px"
+    >
+      GymTrack Pro · Mockups v2 · Pantallas 0-4 en este archivo
+    </div>
+  </body>
+</html>
