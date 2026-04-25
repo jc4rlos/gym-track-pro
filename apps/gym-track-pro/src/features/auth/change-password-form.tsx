@@ -49,8 +49,8 @@ export const ChangePasswordForm = ({ onSuccess }: Props) => {
     return (
       <div className='flex flex-col items-center gap-3 py-6 text-center'>
         <span className='text-4xl'>✅</span>
-        <p className='font-semibold text-foreground'>Contraseña actualizada</p>
-        <p className='text-sm text-muted'>
+        <p className='text-foreground font-semibold'>Contraseña actualizada</p>
+        <p className='text-muted text-sm'>
           Ya puedes iniciar sesión con tu nueva contraseña
         </p>
       </div>
@@ -73,7 +73,7 @@ export const ChangePasswordForm = ({ onSuccess }: Props) => {
         <button
           type='button'
           onClick={() => setShowPwd((v) => !v)}
-          className='absolute right-3 bottom-3 text-muted'
+          className='text-muted absolute right-3 bottom-3'
           tabIndex={-1}
         >
           {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}

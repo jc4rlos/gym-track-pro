@@ -9,6 +9,7 @@ export type Exercise = {
   primaryMuscles: string[]
   secondaryMuscles: string[]
   emoji?: string
+  imageUrl?: string | null
 }
 
 type Props = {
@@ -27,18 +28,18 @@ export const ExerciseList = ({
   return (
     <div className='px-5'>
       {count && (
-        <p className='mb-2.5 text-[11px] font-medium tracking-wider text-muted uppercase'>
+        <p className='text-muted mb-2.5 text-[11px] font-medium tracking-wider uppercase'>
           {count.toLocaleString()} ejercicios disponibles
         </p>
       )}
 
       {isLoading ? (
         <div className='flex items-center justify-center py-12'>
-          <div className='h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent' />
+          <div className='border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent' />
         </div>
       ) : exercises.length === 0 ? (
         <div className='flex flex-col items-center justify-center py-12 text-center'>
-          <p className='text-[14px] text-muted'>No se encontraron ejercicios</p>
+          <p className='text-muted text-[14px]'>No se encontraron ejercicios</p>
           <p className='text-soft mt-1 text-[12px]'>
             Intenta otra búsqueda o categoría
           </p>
@@ -55,6 +56,7 @@ export const ExerciseList = ({
               primaryMuscles={exercise.primaryMuscles}
               secondaryMuscles={exercise.secondaryMuscles}
               emoji={exercise.emoji}
+              imageUrl={exercise.imageUrl}
               onClick={() => onSelectExercise?.(exercise)}
             />
           ))}

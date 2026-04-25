@@ -16,7 +16,7 @@ export const ExerciseVirtualList = ({
     <div className='scrollbar-hide flex-1 overflow-y-auto'>
       {exercises.length === 0 && !isLoading ? (
         <div className='flex flex-col items-center justify-center px-5 py-12 text-center'>
-          <p className='text-[14px] text-muted'>No se encontraron ejercicios</p>
+          <p className='text-muted text-[14px]'>No se encontraron ejercicios</p>
           <p className='text-soft mt-1 text-[12px]'>
             Intenta otra búsqueda o categoría
           </p>
@@ -35,13 +35,14 @@ export const ExerciseVirtualList = ({
                 secondaryMuscles={exercise.secondaryMuscles}
                 emoji={exercise.emoji}
                 onClick={() => onSelectExercise(exercise)}
+                imageUrl={exercise.imageUrl}
               />
             ))}
           </div>
 
           {isLoading && exercises.length === 0 && (
             <div className='flex justify-center py-8'>
-              <div className='h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent' />
+              <div className='border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent' />
             </div>
           )}
         </div>

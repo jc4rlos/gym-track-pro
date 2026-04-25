@@ -48,10 +48,10 @@ function RoutinePicker({ planDay, onClose }: RoutinePickerProps) {
       onClick={onClose}
     >
       <div
-        className='w-full max-w-lg rounded-t-3xl border border-border bg-card pb-10'
+        className='border-border bg-card w-full max-w-lg rounded-t-3xl border pb-10'
         onClick={(e) => e.stopPropagation()}
       >
-        <div className='flex items-center justify-between border-b border-border px-5 py-4'>
+        <div className='border-border flex items-center justify-between border-b px-5 py-4'>
           <h3 className='font-bold'>Agregar rutina</h3>
           <button
             onClick={onClose}
@@ -62,7 +62,7 @@ function RoutinePicker({ planDay, onClose }: RoutinePickerProps) {
         </div>
         <div className='flex max-h-80 flex-col gap-2 overflow-y-auto px-5 pt-4'>
           {available.length === 0 ? (
-            <p className='py-6 text-center text-sm text-muted'>
+            <p className='text-muted py-6 text-center text-sm'>
               No hay más rutinas disponibles
             </p>
           ) : (
@@ -73,12 +73,12 @@ function RoutinePicker({ planDay, onClose }: RoutinePickerProps) {
                   addRoutine.mutate({ planDayId: planDay.id, routineId: r.id })
                   onClose()
                 }}
-                className='hover:bg-card-dark flex items-center gap-3 rounded-xl border border-border p-3 text-left text-sm transition-colors hover:border-primary'
+                className='hover:bg-card-dark border-border hover:border-primary flex items-center gap-3 rounded-xl border p-3 text-left text-sm transition-colors'
               >
-                <BookOpen size={16} className='shrink-0 text-primary' />
+                <BookOpen size={16} className='text-primary shrink-0' />
                 <div>
                   <p className='font-semibold'>{r.name}</p>
-                  <p className='text-xs text-muted'>
+                  <p className='text-muted text-xs'>
                     {r.routine_exercises?.length || 0} ejercicios
                   </p>
                 </div>
@@ -118,10 +118,10 @@ export function WeeklyPlanView({
     currentDay?.weekly_plan_day_routines?.filter((r) => r.routine_id) ?? []
 
   return (
-    <div className='flex min-h-screen flex-col bg-background pb-32'>
-      <div className='flex items-center justify-between border-b border-border px-5 py-3'>
+    <div className='bg-background flex min-h-screen flex-col pb-32'>
+      <div className='border-border flex items-center justify-between border-b px-5 py-3'>
         <h1 className='text-xl font-bold'>Plan semanal</h1>
-        <span className='rounded-full border border-border bg-card px-3 py-1 text-xs text-muted'>
+        <span className='border-border bg-card text-muted rounded-full border px-3 py-1 text-xs'>
           Semana {weekNumber}
         </span>
       </div>
@@ -153,7 +153,7 @@ export function WeeklyPlanView({
               >
                 {short}
               </span>
-              <span className='text-[9px] text-muted'>
+              <span className='text-muted text-[9px]'>
                 {isToday && !isSelected ? 'Hoy' : label.slice(0, 3)}
               </span>
               <div
@@ -171,11 +171,11 @@ export function WeeklyPlanView({
         })}
       </div>
 
-      <div className='mx-5 mt-2 overflow-hidden rounded-2xl border border-border bg-card'>
-        <div className='flex items-center justify-between border-b border-border px-4 py-3.5'>
+      <div className='border-border bg-card mx-5 mt-2 overflow-hidden rounded-2xl border'>
+        <div className='border-border flex items-center justify-between border-b px-4 py-3.5'>
           <div>
             <p className='text-sm font-bold'>{DAY_LABELS[selectedDay].label}</p>
-            <p className='mt-0.5 text-xs text-muted'>
+            <p className='text-muted mt-0.5 text-xs'>
               {getDayDate(selectedDay)}
             </p>
           </div>
@@ -200,12 +200,12 @@ export function WeeklyPlanView({
         </div>
 
         <div className='flex flex-col gap-2 px-4 py-4'>
-          <p className='mb-1 text-xs font-semibold text-muted'>
+          <p className='text-muted mb-1 text-xs font-semibold'>
             Rutinas del día
           </p>
 
           {currentDay?.is_rest_day ? (
-            <div className='flex items-center justify-center py-6 text-sm text-muted'>
+            <div className='text-muted flex items-center justify-center py-6 text-sm'>
               Día de descanso
             </div>
           ) : (
@@ -213,15 +213,15 @@ export function WeeklyPlanView({
               {routineEntries.map((entry) => (
                 <div
                   key={entry.id}
-                  className='flex items-center gap-3 rounded-xl border border-border bg-background p-3'
+                  className='border-border bg-background flex items-center gap-3 rounded-xl border p-3'
                 >
-                  <BookOpen size={15} className='shrink-0 text-primary' />
+                  <BookOpen size={15} className='text-primary shrink-0' />
                   <p className='flex-1 text-sm font-semibold'>
                     {entry.routines?.name}
                   </p>
                   <button
                     onClick={() => removeRoutine.mutate(entry.id)}
-                    className='rounded-lg p-1.5 text-muted transition-colors hover:bg-red-500/10 hover:text-red-500'
+                    className='text-muted rounded-lg p-1.5 transition-colors hover:bg-red-500/10 hover:text-red-500'
                   >
                     <Trash2 size={14} />
                   </button>
@@ -231,7 +231,7 @@ export function WeeklyPlanView({
               {currentDay && (
                 <button
                   onClick={() => setShowPicker(true)}
-                  className='hover:bg-card-dark flex items-center gap-2 rounded-xl border border-dashed border-border bg-background p-3 text-sm font-medium text-primary transition-colors'
+                  className='hover:bg-card-dark border-border bg-background text-primary flex items-center gap-2 rounded-xl border border-dashed p-3 text-sm font-medium transition-colors'
                 >
                   <Plus size={15} />
                   Agregar rutina
@@ -243,12 +243,12 @@ export function WeeklyPlanView({
       </div>
 
       {previousPlan && (
-        <div className='mx-5 mt-3 flex items-center justify-between rounded-2xl border border-border bg-card p-4'>
+        <div className='border-border bg-card mx-5 mt-3 flex items-center justify-between rounded-2xl border p-4'>
           <div>
-            <p className='text-sm font-medium text-muted'>
+            <p className='text-muted text-sm font-medium'>
               Reutilizar plan anterior
             </p>
-            <p className='mt-0.5 text-xs text-muted/60'>
+            <p className='text-muted/60 mt-0.5 text-xs'>
               Semana {previousWeek} ·{' '}
               {previousPlan.weekly_plan_days.reduce(
                 (acc, d) => acc + (d.weekly_plan_day_routines?.length ?? 0),
@@ -259,7 +259,7 @@ export function WeeklyPlanView({
           </div>
           <button
             onClick={onCopyPrevious}
-            className='bg-card-dark rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-primary transition-colors hover:border-primary'
+            className='bg-card-dark border-border text-primary hover:border-primary rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors'
           >
             Usar este
           </button>

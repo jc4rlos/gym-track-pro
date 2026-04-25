@@ -1,11 +1,9 @@
-import { useEffect } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { SportShoe, ChevronRight } from 'lucide-react'
+import { SportShoe, ChevronRight, Moon, Dumbbell } from 'lucide-react'
 import { BodyCard } from '@/features/dashboard/body-card'
 import { MuscleProgress } from '@/features/dashboard/muscle-progress'
 import { useDashboardData } from '@/features/dashboard/use-dashboard'
 import { WeekStamps } from '@/features/dashboard/week-stamps'
-import { useFinishOldSessions } from '@/features/today/use-cleanup-sessions'
 
 const DAY_LABELS_ES = [
   'Lunes',
@@ -55,13 +53,8 @@ const DashboardPage = () => {
     streak,
     weekMuscleSlugs,
     bodyData,
+    todayPlan,
   } = useDashboardData()
-  const finishOldSessions = useFinishOldSessions()
-
-  useEffect(() => {
-    finishOldSessions.mutate()
-  }, [])
-
   const today = new Date()
   const todayDayIndex = today.getDay() === 0 ? 6 : today.getDay() - 1
   const todayLabel = DAY_LABELS_ES[todayDayIndex]
@@ -74,18 +67,18 @@ const DashboardPage = () => {
       {/* Header */}
       <div className='flex items-start justify-between pt-1'>
         <div>
-          <h1 className='text-[22px] font-bold text-foreground'>
+          <h1 className='text-foreground text-[22px] font-bold'>
             Hola, {firstName} 💪
           </h1>
-          <p className='mt-0.5 text-[12px] text-muted'>{getWeekLabel()}</p>
+          <p className='text-muted mt-0.5 text-[12px]'>{getWeekLabel()}</p>
         </div>
         <div className='flex items-center gap-2'>
           {streak > 0 && (
-            <div className='bg-primary-light flex items-center gap-1 rounded-full border border-[#2a4a1a] px-2.5 py-1 text-[12px] font-bold text-primary'>
+            <div className='bg-primary-light text-primary flex items-center gap-1 rounded-full border border-[#2a4a1a] px-2.5 py-1 text-[12px] font-bold'>
               🔥 {streak}
             </div>
           )}
-          <div className='flex h-10.5 w-10.5 items-center justify-center rounded-full bg-primary text-[16px] font-bold text-primary-foreground'>
+          <div className='bg-primary text-primary-foreground flex h-10.5 w-10.5 items-center justify-center rounded-full text-[16px] font-bold'>
             {initial}
           </div>
         </div>
@@ -105,26 +98,75 @@ const DashboardPage = () => {
 
       {/* Today's plan */}
       <div>
-        <p className='mb-2 text-[12px] font-semibold tracking-wide text-muted uppercase'>
+        <p className='text-muted mb-2 text-[12px] font-semibold tracking-wide uppercase'>
           Plan de hoy — {todayLabel}
         </p>
-        <div className='bg-primary-light flex cursor-pointer items-center justify-between rounded-[14px] border border-[#2a4a1a] px-3.5 py-3'>
-          <div>
-            <p className='text-[13px] font-bold text-primary'>
-              Sin rutina asignada
-            </p>
-            <p className='mt-0.5 text-[11px] text-[#4a7a4a]'>
-              Configurá tu plan semanal
-            </p>
-          </div>
-          <ChevronRight size={18} className='text-primary' />
+        <div
+          onClick={() => navigate({ to: '/today' })}
+          className='bg-primary-light flex cursor-pointer items-center justify-between rounded-[14px] border border-[#2a4a1a] px-3.5 py-3'
+        >
+          {todayPlan?.is_rest_day ? (
+            <>
+              <div className='flex items-center gap-2.5'>
+                <Moon size={16} className='text-primary' />
+                <div>
+                  <p className='text-primary text-[13px] font-bold'>
+                    Día de descanso
+                  </p>
+                  <p className='mt-0.5 text-[11px] text-[#4a7a4a]'>
+                    Recuperate bien 💤
+                  </p>
+                </div>
+              </div>
+            </>
+          ) : todayPlan?.weekly_plan_day_routines?.length ? (
+            <>
+              <div className='flex items-center gap-2.5'>
+                <Dumbbell size={16} className='text-primary' />
+                <div>
+                  {(
+                    todayPlan.weekly_plan_day_routines as Array<{
+                      id: string
+                      routines: {
+                        id: string
+                        name: string
+                        description: string | null
+                      } | null
+                    }>
+                  ).map((r) =>
+                    r.routines ? (
+                      <p
+                        key={r.id}
+                        className='text-primary text-[13px] leading-snug font-bold'
+                      >
+                        {r.routines.name}
+                      </p>
+                    ) : null
+                  )}
+                </div>
+              </div>
+              <ChevronRight size={18} className='text-primary' />
+            </>
+          ) : (
+            <>
+              <div>
+                <p className='text-primary text-[13px] font-bold'>
+                  Sin rutina asignada
+                </p>
+                <p className='mt-0.5 text-[11px] text-[#4a7a4a]'>
+                  Configurá tu plan semanal
+                </p>
+              </div>
+              <ChevronRight size={18} className='text-primary' />
+            </>
+          )}
         </div>
       </div>
 
       {/* CTA */}
       <button
         onClick={() => navigate({ to: '/today' })}
-        className='flex w-full items-center justify-center gap-2 rounded-[14px] bg-primary py-3.5 text-[15px] font-bold text-primary-foreground'
+        className='bg-primary text-primary-foreground flex w-full items-center justify-center gap-2 rounded-[14px] py-3.5 text-[15px] font-bold'
         style={{ boxShadow: '0 4px 24px rgba(163,230,53,.2)' }}
       >
         <SportShoe size={16} strokeWidth={2.5} />

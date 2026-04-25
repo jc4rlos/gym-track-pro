@@ -48,7 +48,7 @@ export const ExercisePagination = ({
         className={cn(
           'flex h-9 w-9 items-center justify-center rounded-[8px] border transition-colors',
           page === 0
-            ? 'text-soft cursor-not-allowed border-border bg-card'
+            ? 'text-soft border-border bg-card cursor-not-allowed'
             : 'hover:bg-card-dark border-border bg-card text-foreground hover:border-primary'
         )}
       >
@@ -61,7 +61,7 @@ export const ExercisePagination = ({
             return (
               <div
                 key={`dots-${idx}`}
-                className='flex h-9 w-9 items-center justify-center text-muted'
+                className='text-muted flex h-9 w-9 items-center justify-center'
               >
                 {p}
               </div>
@@ -75,7 +75,7 @@ export const ExercisePagination = ({
               className={cn(
                 'flex h-9 w-9 items-center justify-center rounded-[8px] border text-[13px] font-medium transition-colors',
                 page === p
-                  ? 'border-primary bg-primary font-bold text-primary-foreground'
+                  ? 'border-primary bg-primary text-primary-foreground font-bold'
                   : 'hover:bg-card-dark border-border bg-card text-foreground hover:border-primary'
               )}
             >
@@ -91,7 +91,7 @@ export const ExercisePagination = ({
         className={cn(
           'flex h-9 w-9 items-center justify-center rounded-[8px] border transition-colors',
           page === totalPages - 1
-            ? 'text-soft cursor-not-allowed border-border bg-card'
+            ? 'text-soft border-border bg-card cursor-not-allowed'
             : 'hover:bg-card-dark border-border bg-card text-foreground hover:border-primary'
         )}
       >

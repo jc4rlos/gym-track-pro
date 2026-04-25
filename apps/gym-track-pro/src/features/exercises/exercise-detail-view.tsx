@@ -33,15 +33,15 @@ export const ExerciseDetailView = ({
   const [isFavorite, setIsFavorite] = useState(false)
 
   return (
-    <div className='flex min-h-screen flex-col bg-background'>
+    <div className='bg-background flex min-h-screen flex-col'>
       <div className='flex items-center gap-3 px-5 pt-3 pb-2'>
         <button
           onClick={onBack}
-          className='hover:bg-card-dark flex h-8.5 w-8.5 items-center justify-center rounded-full border border-border bg-card transition-colors'
+          className='hover:bg-card-dark border-border bg-card flex h-8.5 w-8.5 items-center justify-center rounded-full border transition-colors'
         >
           <ChevronLeft size={16} className='text-foreground' />
         </button>
-        <h1 className='flex-1 truncate text-[17px] font-bold text-foreground'>
+        <h1 className='text-foreground flex-1 truncate text-[17px] font-bold'>
           {name}
         </h1>
         <button
@@ -59,13 +59,13 @@ export const ExerciseDetailView = ({
 
       <div className='flex-1 overflow-y-auto pb-20'>
         <div className='space-y-3'>
-          <div className='mx-auto flex h-50 w-fit items-center justify-center overflow-hidden rounded-[16px] border border-border bg-card px-2'>
+          <div className='border-border bg-card mx-auto flex h-50 w-fit items-center justify-center overflow-hidden rounded-[16px] border px-2'>
             {gifUrl ? (
               <img src={gifUrl} alt={name} className='rounded-xl' />
             ) : (
               <div className='text-center'>
                 <div className='mb-2 text-5xl'>💪</div>
-                <p className='text-[12px] text-muted'>
+                <p className='text-muted text-[12px]'>
                   GIF animado del ejercicio
                 </p>
                 <p className='text-soft mt-1 text-[11px]'>vía ExerciseDB API</p>
@@ -74,23 +74,23 @@ export const ExerciseDetailView = ({
           </div>
 
           <div className='grid grid-cols-2 gap-2 px-5'>
-            <div className='bg-card-dark rounded-[12px] border border-border p-3'>
-              <p className='mb-1 text-[10px] text-muted'>Músculo principal</p>
-              <p className='text-[14px] font-bold text-primary'>
+            <div className='bg-card-dark border-border rounded-[12px] border p-3'>
+              <p className='text-muted mb-1 text-[10px]'>Músculo principal</p>
+              <p className='text-primary text-[14px] font-bold'>
                 {primaryMuscle}
               </p>
             </div>
-            <div className='bg-card-dark rounded-[12px] border border-border p-3'>
-              <p className='mb-1 text-[10px] text-muted'>Equipamiento</p>
-              <p className='text-[14px] font-bold text-foreground'>
+            <div className='bg-card-dark border-border rounded-[12px] border p-3'>
+              <p className='text-muted mb-1 text-[10px]'>Equipamiento</p>
+              <p className='text-foreground text-[14px] font-bold'>
                 {equipment}
               </p>
             </div>
           </div>
 
           <div className='grid grid-cols-2 gap-2 px-5'>
-            <div className='bg-card-dark rounded-[12px] border border-border p-3'>
-              <p className='mb-2 text-[10px] text-muted'>
+            <div className='bg-card-dark border-border rounded-[12px] border p-3'>
+              <p className='text-muted mb-2 text-[10px]'>
                 Músculos secundarios
               </p>
               <div className='flex flex-wrap gap-1.5'>
@@ -104,15 +104,15 @@ export const ExerciseDetailView = ({
                 ))}
               </div>
             </div>
-            <div className='bg-card-dark flex flex-col items-start rounded-[12px] border border-border p-3'>
-              <p className='mb-2 text-[10px] text-muted'>Dificultad</p>
+            <div className='bg-card-dark border-border flex flex-col items-start rounded-[12px] border p-3'>
+              <p className='text-muted mb-2 text-[10px]'>Dificultad</p>
               <ExerciseDifficultyDots difficulty={difficulty} size='sm' />
             </div>
           </div>
 
           {instructions.length > 0 && (
-            <div className='bg-card-dark mx-5 rounded-[14px] border border-border p-3'>
-              <p className='mb-3 text-[11px] font-bold tracking-wider text-muted uppercase'>
+            <div className='bg-card-dark border-border mx-5 rounded-[14px] border p-3'>
+              <p className='text-muted mb-3 text-[11px] font-bold tracking-wider uppercase'>
                 Instrucciones
               </p>
               <div className='space-y-2.5'>
@@ -123,12 +123,12 @@ export const ExerciseDetailView = ({
                         'flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-[10px] font-bold',
                         i === 0
                           ? 'bg-primary text-primary-foreground'
-                          : 'bg-primary-light border border-[#2a4a1a] text-primary'
+                          : 'bg-primary-light text-primary border border-[#2a4a1a]'
                       )}
                     >
                       {i + 1}
                     </div>
-                    <p className='pt-0.5 text-[13px] leading-relaxed text-foreground'>
+                    <p className='text-foreground pt-0.5 text-[13px] leading-relaxed'>
                       {instruction}
                     </p>
                   </div>
@@ -140,7 +140,7 @@ export const ExerciseDetailView = ({
           <div className='flex flex-col gap-2 px-5'>
             <button
               onClick={onAddToRoutine}
-              className='flex w-full items-center justify-center gap-2 rounded-[14px] bg-primary py-3.5 text-[15px] font-bold text-primary-foreground'
+              className='bg-primary text-primary-foreground flex w-full items-center justify-center gap-2 rounded-[14px] py-3.5 text-[15px] font-bold'
               style={{ boxShadow: '0 4px 24px rgba(163,230,53,.2)' }}
             >
               <svg
@@ -158,7 +158,7 @@ export const ExerciseDetailView = ({
             </button>
             <button
               onClick={onAddToToday}
-              className='hover:bg-card-dark w-full rounded-[14px] border border-border bg-card py-3.5 text-[15px] font-bold text-foreground transition-colors'
+              className='hover:bg-card-dark border-border bg-card text-foreground w-full rounded-[14px] border py-3.5 text-[15px] font-bold transition-colors'
             >
               Agregar al plan de hoy
             </button>

@@ -15,9 +15,9 @@ export const LoadingOverlay = () => {
       >
         {/* Lime spinning ring */}
         <div className='relative h-10 w-10'>
-          <div className='absolute inset-0 animate-spin rounded-full border-[3px] border-[#1e1e1e] border-t-primary' />
+          <div className='border-t-primary absolute inset-0 animate-spin rounded-full border-[3px] border-[#1e1e1e]' />
         </div>
-        <p className='text-[13px] font-medium text-muted'>Guardando...</p>
+        <p className='text-muted text-[13px] font-medium'>Guardando...</p>
       </div>
     </div>
   )

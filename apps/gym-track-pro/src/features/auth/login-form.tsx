@@ -53,8 +53,8 @@ export const LoginForm = () => {
     return (
       <div className='flex flex-col items-center gap-3 py-4 text-center'>
         <p className='text-2xl'>📧</p>
-        <p className='font-semibold text-foreground'>Revisa tu correo</p>
-        <p className='text-sm text-muted'>
+        <p className='text-foreground font-semibold'>Revisa tu correo</p>
+        <p className='text-muted text-sm'>
           Enviamos un enlace a <strong>{email}</strong>
         </p>
         <button
@@ -62,7 +62,7 @@ export const LoginForm = () => {
             setView('login')
             setError(null)
           }}
-          className='mt-2 text-sm font-semibold text-primary'
+          className='text-primary mt-2 text-sm font-semibold'
         >
           Volver al inicio de sesión
         </button>
@@ -73,12 +73,12 @@ export const LoginForm = () => {
   if (view === 'forgot') {
     return (
       <form onSubmit={handleForgot} className='flex flex-col gap-4'>
-        <p className='text-sm text-muted'>
+        <p className='text-muted text-sm'>
           Ingresá tu correo y te enviamos un enlace para restablecer tu
           contraseña.
         </p>
         <div>
-          <label className='mb-1.5 block text-xs font-medium text-muted'>
+          <label className='text-muted mb-1.5 block text-xs font-medium'>
             Correo electrónico
           </label>
           <input
@@ -92,14 +92,14 @@ export const LoginForm = () => {
           />
         </div>
         {error && (
-          <p className='rounded-xl bg-destructive/10 px-4 py-3 text-sm text-destructive'>
+          <p className='bg-destructive/10 text-destructive rounded-xl px-4 py-3 text-sm'>
             {error}
           </p>
         )}
         <button
           type='submit'
           disabled={loading}
-          className='w-full rounded-[14px] bg-primary py-3.5 text-[15px] font-bold text-primary-foreground transition-opacity disabled:opacity-60'
+          className='bg-primary text-primary-foreground w-full rounded-[14px] py-3.5 text-[15px] font-bold transition-opacity disabled:opacity-60'
         >
           {loading ? 'Enviando...' : 'Enviar enlace'}
         </button>
@@ -109,7 +109,7 @@ export const LoginForm = () => {
             setView('login')
             setError(null)
           }}
-          className='text-center text-sm text-muted'
+          className='text-muted text-center text-sm'
         >
           Volver al inicio de sesión
         </button>
@@ -120,7 +120,7 @@ export const LoginForm = () => {
   return (
     <form onSubmit={handleLogin} className='flex flex-col gap-4'>
       <div>
-        <label className='mb-1.5 block text-xs font-medium text-muted'>
+        <label className='text-muted mb-1.5 block text-xs font-medium'>
           Correo electrónico
         </label>
         <input
@@ -134,7 +134,7 @@ export const LoginForm = () => {
         />
       </div>
       <div>
-        <label className='mb-1.5 block text-xs font-medium text-muted'>
+        <label className='text-muted mb-1.5 block text-xs font-medium'>
           Contraseña
         </label>
         <input
@@ -154,20 +154,20 @@ export const LoginForm = () => {
             setView('forgot')
             setError(null)
           }}
-          className='text-xs font-medium text-primary'
+          className='text-primary text-xs font-medium'
         >
           ¿Olvidaste tu contraseña?
         </button>
       </div>
       {error && (
-        <p className='rounded-xl bg-destructive/10 px-4 py-3 text-sm text-destructive'>
+        <p className='bg-destructive/10 text-destructive rounded-xl px-4 py-3 text-sm'>
           {error}
         </p>
       )}
       <button
         type='submit'
         disabled={loading}
-        className='w-full rounded-[14px] bg-primary py-3.5 text-[15px] font-bold text-primary-foreground shadow-primary transition-opacity disabled:opacity-60'
+        className='bg-primary text-primary-foreground shadow-primary w-full rounded-[14px] py-3.5 text-[15px] font-bold transition-opacity disabled:opacity-60'
       >
         {loading ? 'Ingresando...' : 'Iniciar sesión'}
       </button>

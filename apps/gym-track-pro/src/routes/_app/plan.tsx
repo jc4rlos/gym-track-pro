@@ -38,7 +38,7 @@ function PlanPage() {
   if (isLoading) {
     return (
       <div className='flex min-h-64 items-center justify-center'>
-        <div className='h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent' />
+        <div className='border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent' />
       </div>
     )
   }
@@ -59,10 +59,10 @@ function PlanPage() {
   if (!currentPlan) {
     return (
       <div className='flex flex-col items-center justify-center gap-4 py-20 text-center'>
-        <p className='text-sm text-muted'>Sin plan esta semana</p>
+        <p className='text-muted text-sm'>Sin plan esta semana</p>
         <button
           onClick={() => setSkipped(false)}
-          className='text-sm font-semibold text-primary'
+          className='text-primary text-sm font-semibold'
         >
           Crear plan
         </button>

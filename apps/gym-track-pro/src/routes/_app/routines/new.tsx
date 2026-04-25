@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import {
-  RoutineBuilder,
-  type ExerciseForBuilder,
-} from '@/features/routines/routine-builder'
+  RoutineWizard,
+  type WizardExercise,
+} from '@/features/routines/routine-wizard'
 import {
   useCreateRoutine,
   useAddExerciseToRoutine,
@@ -13,7 +13,7 @@ function NewRoutinePage() {
   const createMutation = useCreateRoutine()
   const addExerciseMutation = useAddExerciseToRoutine()
 
-  const handleSave = async (name: string, exercises: ExerciseForBuilder[]) => {
+  const handleSave = async (name: string, exercises: WizardExercise[]) => {
     try {
       const routine = await createMutation.mutateAsync({ name })
 
@@ -34,8 +34,7 @@ function NewRoutinePage() {
   }
 
   return (
-    <RoutineBuilder
-      routineName=''
+    <RoutineWizard
       onBack={() => navigate({ to: '/routines' })}
       onSave={handleSave}
       isSaving={createMutation.isPending || addExerciseMutation.isPending}

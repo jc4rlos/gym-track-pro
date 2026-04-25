@@ -12,7 +12,7 @@ export const BodyCard = ({ bodyData }: Props) => {
   return (
     <div className='bg-card-dark rounded-[20px] border border-[#1e1e1e] p-3.5'>
       <div className='mb-2.5 flex items-center justify-between'>
-        <span className='text-[13px] font-bold text-foreground'>
+        <span className='text-foreground text-[13px] font-bold'>
           Músculos esta semana
         </span>
         <div className='flex rounded-full bg-[#1a1a1a] p-0.5'>
@@ -51,15 +51,15 @@ export const BodyCard = ({ bodyData }: Props) => {
       </div>
 
       <div className='mt-1.5 flex gap-3.5 border-t border-[#1e1e1e] pt-2.5'>
-        <div className='flex items-center gap-1.5 text-[11px] text-muted'>
-          <div className='h-2.5 w-2.5 shrink-0 rounded-xs bg-primary' />
+        <div className='text-muted flex items-center gap-1.5 text-[11px]'>
+          <div className='bg-primary h-2.5 w-2.5 shrink-0 rounded-xs' />
           Hoy
         </div>
-        <div className='flex items-center gap-1.5 text-[11px] text-muted'>
+        <div className='text-muted flex items-center gap-1.5 text-[11px]'>
           <div className='bg-muscle-warm h-2.5 w-2.5 shrink-0 rounded-xs' />
           Esta semana
         </div>
-        <div className='flex items-center gap-1.5 text-[11px] text-muted'>
+        <div className='text-muted flex items-center gap-1.5 text-[11px]'>
           <div className='bg-muscle-rest h-2.5 w-2.5 shrink-0 rounded-xs border border-[#333]' />
           Sin entrenar
         </div>

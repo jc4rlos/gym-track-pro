@@ -40,7 +40,7 @@ export const WeightChart = ({ measurements }: Props) => {
   return (
     <div className='rounded-[16px] border border-[#1e1e1e] bg-[#131313] p-3.5'>
       <div className='mb-3 flex items-center justify-between'>
-        <span className='text-[11px] font-medium text-muted'>
+        <span className='text-muted text-[11px] font-medium'>
           Últimas mediciones
         </span>
         <span

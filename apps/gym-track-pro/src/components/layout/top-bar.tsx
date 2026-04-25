@@ -14,21 +14,21 @@ export const TopBar = () => {
 
   if (isDashboard) {
     return (
-      <header className='sticky top-0 z-20 bg-background px-4 pt-4 pb-3 md:hidden'>
-        <h1 className='text-lg font-semibold text-foreground'>Gym Track Pro</h1>
+      <header className='bg-background sticky top-0 z-20 px-4 pt-4 pb-3 md:hidden'>
+        <h1 className='text-foreground text-lg font-semibold'>Gym Track Pro</h1>
       </header>
     )
   }
 
   return (
-    <header className='sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-border bg-card px-4 md:hidden'>
+    <header className='border-border bg-card sticky top-0 z-20 flex h-14 items-center gap-3 border-b px-4 md:hidden'>
       <button
         onClick={() => window.history.back()}
-        className='flex h-8 w-8 items-center justify-center rounded-full bg-[#F3F4F6]'
+        className='flex h-8 w-8 items-center justify-center rounded-full'
       >
         <ChevronLeft size={18} className='text-foreground' />
       </button>
-      <h1 className='flex-1 text-base font-semibold text-foreground'>
+      <h1 className='text-foreground flex-1 text-base font-semibold'>
         {title}
       </h1>
     </header>

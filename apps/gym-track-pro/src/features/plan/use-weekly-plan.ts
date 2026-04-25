@@ -256,7 +256,9 @@ export function useTodayPlanRoutines() {
         .eq('weekly_plan_days.day_of_week', dow)
         .maybeSingle()
       if (error) throw error
-      const planDay = (data?.weekly_plan_days as unknown as WeeklyPlanDay[])?.[0]
+      const planDay = (
+        data?.weekly_plan_days as unknown as WeeklyPlanDay[]
+      )?.[0]
       if (!planDay || planDay.is_rest_day) return null
       return (planDay.weekly_plan_day_routines ??
         []) as PlanRoutineWithExercises[]

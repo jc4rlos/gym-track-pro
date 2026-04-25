@@ -36,7 +36,7 @@ export const MuscleItem = ({ item }: Props) => {
     <div
       className={cn(
         'flex items-center gap-3 rounded-[14px] p-3',
-        done ? 'bg-[#0a150a]' : 'border border-border bg-card'
+        done ? 'bg-[#0a150a]' : 'border-border bg-card border'
       )}
     >
       {/* Left accent bar */}
@@ -137,8 +137,8 @@ export const MuscleItem = ({ item }: Props) => {
           <span className='text-[10px] text-[#3a6a3a]'>series</span>
         </div>
       ) : (
-        <div className='flex min-w-9 items-center justify-center rounded-lg border border-border bg-background px-2.5 py-1'>
-          <span className='font-display text-[17px] leading-none text-border'>
+        <div className='border-border bg-background flex min-w-9 items-center justify-center rounded-lg border px-2.5 py-1'>
+          <span className='font-display text-border text-[17px] leading-none'>
             —
           </span>
         </div>

@@ -22,8 +22,8 @@ function ExerciseRow({ ex, checked, onToggle, onDetail }: ExerciseRowProps) {
       className={cn(
         'flex w-full items-center gap-3 rounded-xl p-3 transition-colors',
         checked
-          ? 'border border-primary/20 bg-primary/5'
-          : 'border border-border bg-background'
+          ? 'border-primary/20 bg-primary/5 border'
+          : 'border-border bg-background border'
       )}
     >
       <button
@@ -56,7 +56,7 @@ function ExerciseRow({ ex, checked, onToggle, onDetail }: ExerciseRowProps) {
         >
           {name}
         </p>
-        <p className='mt-0.5 text-xs text-muted'>
+        <p className='text-muted mt-0.5 text-xs'>
           {ex.sets} series · {ex.reps} reps
           {ex.rest_seconds ? ` · ${ex.rest_seconds}s` : ''}
           {muscle ? ` · ${muscle}` : ''}
@@ -66,7 +66,7 @@ function ExerciseRow({ ex, checked, onToggle, onDetail }: ExerciseRowProps) {
       {onDetail && ex.exercises?.id && (
         <button
           onClick={() => onDetail(ex.exercises!.id)}
-          className='shrink-0 rounded-lg p-1.5 text-muted transition-colors hover:bg-primary/10 hover:text-primary'
+          className='text-muted hover:bg-primary/10 hover:text-primary shrink-0 rounded-lg p-1.5 transition-colors'
         >
           <Info size={15} />
         </button>
@@ -114,16 +114,16 @@ export function TodayPlanView({
         return (
           <div
             key={r.id}
-            className='overflow-hidden rounded-2xl border border-border bg-card'
+            className='border-border bg-card overflow-hidden rounded-2xl border'
           >
             <button
               onClick={() => toggleExpand(r.id)}
               className='flex w-full items-center gap-3 px-4 py-3.5 text-left'
             >
-              <BookOpen size={16} className='shrink-0 text-primary' />
+              <BookOpen size={16} className='text-primary shrink-0' />
               <div className='min-w-0 flex-1'>
                 <p className='text-sm font-bold'>{r.routines?.name ?? '—'}</p>
-                <p className='mt-0.5 text-xs text-muted'>
+                <p className='text-muted mt-0.5 text-xs'>
                   {doneCount}/{exercises.length} ejercicios
                 </p>
               </div>
@@ -156,7 +156,7 @@ export function TodayPlanView({
             )}
 
             {isOpen && exercises.length === 0 && (
-              <p className='px-4 pb-4 text-xs text-muted'>
+              <p className='text-muted px-4 pb-4 text-xs'>
                 Sin ejercicios en esta rutina
               </p>
             )}

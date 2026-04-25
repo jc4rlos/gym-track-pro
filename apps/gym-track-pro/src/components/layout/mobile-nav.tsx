@@ -27,7 +27,7 @@ export const MobileNav = () => {
   const path = location.pathname
 
   return (
-    <nav className='safe-bottom fixed right-0 bottom-0 left-0 z-30 flex border-t border-border bg-card md:hidden'>
+    <nav className='safe-bottom border-border bg-card fixed right-0 bottom-0 left-0 z-30 flex border-t md:hidden'>
       {navItems.map(({ to, icon: Icon, label }) => {
         const active = path === to || path.startsWith(to + '/')
         return (

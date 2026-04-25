@@ -11,6 +11,7 @@ type Props = {
   primaryMuscles: string[]
   secondaryMuscles: string[]
   emoji?: string
+  imageUrl?: string | null
   onClick?: () => void
 }
 
@@ -43,22 +44,32 @@ export const ExerciseCard = ({
   primaryMuscles,
   secondaryMuscles,
   emoji = '💪',
+  imageUrl,
   onClick,
 }: Props) => {
   const allMuscles = [...primaryMuscles, ...secondaryMuscles]
-
   return (
     <button
       onClick={onClick}
-      className='hover:bg-card-dark flex w-full items-start gap-3 rounded-[14px] border border-border bg-card p-3 text-left transition-colors'
+      className='hover:bg-card-dark border-border bg-card flex w-full items-start gap-3 rounded-[14px] border p-3 text-left transition-colors'
     >
-      <div className='bg-muscle-rest flex h-14 w-14 shrink-0 items-center justify-center rounded-[12px] text-2xl'>
-        {emoji}
+      <div className='bg-muscle-rest flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-[12px] text-2xl'>
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={name}
+            loading='lazy'
+            decoding='async'
+            className='h-full w-full object-cover'
+          />
+        ) : (
+          emoji
+        )}
       </div>
 
       <div className='flex-1'>
-        <h3 className='text-[14px] font-bold text-foreground'>{name}</h3>
-        <p className='mt-0.5 text-[11px] text-muted'>
+        <h3 className='text-foreground text-[14px] font-bold'>{name}</h3>
+        <p className='text-muted mt-0.5 text-[11px]'>
           {muscleGroup} · {equipment} · {DIFFICULTY_LABELS[difficulty]}
         </p>
 

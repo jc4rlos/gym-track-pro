@@ -36,10 +36,17 @@ export function ExerciseSelectorModal({
     exercises,
     searchQuery,
     setSearchQuery,
-    selectedCategory,
-    setSelectedCategory,
+    selectedMuscles,
+    setSelectedMuscles,
     isLoading,
   } = useExercisesFiltered()
+
+  const selectedCategory =
+    selectedMuscles.length === 1 ? selectedMuscles[0] : 'all'
+
+  const setSelectedCategory = (id: string) => {
+    setSelectedMuscles(id === 'all' ? [] : [id])
+  }
 
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(
     null
@@ -69,8 +76,8 @@ export function ExerciseSelectorModal({
 
   return (
     <div className='fixed inset-0 z-50 flex items-end justify-center bg-black/80 sm:items-center'>
-      <div className='flex h-[90vh] w-full flex-col overflow-hidden rounded-t-3xl border border-border bg-card sm:max-h-[90vh] sm:max-w-96 sm:rounded-3xl'>
-        <div className='flex items-center justify-between border-b border-border px-5 py-4'>
+      <div className='border-border bg-card flex h-[90vh] w-full flex-col overflow-hidden rounded-t-3xl border sm:max-h-[90vh] sm:max-w-96 sm:rounded-3xl'>
+        <div className='border-border flex items-center justify-between border-b px-5 py-4'>
           <h2 className='text-lg font-bold'>Agregar ejercicio</h2>
           <button
             onClick={onClose}
@@ -101,7 +108,7 @@ export function ExerciseSelectorModal({
                 <div className='space-y-2'>
                   {exercises.length === 0 && !isLoading ? (
                     <div className='py-8 text-center'>
-                      <p className='text-sm text-muted'>
+                      <p className='text-muted text-sm'>
                         No se encontraron ejercicios
                       </p>
                     </div>
@@ -116,6 +123,7 @@ export function ExerciseSelectorModal({
                           primaryMuscles={ex.primaryMuscles}
                           secondaryMuscles={ex.secondaryMuscles}
                           emoji={ex.emoji}
+                          imageUrl={ex.imageUrl ?? ''}
                         />
                       </div>
                     ))
@@ -127,7 +135,7 @@ export function ExerciseSelectorModal({
             <div className='flex flex-1 flex-col p-5'>
               <button
                 onClick={() => setSelectedExercise(null)}
-                className='mb-4 flex items-center gap-1 self-start text-sm font-medium text-primary'
+                className='text-primary mb-4 flex items-center gap-1 self-start text-sm font-medium'
               >
                 ← Volver
               </button>
@@ -136,52 +144,52 @@ export function ExerciseSelectorModal({
                 <h3 className='mb-2 text-base font-bold'>
                   {selectedExercise.name}
                 </h3>
-                <p className='text-xs text-muted'>
+                <p className='text-muted text-xs'>
                   {selectedExercise.muscleGroup} · {selectedExercise.equipment}
                 </p>
               </div>
 
               <div className='space-y-4'>
                 <div>
-                  <label className='mb-2 block text-xs font-semibold text-muted'>
+                  <label className='text-muted mb-2 block text-xs font-semibold'>
                     Series
                   </label>
                   <input
                     type='number'
                     value={sets}
                     onChange={(e) => setSets(e.target.value)}
-                    className='w-full rounded-lg border border-border bg-background px-3 py-2 text-center text-sm font-bold'
+                    className='border-border bg-background w-full rounded-lg border px-3 py-2 text-center text-sm font-bold'
                   />
                 </div>
 
                 <div>
-                  <label className='mb-2 block text-xs font-semibold text-muted'>
+                  <label className='text-muted mb-2 block text-xs font-semibold'>
                     Repeticiones
                   </label>
                   <input
                     value={reps}
                     onChange={(e) => setReps(e.target.value)}
-                    className='w-full rounded-lg border border-border bg-background px-3 py-2 text-center text-sm'
+                    className='border-border bg-background w-full rounded-lg border px-3 py-2 text-center text-sm'
                     placeholder='8-12'
                   />
                 </div>
 
                 <div>
-                  <label className='mb-2 block text-xs font-semibold text-muted'>
+                  <label className='text-muted mb-2 block text-xs font-semibold'>
                     Descanso (segundos)
                   </label>
                   <input
                     type='number'
                     value={rest}
                     onChange={(e) => setRest(e.target.value)}
-                    className='w-full rounded-lg border border-border bg-background px-3 py-2 text-center text-sm'
+                    className='border-border bg-background w-full rounded-lg border px-3 py-2 text-center text-sm'
                   />
                 </div>
               </div>
 
               <button
                 onClick={handleConfirm}
-                className='mt-auto w-full rounded-lg bg-primary py-3 font-bold text-primary-foreground'
+                className='bg-primary text-primary-foreground mt-auto w-full rounded-lg py-3 font-bold'
               >
                 Confirmar
               </button>

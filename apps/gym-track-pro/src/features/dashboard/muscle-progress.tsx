@@ -19,18 +19,18 @@ export const MuscleProgress = ({ muscleGroups, weekMuscleSlugs }: Props) => {
   const pct = total > 0 ? Math.round((trained / total) * 100) : 0
 
   return (
-    <div className='rounded-[16px] border border-border bg-card p-3.5'>
+    <div className='border-border bg-card rounded-[16px] border p-3.5'>
       <div className='mb-2.5 flex items-center justify-between'>
-        <span className='text-[13px] font-medium text-muted'>
+        <span className='text-muted text-[13px] font-medium'>
           Músculos esta semana
         </span>
-        <span className='font-display text-[28px] leading-none text-primary'>
+        <span className='font-display text-primary text-[28px] leading-none'>
           {trained} / {total}
         </span>
       </div>
       <div className='mb-3 h-1.5 overflow-hidden rounded-full bg-[#2a2a2a]'>
         <div
-          className='h-full rounded-full bg-primary transition-all duration-500'
+          className='bg-primary h-full rounded-full transition-all duration-500'
           style={{ width: `${pct}%` }}
         />
       </div>

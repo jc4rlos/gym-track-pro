@@ -10,13 +10,13 @@ type CardProps = {
 export const Card = ({ children, className, title, titleRight }: CardProps) => (
   <div
     className={cn(
-      'rounded-[14px] border border-border bg-card p-4 shadow-card',
+      'border-border bg-card shadow-card rounded-[14px] border p-4',
       className
     )}
   >
     {title && (
       <div className='mb-3 flex items-center justify-between'>
-        <span className='text-[12px] font-semibold tracking-widest text-muted uppercase'>
+        <span className='text-muted text-[12px] font-semibold tracking-widest uppercase'>
           {title}
         </span>
         {titleRight}

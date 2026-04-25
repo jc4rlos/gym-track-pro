@@ -16,20 +16,20 @@ const RegisterPage = () => {
   if (user) return <Navigate to='/dashboard' />
 
   return (
-    <div className='min-h-screen bg-background'>
+    <div className='bg-background min-h-screen'>
       {/* Header */}
       <div className='flex items-center gap-3 px-5 pt-14 pb-4'>
         <button
           onClick={() => navigate({ to: '/login' })}
-          className='flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card'
+          className='border-border bg-card flex h-9 w-9 items-center justify-center rounded-full border'
         >
           <ChevronLeft size={18} className='text-foreground' />
         </button>
         <div>
-          <h1 className='text-[19px] font-bold text-foreground'>
+          <h1 className='text-foreground text-[19px] font-bold'>
             Crear cuenta
           </h1>
-          <p className='text-xs text-muted'>Completá tus datos</p>
+          <p className='text-muted text-xs'>Completá tus datos</p>
         </div>
       </div>
 
@@ -37,9 +37,9 @@ const RegisterPage = () => {
       <div className='px-5 pb-10'>
         <RegisterForm />
 
-        <p className='mt-6 text-center text-sm text-muted'>
+        <p className='text-muted mt-6 text-center text-sm'>
           ¿Ya tenés cuenta?{' '}
-          <Link to='/login' className='font-bold text-primary'>
+          <Link to='/login' className='text-primary font-bold'>
             Iniciar sesión
           </Link>
         </p>

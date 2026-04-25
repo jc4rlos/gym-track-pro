@@ -50,10 +50,10 @@ export const ExerciseFilterShowcase = () => {
         <h2 className='mb-3 text-[16px] font-bold'>
           Menú tipo PILLS (horizontal deslizable)
         </h2>
-        <p className='mb-2 text-[12px] text-muted'>
+        <p className='text-muted mb-2 text-[12px]'>
           Ideal para filtros simples en espacios pequeños
         </p>
-        <div className='rounded-[12px] border border-border bg-card p-2'>
+        <div className='border-border bg-card rounded-[12px] border p-2'>
           <ExerciseFilterMenu
             options={MENU_OPTIONS}
             selectedId={selectedPills}
@@ -66,10 +66,10 @@ export const ExerciseFilterShowcase = () => {
 
       <div>
         <h2 className='mb-3 text-[16px] font-bold'>Menú tipo TABS</h2>
-        <p className='mb-2 text-[12px] text-muted'>
+        <p className='text-muted mb-2 text-[12px]'>
           Alternativa minimalista con badges de cantidad
         </p>
-        <div className='overflow-hidden rounded-[12px] border border-border bg-card'>
+        <div className='border-border bg-card overflow-hidden rounded-[12px] border'>
           <ExerciseFilterTabs
             options={TAB_OPTIONS}
             activeTabId={selectedTabs}
@@ -81,10 +81,10 @@ export const ExerciseFilterShowcase = () => {
 
       <div>
         <h2 className='mb-3 text-[16px] font-bold'>Menú tipo GRID</h2>
-        <p className='mb-2 text-[12px] text-muted'>
+        <p className='text-muted mb-2 text-[12px]'>
           Multi-select con iconos, permite filtrar múltiples categorías
         </p>
-        <div className='rounded-[12px] border border-border bg-card p-2'>
+        <div className='border-border bg-card rounded-[12px] border p-2'>
           <ExerciseFilterGrid
             options={GRID_OPTIONS}
             selectedIds={selectedGrid}
@@ -105,7 +105,7 @@ export const ExerciseFilterShowcase = () => {
       </div>
 
       <div className='bg-primary-light rounded-[12px] border border-[#2a4a1a] p-4'>
-        <h3 className='mb-2 text-[13px] font-bold text-primary'>
+        <h3 className='text-primary mb-2 text-[13px] font-bold'>
           Recomendación
         </h3>
         <p className='text-[12px] leading-relaxed text-[#4a7a4a]'>

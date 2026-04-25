@@ -31,7 +31,7 @@ export const ExerciseDifficultyDots = ({ difficulty, size = 'md' }: Props) => {
           />
         ))}
       </div>
-      <p className='text-[12px] font-medium text-muted'>{label}</p>
+      <p className='text-muted text-[12px] font-medium'>{label}</p>
     </div>
   )
 }

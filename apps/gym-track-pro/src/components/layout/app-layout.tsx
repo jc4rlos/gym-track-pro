@@ -5,7 +5,7 @@ import { MobileNav } from './mobile-nav'
 import { TopBar } from './top-bar'
 
 export const AppLayout = () => (
-  <div className='min-h-screen bg-background'>
+  <div className='bg-background min-h-screen'>
     <DesktopSidebar />
 
     <div className='md:pl-56'>

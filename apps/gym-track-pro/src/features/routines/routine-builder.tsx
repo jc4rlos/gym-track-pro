@@ -121,15 +121,15 @@ export function RoutineBuilder({
   if (routineId && isLoading) {
     return (
       <div className='flex flex-1 items-center justify-center'>
-        <div className='h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent' />
+        <div className='border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent' />
       </div>
     )
   }
 
   return (
-    <div className='flex min-h-screen flex-col bg-background'>
-      <div className='flex items-center gap-3 border-b border-border px-5 py-3'>
-        <button onClick={onBack} className='rounded-lg p-2 hover:bg-card'>
+    <div className='bg-background flex min-h-screen flex-col'>
+      <div className='border-border flex items-center gap-3 border-b px-5 py-3'>
+        <button onClick={onBack} className='hover:bg-card rounded-lg p-2'>
           <ChevronLeft size={20} />
         </button>
         <h1 className='text-lg font-bold'>Nueva rutina</h1>
@@ -137,23 +137,23 @@ export function RoutineBuilder({
 
       <div className='flex-1 space-y-4 overflow-y-auto px-5 py-4 pb-20'>
         <div>
-          <label className='mb-2 block text-xs font-semibold text-muted'>
+          <label className='text-muted mb-2 block text-xs font-semibold'>
             Nombre de la rutina
           </label>
           <input
             type='text'
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className='w-full rounded-lg border border-border bg-background px-4 py-3 text-sm font-medium'
+            className='border-border bg-background w-full rounded-lg border px-4 py-3 text-sm font-medium'
           />
         </div>
 
         <div>
           <div className='mb-3 flex items-center justify-between'>
-            <label className='text-xs font-semibold text-muted'>
+            <label className='text-muted text-xs font-semibold'>
               Ejercicios
             </label>
-            <span className='text-xs text-muted'>
+            <span className='text-muted text-xs'>
               {exercises.length} ejercicios
             </span>
           </div>
@@ -162,7 +162,7 @@ export function RoutineBuilder({
             {exercises.map((ex, idx) => (
               <div
                 key={idx}
-                className='rounded-lg border border-border bg-card p-3'
+                className='border-border bg-card rounded-lg border p-3'
               >
                 <div className='mb-3 flex items-center gap-2'>
                   <svg
@@ -180,11 +180,11 @@ export function RoutineBuilder({
                   </svg>
                   <div className='flex-1'>
                     <p className='text-sm font-semibold'>{ex.name}</p>
-                    <p className='text-xs text-muted'>{ex.muscle}</p>
+                    <p className='text-muted text-xs'>{ex.muscle}</p>
                   </div>
                   <button
                     onClick={() => handleRemoveExercise(idx)}
-                    className='hover:bg-card-dark rounded-lg p-2 text-muted hover:text-foreground'
+                    className='hover:bg-card-dark text-muted hover:text-foreground rounded-lg p-2'
                   >
                     <Trash2 size={16} />
                   </button>
@@ -192,7 +192,7 @@ export function RoutineBuilder({
 
                 <div className='grid grid-cols-3 gap-2'>
                   <div>
-                    <label className='mb-1 block text-xs text-muted'>
+                    <label className='text-muted mb-1 block text-xs'>
                       Series
                     </label>
                     <input
@@ -205,11 +205,11 @@ export function RoutineBuilder({
                           parseInt(e.target.value) || 3
                         )
                       }
-                      className='w-full rounded border border-border bg-background px-2 py-1 text-center text-xs font-bold'
+                      className='border-border bg-background w-full rounded border px-2 py-1 text-center text-xs font-bold'
                     />
                   </div>
                   <div>
-                    <label className='mb-1 block text-xs text-muted'>
+                    <label className='text-muted mb-1 block text-xs'>
                       Reps
                     </label>
                     <input
@@ -217,12 +217,12 @@ export function RoutineBuilder({
                       onChange={(e) =>
                         handleUpdateExercise(idx, 'reps', e.target.value)
                       }
-                      className='w-full rounded border border-border bg-background px-2 py-1 text-center text-xs'
+                      className='border-border bg-background w-full rounded border px-2 py-1 text-center text-xs'
                       placeholder='8-12'
                     />
                   </div>
                   <div>
-                    <label className='mb-1 block text-xs text-muted'>
+                    <label className='text-muted mb-1 block text-xs'>
                       Descanso (s)
                     </label>
                     <input
@@ -235,7 +235,7 @@ export function RoutineBuilder({
                           parseInt(e.target.value) || 60
                         )
                       }
-                      className='w-full rounded border border-border bg-background px-2 py-1 text-center text-xs'
+                      className='border-border bg-background w-full rounded border px-2 py-1 text-center text-xs'
                     />
                   </div>
                 </div>
@@ -244,7 +244,7 @@ export function RoutineBuilder({
 
             <button
               onClick={() => setShowModal(true)}
-              className='hover:bg-card-dark w-full rounded-lg border border-dashed border-border py-3 text-sm font-medium text-primary transition-colors'
+              className='hover:bg-card-dark border-border text-primary w-full rounded-lg border border-dashed py-3 text-sm font-medium transition-colors'
             >
               + Agregar ejercicio del catálogo
             </button>
@@ -252,11 +252,11 @@ export function RoutineBuilder({
         </div>
       </div>
 
-      <div className='fixed right-0 bottom-0 left-0 z-40 border-t border-border bg-card px-5 py-3'>
+      <div className='border-border bg-card fixed right-0 bottom-0 left-0 z-40 border-t px-5 py-3'>
         <button
           onClick={handleSave}
           disabled={isSaving || !name.trim()}
-          className='w-full rounded-lg bg-primary py-3 font-bold text-primary-foreground disabled:opacity-50'
+          className='bg-primary text-primary-foreground w-full rounded-lg py-3 font-bold disabled:opacity-50'
         >
           {isSaving ? 'Guardando...' : 'Guardar rutina'}
         </button>

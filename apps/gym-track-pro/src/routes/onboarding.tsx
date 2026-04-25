@@ -74,18 +74,18 @@ const OnboardingPage = () => {
     'w-full rounded-xl bg-card border border-border px-4 py-3.5 text-[15px] text-foreground placeholder:text-soft focus:outline-none focus:border-primary/60 transition-colors'
 
   return (
-    <div className='min-h-screen bg-background'>
+    <div className='bg-background min-h-screen'>
       <div className='px-5 pt-14 pb-10'>
         {/* Progress bar — 1 de 2 */}
         <div className='mb-5 flex gap-1.5'>
-          <div className='h-1 flex-1 rounded-full bg-primary' />
-          <div className='h-1 flex-1 rounded-full bg-border' />
+          <div className='bg-primary h-1 flex-1 rounded-full' />
+          <div className='bg-border h-1 flex-1 rounded-full' />
         </div>
 
-        <h1 className='text-[22px] font-bold text-foreground'>
+        <h1 className='text-foreground text-[22px] font-bold'>
           Tu perfil físico
         </h1>
-        <p className='mt-1 mb-6 text-[13px] text-muted'>
+        <p className='text-muted mt-1 mb-6 text-[13px]'>
           Para calcular tu IMC y recomendaciones
         </p>
 
@@ -93,7 +93,7 @@ const OnboardingPage = () => {
           {/* Altura + Peso */}
           <div className='flex gap-3'>
             <div className='flex-1'>
-              <label className='mb-1.5 block text-xs font-medium text-muted'>
+              <label className='text-muted mb-1.5 block text-xs font-medium'>
                 Altura (cm)
               </label>
               <input
@@ -107,7 +107,7 @@ const OnboardingPage = () => {
               />
             </div>
             <div className='flex-1'>
-              <label className='mb-1.5 block text-xs font-medium text-muted'>
+              <label className='text-muted mb-1.5 block text-xs font-medium'>
                 Peso (kg)
               </label>
               <input
@@ -124,7 +124,7 @@ const OnboardingPage = () => {
 
           {/* Fecha de nacimiento */}
           <div>
-            <label className='mb-1.5 block text-xs font-medium text-muted'>
+            <label className='text-muted mb-1.5 block text-xs font-medium'>
               Fecha de nacimiento
             </label>
             <input
@@ -137,7 +137,7 @@ const OnboardingPage = () => {
 
           {/* Objetivo */}
           <div>
-            <label className='mb-2.5 block text-xs font-medium text-muted'>
+            <label className='text-muted mb-2.5 block text-xs font-medium'>
               Objetivo principal
             </label>
             <div className='flex flex-col gap-2'>
@@ -151,8 +151,8 @@ const OnboardingPage = () => {
                     className={cn(
                       'flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-colors',
                       active
-                        ? 'bg-primary-light border-2 border-primary'
-                        : 'border border-border bg-card'
+                        ? 'bg-primary-light border-primary border-2'
+                        : 'border-border bg-card border'
                     )}
                   >
                     {/* Radio dot */}
@@ -180,7 +180,7 @@ const OnboardingPage = () => {
                       <p
                         className={cn(
                           'text-[13px] font-medium',
-                          active ? 'font-bold text-primary' : 'text-foreground'
+                          active ? 'text-primary font-bold' : 'text-foreground'
                         )}
                       >
                         {g.label}
@@ -203,7 +203,7 @@ const OnboardingPage = () => {
 
           {/* Días por semana */}
           <div>
-            <label className='mb-2.5 block text-xs font-medium text-muted'>
+            <label className='text-muted mb-2.5 block text-xs font-medium'>
               Días por semana en el gym
             </label>
             <div className='flex gap-2'>
@@ -217,8 +217,8 @@ const OnboardingPage = () => {
                     className={cn(
                       'flex-1 rounded-xl border py-2.5 text-sm font-medium transition-colors',
                       active
-                        ? 'bg-primary-light border-2 border-primary font-bold text-primary'
-                        : 'border border-border bg-card text-foreground'
+                        ? 'bg-primary-light border-primary text-primary border-2 font-bold'
+                        : 'border-border bg-card text-foreground border'
                     )}
                   >
                     {d}
@@ -229,7 +229,7 @@ const OnboardingPage = () => {
           </div>
 
           {error && (
-            <p className='rounded-xl bg-destructive/10 px-4 py-3 text-sm text-destructive'>
+            <p className='bg-destructive/10 text-destructive rounded-xl px-4 py-3 text-sm'>
               {error}
             </p>
           )}
@@ -237,7 +237,7 @@ const OnboardingPage = () => {
           <button
             type='submit'
             disabled={submitting}
-            className='w-full rounded-[14px] bg-primary py-3.5 text-[15px] font-bold text-primary-foreground transition-opacity disabled:opacity-60'
+            className='bg-primary text-primary-foreground w-full rounded-[14px] py-3.5 text-[15px] font-bold transition-opacity disabled:opacity-60'
           >
             {submitting ? 'Guardando...' : 'Continuar →'}
           </button>

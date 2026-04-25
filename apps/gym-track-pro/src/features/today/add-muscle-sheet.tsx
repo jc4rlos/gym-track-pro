@@ -28,21 +28,21 @@ export const AddMuscleSheet = ({ sessionId, existing, onClose }: Props) => {
       <div className='fixed inset-0 z-40 bg-black/60' onClick={onClose} />
 
       {/* Sheet */}
-      <div className='fixed right-0 bottom-0 left-0 z-50 rounded-t-3xl border-t border-border bg-card pb-10'>
+      <div className='border-border bg-card fixed right-0 bottom-0 left-0 z-50 rounded-t-3xl border-t pb-10'>
         <div className='flex items-center justify-between px-5 py-4'>
-          <h2 className='text-[16px] font-bold text-foreground'>
+          <h2 className='text-foreground text-[16px] font-bold'>
             Agregar grupo muscular
           </h2>
           <button
             onClick={onClose}
-            className='flex h-8 w-8 items-center justify-center rounded-full bg-background text-muted'
+            className='bg-background text-muted flex h-8 w-8 items-center justify-center rounded-full'
           >
             <X size={16} />
           </button>
         </div>
 
         {available.length === 0 ? (
-          <p className='px-5 pb-4 text-sm text-muted'>
+          <p className='text-muted px-5 pb-4 text-sm'>
             Todos los grupos ya están en la sesión.
           </p>
         ) : (
@@ -52,9 +52,9 @@ export const AddMuscleSheet = ({ sessionId, existing, onClose }: Props) => {
                 key={mg.id}
                 onClick={() => handleAdd(mg.id)}
                 disabled={addMuscle.isPending}
-                className='flex w-full items-center justify-between rounded-[12px] border border-border bg-background px-4 py-3 text-left transition-colors active:bg-primary/10'
+                className='border-border bg-background active:bg-primary/10 flex w-full items-center justify-between rounded-[12px] border px-4 py-3 text-left transition-colors'
               >
-                <span className='text-[14px] font-medium text-foreground'>
+                <span className='text-foreground text-[14px] font-medium'>
                   {mg.name_es}
                 </span>
                 <svg

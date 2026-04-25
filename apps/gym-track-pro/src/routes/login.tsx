@@ -9,16 +9,16 @@ const LoginPage = () => {
   if (user) return <Navigate to='/dashboard' />
 
   return (
-    <div className='flex min-h-screen flex-col bg-background'>
+    <div className='bg-background flex min-h-screen flex-col'>
       {/* Branding */}
       <div className='flex flex-1 flex-col items-center justify-center px-6 pt-10'>
-        <div className='mb-5 flex h-[68px] w-[68px] items-center justify-center rounded-[22px] bg-primary text-[34px] shadow-primary'>
+        <div className='bg-primary shadow-primary mb-5 flex h-[68px] w-[68px] items-center justify-center rounded-[22px] text-[34px]'>
           💪
         </div>
-        <div className='font-display text-[36px] leading-none text-foreground'>
+        <div className='font-display text-foreground text-[36px] leading-none'>
           GymTrack
         </div>
-        <div className='font-display mb-8 text-[36px] leading-none text-primary'>
+        <div className='font-display text-primary mb-8 text-[36px] leading-none'>
           Pro
         </div>
 
@@ -27,14 +27,14 @@ const LoginPage = () => {
 
           {/* Divider */}
           <div className='my-5 flex items-center gap-3'>
-            <div className='h-px flex-1 bg-border' />
+            <div className='bg-border h-px flex-1' />
             <span className='text-soft text-xs'>o continuar con</span>
-            <div className='h-px flex-1 bg-border' />
+            <div className='bg-border h-px flex-1' />
           </div>
 
           {/* OAuth buttons — decorative */}
           <div className='flex gap-3'>
-            <button className='flex flex-1 items-center justify-center gap-2 rounded-[14px] border border-border bg-card py-3 text-sm font-medium text-foreground'>
+            <button className='border-border bg-card text-foreground flex flex-1 items-center justify-center gap-2 rounded-[14px] border py-3 text-sm font-medium'>
               <svg width='18' height='18' viewBox='0 0 24 24'>
                 <path
                   fill='#4285F4'
@@ -55,7 +55,7 @@ const LoginPage = () => {
               </svg>
               Google
             </button>
-            <button className='flex flex-1 items-center justify-center gap-2 rounded-[14px] border border-border bg-card py-3 text-sm font-medium text-foreground'>
+            <button className='border-border bg-card text-foreground flex flex-1 items-center justify-center gap-2 rounded-[14px] border py-3 text-sm font-medium'>
               <svg width='18' height='18' viewBox='0 0 24 24' fill='#f5f5f5'>
                 <path d='M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z' />
               </svg>
@@ -67,8 +67,8 @@ const LoginPage = () => {
 
       {/* Register link */}
       <div className='px-6 pt-5 pb-10 text-center'>
-        <span className='text-sm text-muted'>¿No tenés cuenta? </span>
-        <Link to='/register' className='text-sm font-bold text-primary'>
+        <span className='text-muted text-sm'>¿No tenés cuenta? </span>
+        <Link to='/register' className='text-primary text-sm font-bold'>
           Registrarse
         </Link>
       </div>

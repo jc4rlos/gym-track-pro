@@ -92,7 +92,7 @@ const BodyPage = () => {
             <polyline points='15 18 9 12 15 6' />
           </svg>
         </button>
-        <h1 className='text-[20px] font-bold text-foreground'>Mi cuerpo</h1>
+        <h1 className='text-foreground text-[20px] font-bold'>Mi cuerpo</h1>
       </div>
 
       {/* IMC Hero */}
@@ -109,7 +109,7 @@ const BodyPage = () => {
               <p className='text-[11px] font-semibold tracking-wide text-[#4a7a4a] uppercase'>
                 Índice de Masa Corporal
               </p>
-              <p className='font-display mt-1 text-[54px] leading-none text-primary'>
+              <p className='font-display text-primary mt-1 text-[54px] leading-none'>
                 {bmi.toFixed(1)}
               </p>
               <div className='mt-1 flex items-center gap-2'>
@@ -123,11 +123,11 @@ const BodyPage = () => {
               </div>
             </div>
             <div className='text-right'>
-              <p className='text-[26px] font-bold text-foreground'>
+              <p className='text-foreground text-[26px] font-bold'>
                 {latestWeight} kg
               </p>
               {heightCm && (
-                <p className='text-[13px] text-muted'>{heightCm} cm</p>
+                <p className='text-muted text-[13px]'>{heightCm} cm</p>
               )}
               <p className='mt-1 text-[11px] text-[#4a7a4a]'>
                 {measurements.length > 0
@@ -142,7 +142,7 @@ const BodyPage = () => {
       {/* BMI scale */}
       {scalePercent !== null && (
         <div className='rounded-[16px] border border-[#1e1e1e] bg-[#131313] p-3.5'>
-          <div className='mb-2 flex justify-between text-[10px] text-muted'>
+          <div className='text-muted mb-2 flex justify-between text-[10px]'>
             <span>Bajo peso</span>
             <span>Normal</span>
             <span>Sobrepeso</span>
@@ -172,7 +172,7 @@ const BodyPage = () => {
       {bmi && (
         <div className='flex gap-3'>
           <div className='flex min-w-[120px] flex-col items-center gap-2 rounded-[16px] border border-[#1e1e1e] bg-[#131313] p-3'>
-            <p className='text-[11px] text-muted'>Silueta estimada</p>
+            <p className='text-muted text-[11px]'>Silueta estimada</p>
             <BmiSilhouette category={category} gender={gender} size={72} />
             <p
               className='text-center text-[10px] leading-tight font-semibold'
@@ -187,24 +187,24 @@ const BodyPage = () => {
           <div className='flex flex-1 flex-col gap-2'>
             {idealWeight && (
               <div className='rounded-[12px] border border-[#1e1e1e] bg-[#131313] px-3 py-2.5'>
-                <p className='text-[10px] text-muted'>Peso ideal</p>
-                <p className='mt-0.5 text-[16px] font-bold text-foreground'>
+                <p className='text-muted text-[10px]'>Peso ideal</p>
+                <p className='text-foreground mt-0.5 text-[16px] font-bold'>
                   {idealWeight[0]} – {idealWeight[1]} kg
                 </p>
               </div>
             )}
             {tmb && (
               <div className='rounded-[12px] border border-[#1e1e1e] bg-[#131313] px-3 py-2.5'>
-                <p className='text-[10px] text-muted'>TMB en reposo</p>
-                <p className='mt-0.5 text-[16px] font-bold text-primary'>
+                <p className='text-muted text-[10px]'>TMB en reposo</p>
+                <p className='text-primary mt-0.5 text-[16px] font-bold'>
                   {tmb.toLocaleString('es-ES')} cal
                 </p>
               </div>
             )}
             {tdee && (
               <div className='rounded-[12px] border border-[#1e1e1e] bg-[#131313] px-3 py-2.5'>
-                <p className='text-[10px] text-muted'>TDEE activo</p>
-                <p className='mt-0.5 text-[16px] font-bold text-foreground'>
+                <p className='text-muted text-[10px]'>TDEE activo</p>
+                <p className='text-foreground mt-0.5 text-[16px] font-bold'>
                   {tdee.toLocaleString('es-ES')} cal
                 </p>
               </div>
@@ -215,7 +215,7 @@ const BodyPage = () => {
                 style={{ background: '#111d00', border: '1px solid #2a4a1a' }}
               >
                 <p className='text-[10px] text-[#4a7a4a]'>Objetivo</p>
-                <p className='mt-0.5 text-[13px] font-bold text-primary'>
+                <p className='text-primary mt-0.5 text-[13px] font-bold'>
                   {goalCal.label}
                 </p>
               </div>
@@ -225,19 +225,19 @@ const BodyPage = () => {
       )}
 
       {!bmi && (
-        <div className='rounded-[16px] border border-border bg-card p-6 text-center'>
-          <p className='text-[16px] font-bold text-foreground'>
+        <div className='border-border bg-card rounded-[16px] border p-6 text-center'>
+          <p className='text-foreground text-[16px] font-bold'>
             Sin datos de cuerpo
           </p>
-          <p className='mt-1 text-[13px] text-muted'>
+          <p className='text-muted mt-1 text-[13px]'>
             Completá tu peso y altura en el onboarding para ver tu IMC.
           </p>
         </div>
       )}
 
       {/* Update weight */}
-      <div className='rounded-[16px] border border-border bg-card p-3.5'>
-        <p className='mb-2.5 text-[11px] font-semibold tracking-wide text-muted uppercase'>
+      <div className='border-border bg-card rounded-[16px] border p-3.5'>
+        <p className='text-muted mb-2.5 text-[11px] font-semibold tracking-wide uppercase'>
           Actualizar peso
         </p>
         <div className='flex gap-2.5'>
@@ -246,22 +246,22 @@ const BodyPage = () => {
             value={weightInput}
             onChange={(e) => setWeightInput(e.target.value)}
             placeholder={latestWeight ? `${latestWeight}` : '78.0'}
-            className='placeholder:text-soft flex-1 rounded-xl border border-border bg-[#1a1a1a] px-4 py-3 text-center text-[26px] font-bold text-foreground focus:border-primary/60 focus:outline-none'
+            className='placeholder:text-soft border-border text-foreground focus:border-primary/60 flex-1 rounded-xl border bg-[#1a1a1a] px-4 py-3 text-center text-[26px] font-bold focus:outline-none'
             step={0.1}
             min={20}
             max={300}
           />
-          <div className='flex items-center rounded-xl bg-[#252525] px-4 text-[15px] font-semibold text-muted'>
+          <div className='text-muted flex items-center rounded-xl bg-[#252525] px-4 text-[15px] font-semibold'>
             kg
           </div>
         </div>
         {saveError && (
-          <p className='mt-2 text-[12px] text-destructive'>{saveError}</p>
+          <p className='text-destructive mt-2 text-[12px]'>{saveError}</p>
         )}
         <button
           onClick={handleSave}
           disabled={saveMeasurement.isPending || !weightInput}
-          className='mt-3 w-full rounded-[14px] bg-primary py-3.5 text-[15px] font-bold text-primary-foreground disabled:opacity-60'
+          className='bg-primary text-primary-foreground mt-3 w-full rounded-[14px] py-3.5 text-[15px] font-bold disabled:opacity-60'
         >
           {saveMeasurement.isPending ? 'Guardando...' : 'Guardar medición'}
         </button>
@@ -270,7 +270,7 @@ const BodyPage = () => {
       {/* Weight history chart */}
       {measurements.length >= 2 && (
         <div>
-          <p className='mb-2.5 text-[11px] font-semibold tracking-wide text-muted uppercase'>
+          <p className='text-muted mb-2.5 text-[11px] font-semibold tracking-wide uppercase'>
             Historial de peso
           </p>
           <WeightChart measurements={measurements} />

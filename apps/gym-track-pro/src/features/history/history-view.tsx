@@ -57,8 +57,8 @@ export function HistoryView() {
   }
 
   return (
-    <div className='flex min-h-screen flex-col bg-background pb-20'>
-      <div className='border-b border-border px-5 py-3'>
+    <div className='bg-background flex min-h-screen flex-col pb-20'>
+      <div className='border-border border-b px-5 py-3'>
         <h1 className='text-xl font-bold'>Historial</h1>
       </div>
 
@@ -66,7 +66,7 @@ export function HistoryView() {
         <div className='flex items-center justify-between'>
           <button
             onClick={handlePrevMonth}
-            className='rounded-lg p-2 text-sm font-medium hover:bg-card'
+            className='hover:bg-card rounded-lg p-2 text-sm font-medium'
           >
             ←
           </button>
@@ -75,50 +75,50 @@ export function HistoryView() {
           </h2>
           <button
             onClick={handleNextMonth}
-            className='rounded-lg p-2 text-sm font-medium hover:bg-card'
+            className='hover:bg-card rounded-lg p-2 text-sm font-medium'
           >
             →
           </button>
         </div>
 
         <div className='grid grid-cols-3 gap-3'>
-          <div className='rounded-lg border border-border bg-card p-3 text-center'>
-            <div className='text-2xl font-bold text-primary'>
+          <div className='border-border bg-card rounded-lg border p-3 text-center'>
+            <div className='text-primary text-2xl font-bold'>
               {totalCompleted}
             </div>
-            <div className='text-xs text-muted'>sesiones</div>
+            <div className='text-muted text-xs'>sesiones</div>
           </div>
-          <div className='rounded-lg border border-border bg-card p-3 text-center'>
+          <div className='border-border bg-card rounded-lg border p-3 text-center'>
             <div className='text-2xl font-bold'>
               {stats?.totalSessions || 0}h{' '}
               {Math.floor((stats?.totalMinutes || 0) / 60)}m
             </div>
-            <div className='text-xs text-muted'>en el gym</div>
+            <div className='text-muted text-xs'>en el gym</div>
           </div>
-          <div className='rounded-lg border border-border bg-card p-3 text-center'>
-            <div className='text-2xl font-bold text-primary'>
+          <div className='border-border bg-card rounded-lg border p-3 text-center'>
+            <div className='text-primary text-2xl font-bold'>
               🔥{totalCompleted > 0 ? totalCompleted : 0}
             </div>
-            <div className='text-xs text-muted'>racha</div>
+            <div className='text-muted text-xs'>racha</div>
           </div>
         </div>
 
         {topMuscles.length > 0 && (
-          <div className='rounded-lg border border-border bg-card p-4'>
-            <h3 className='mb-3 text-xs font-bold text-muted uppercase'>
+          <div className='border-border bg-card rounded-lg border p-4'>
+            <h3 className='text-muted mb-3 text-xs font-bold uppercase'>
               Más entrenados
             </h3>
             <div className='space-y-3'>
               {topMuscles.map(([muscle, count]) => (
                 <div key={muscle} className='flex items-center gap-3'>
                   <span className='w-20 truncate text-sm'>{muscle}</span>
-                  <div className='h-1.5 flex-1 overflow-hidden rounded-full bg-background'>
+                  <div className='bg-background h-1.5 flex-1 overflow-hidden rounded-full'>
                     <div
-                      className='h-full rounded-full bg-primary'
+                      className='bg-primary h-full rounded-full'
                       style={{ width: `${(count / maxMuscleCount) * 100}%` }}
                     />
                   </div>
-                  <span className='w-6 text-right text-xs text-muted'>
+                  <span className='text-muted w-6 text-right text-xs'>
                     {count}×
                   </span>
                 </div>
@@ -128,16 +128,16 @@ export function HistoryView() {
         )}
 
         <div>
-          <h3 className='mb-3 text-xs font-bold text-muted uppercase'>
+          <h3 className='text-muted mb-3 text-xs font-bold uppercase'>
             Sesiones
           </h3>
           <div className='space-y-3'>
             {isLoading ? (
               <div className='flex justify-center py-8'>
-                <div className='h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent' />
+                <div className='border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent' />
               </div>
             ) : !sessions || sessions.length === 0 ? (
-              <p className='py-8 text-center text-xs text-muted'>
+              <p className='text-muted py-8 text-center text-xs'>
                 No hay sesiones en este mes
               </p>
             ) : (
@@ -151,7 +151,7 @@ export function HistoryView() {
                 return (
                   <div
                     key={session.id}
-                    className='rounded-lg border border-border bg-card p-3'
+                    className='border-border bg-card rounded-lg border p-3'
                   >
                     <div className='mb-2 flex items-start justify-between'>
                       <div>
@@ -165,7 +165,7 @@ export function HistoryView() {
                             }
                           )}
                         </p>
-                        <p className='mt-0.5 text-xs text-muted'>
+                        <p className='text-muted mt-0.5 text-xs'>
                           {session.started_at
                             ? new Date(session.started_at).toLocaleTimeString(
                                 'es-ES',
@@ -175,7 +175,7 @@ export function HistoryView() {
                         </p>
                       </div>
                       {session.finished_at && (
-                        <div className='flex items-center gap-1 rounded-md bg-primary/20 px-2 py-1 text-xs font-bold text-primary'>
+                        <div className='bg-primary/20 text-primary flex items-center gap-1 rounded-md px-2 py-1 text-xs font-bold'>
                           <span>✓</span> Completo
                         </div>
                       )}
@@ -187,21 +187,21 @@ export function HistoryView() {
                           {completed.map((m) => (
                             <span
                               key={m.id}
-                              className='rounded-md bg-primary/20 px-2 py-1 text-xs font-medium text-primary'
+                              className='bg-primary/20 text-primary rounded-md px-2 py-1 text-xs font-medium'
                             >
                               {m.muscle_groups?.name_es}
                             </span>
                           ))}
                         </div>
-                        <div className='h-1 overflow-hidden rounded-full bg-background'>
+                        <div className='bg-background h-1 overflow-hidden rounded-full'>
                           <div
-                            className='h-full rounded-full bg-primary'
+                            className='bg-primary h-full rounded-full'
                             style={{
                               width: `${(completed.length / total) * 100}%`,
                             }}
                           />
                         </div>
-                        <p className='mt-1 text-xs text-muted'>
+                        <p className='text-muted mt-1 text-xs'>
                           {completed.length} / {total} grupos
                         </p>
                       </>

@@ -10,7 +10,7 @@ function ExerciseDetailPage() {
   if (isLoading) {
     return (
       <div className='flex min-h-screen items-center justify-center'>
-        <div className='h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent' />
+        <div className='border-primary h-8 w-8 animate-spin rounded-full border-2 border-t-transparent' />
       </div>
     )
   }
@@ -21,7 +21,7 @@ function ExerciseDetailPage() {
         <p className='text-muted'>Ejercicio no encontrado</p>
         <button
           onClick={() => navigate({ to: '/exercises' })}
-          className='rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground'
+          className='bg-primary text-primary-foreground rounded-lg px-4 py-2 font-semibold'
         >
           Volver al catálogo
         </button>

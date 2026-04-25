@@ -51,7 +51,7 @@ export const RegisterForm = () => {
   return (
     <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
       <div>
-        <label className='mb-1.5 block text-xs font-medium text-muted'>
+        <label className='text-muted mb-1.5 block text-xs font-medium'>
           Nombre completo
         </label>
         <input
@@ -65,7 +65,7 @@ export const RegisterForm = () => {
       </div>
 
       <div>
-        <label className='mb-1.5 block text-xs font-medium text-muted'>
+        <label className='text-muted mb-1.5 block text-xs font-medium'>
           Correo electrónico
         </label>
         <input
@@ -80,7 +80,7 @@ export const RegisterForm = () => {
       </div>
 
       <div>
-        <label className='mb-1.5 block text-xs font-medium text-muted'>
+        <label className='text-muted mb-1.5 block text-xs font-medium'>
           Contraseña
         </label>
         <input
@@ -96,7 +96,7 @@ export const RegisterForm = () => {
 
       {/* Gender selector */}
       <div>
-        <label className='mb-2.5 block text-xs font-medium text-muted'>
+        <label className='text-muted mb-2.5 block text-xs font-medium'>
           Género
         </label>
         <div className='flex gap-3'>
@@ -110,15 +110,15 @@ export const RegisterForm = () => {
                 className={cn(
                   'flex flex-1 flex-col items-center rounded-[14px] border py-3.5 transition-colors',
                   active
-                    ? 'bg-primary-light border-2 border-primary'
-                    : 'border border-border bg-card'
+                    ? 'bg-primary-light border-primary border-2'
+                    : 'border-border bg-card border'
                 )}
               >
                 <span className='mb-1 text-2xl'>{g.symbol}</span>
                 <span
                   className={cn(
                     'text-[13px] font-medium',
-                    active ? 'font-bold text-primary' : 'text-muted'
+                    active ? 'text-primary font-bold' : 'text-muted'
                   )}
                 >
                   {g.label}
@@ -130,7 +130,7 @@ export const RegisterForm = () => {
       </div>
 
       {error && (
-        <p className='rounded-xl bg-destructive/10 px-4 py-3 text-sm text-destructive'>
+        <p className='bg-destructive/10 text-destructive rounded-xl px-4 py-3 text-sm'>
           {error}
         </p>
       )}
@@ -138,7 +138,7 @@ export const RegisterForm = () => {
       <button
         type='submit'
         disabled={loading}
-        className='w-full rounded-[14px] bg-primary py-3.5 text-[15px] font-bold text-primary-foreground transition-opacity disabled:opacity-60'
+        className='bg-primary text-primary-foreground w-full rounded-[14px] py-3.5 text-[15px] font-bold transition-opacity disabled:opacity-60'
       >
         {loading ? 'Creando cuenta...' : 'Crear cuenta'}
       </button>

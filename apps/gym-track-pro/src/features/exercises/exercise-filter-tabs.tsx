@@ -21,7 +21,7 @@ export const ExerciseFilterTabs = ({
   size = 'md',
 }: Props) => {
   return (
-    <div className='border-b border-border'>
+    <div className='border-border border-b'>
       <div className='scrollbar-hide flex gap-0 overflow-x-auto px-5'>
         {options.map(({ id, label, icon, badge }) => (
           <button
@@ -30,8 +30,8 @@ export const ExerciseFilterTabs = ({
             className={cn(
               'relative flex items-center gap-2 border-b-2 px-3.5 py-2.5 whitespace-nowrap transition-colors',
               activeTabId === id
-                ? 'border-primary font-bold text-primary'
-                : 'border-transparent text-muted hover:text-foreground'
+                ? 'border-primary text-primary font-bold'
+                : 'text-muted hover:text-foreground border-transparent'
             )}
           >
             {icon && <span className='text-base'>{icon}</span>}
@@ -39,7 +39,7 @@ export const ExerciseFilterTabs = ({
               {label}
             </span>
             {badge && activeTabId === id && (
-              <span className='ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground'>
+              <span className='bg-primary text-primary-foreground ml-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold'>
                 {badge > 99 ? '99+' : badge}
               </span>
             )}

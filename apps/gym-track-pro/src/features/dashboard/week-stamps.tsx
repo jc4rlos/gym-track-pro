@@ -1,3 +1,4 @@
+import { Check, Dumbbell, X, Circle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 type Props = {
@@ -28,28 +29,21 @@ export const WeekStamps = ({ weekDays, trainedDates }: Props) => {
                 isTrained
                   ? 'bg-primary text-primary-foreground'
                   : isToday
-                    ? 'bg-primary-light border-2 border-primary text-primary'
+                    ? 'bg-primary-light border-primary text-primary border-2'
                     : isPast
                       ? 'border border-[#3a1a1a] bg-[#180a0a] text-[#4a2a2a]'
-                      : 'border border-border bg-card'
+                      : 'border-border bg-card border'
               )}
             >
               {isTrained ? (
-                <svg width='14' height='14' viewBox='0 0 14 14'>
-                  <polyline
-                    points='2,7 5.5,10.5 12,3.5'
-                    fill='none'
-                    stroke='#0f0f0f'
-                    strokeWidth='2'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                  />
-                </svg>
+                <Check size={14} strokeWidth={2.5} stroke='#0f0f0f' />
               ) : isToday ? (
-                <span className='text-[9px] font-bold'>HOY</span>
+                <Dumbbell size={14} strokeWidth={2} />
               ) : isPast ? (
-                <span className='text-sm'>—</span>
-              ) : null}
+                <X size={13} strokeWidth={2} />
+              ) : (
+                <Circle size={8} strokeWidth={1.5} className='text-border' />
+              )}
             </div>
             <span
               className={cn(
@@ -58,7 +52,7 @@ export const WeekStamps = ({ weekDays, trainedDates }: Props) => {
                   ? 'text-primary'
                   : isPast
                     ? 'text-[#3a2a2a]'
-                    : 'text-[#4a4a4a]'
+                    : 'text-soft'
               )}
             >
               {DAY_LABELS[i]}

@@ -69,16 +69,16 @@ const ProfilePage = () => {
     <div className='flex flex-col gap-0 pb-10'>
       {/* Header */}
       <div className='flex items-center gap-3.5 px-0 pt-1 pb-4'>
-        <div className='flex h-15.5 w-15.5 shrink-0 items-center justify-center rounded-full bg-primary text-[26px] font-bold text-primary-foreground'>
+        <div className='bg-primary text-primary-foreground flex h-15.5 w-15.5 shrink-0 items-center justify-center rounded-full text-[26px] font-bold'>
           {initial}
         </div>
         <div className='flex-1'>
-          <p className='text-[19px] font-bold text-foreground'>{fullName}</p>
-          <p className='text-[12px] text-muted'>{email}</p>
+          <p className='text-foreground text-[19px] font-bold'>{fullName}</p>
+          <p className='text-muted text-[12px]'>{email}</p>
           <div className='mt-2 flex gap-1.5'>
             {streak > 0 && (
               <span
-                className='rounded-full px-2.5 py-0.5 text-[11px] font-bold text-primary'
+                className='text-primary rounded-full px-2.5 py-0.5 text-[11px] font-bold'
                 style={{ background: '#111d00', border: '1px solid #2a4a1a' }}
               >
                 🔥 {streak} {streak === 1 ? 'día' : 'días'}
@@ -86,7 +86,7 @@ const ProfilePage = () => {
             )}
             {stats && stats.totalSessions > 0 && (
               <span
-                className='rounded-full px-2.5 py-0.5 text-[11px] text-muted'
+                className='text-muted rounded-full px-2.5 py-0.5 text-[11px]'
                 style={{ background: '#131313', border: '1px solid #1e1e1e' }}
               >
                 {stats.totalSessions} sesiones
@@ -112,16 +112,16 @@ const ProfilePage = () => {
 
       {/* Datos físicos */}
       <div className='bg-card-dark mb-3 overflow-hidden rounded-[16px] border border-[#1e1e1e]'>
-        <p className='border-b border-[#1e1e1e] px-4 py-3 text-[11px] font-bold tracking-[.07em] text-muted uppercase'>
+        <p className='text-muted border-b border-[#1e1e1e] px-4 py-3 text-[11px] font-bold tracking-[.07em] uppercase'>
           Datos físicos
         </p>
         {/* Género */}
         <div className='border-card-dark flex items-center justify-between border-b px-4 py-3.5'>
           <div className='flex items-center gap-2.5'>
             <span className='text-[17px]'>⚥</span>
-            <span className='text-[14px] text-foreground'>Género</span>
+            <span className='text-foreground text-[14px]'>Género</span>
           </div>
-          <span className='text-[13px] text-muted'>
+          <span className='text-muted text-[13px]'>
             {GENDER_LABEL[profile?.gender ?? ''] ?? '—'}
           </span>
         </div>
@@ -129,9 +129,9 @@ const ProfilePage = () => {
         <div className='border-card-dark flex items-center justify-between border-b px-4 py-3.5'>
           <div className='flex items-center gap-2.5'>
             <span className='text-[17px]'>📏</span>
-            <span className='text-[14px] text-foreground'>Altura</span>
+            <span className='text-foreground text-[14px]'>Altura</span>
           </div>
-          <span className='text-[13px] text-muted'>
+          <span className='text-muted text-[13px]'>
             {heightCm ? `${heightCm} cm` : '—'}
           </span>
         </div>
@@ -142,10 +142,10 @@ const ProfilePage = () => {
         >
           <div className='flex items-center gap-2.5'>
             <span className='text-[17px]'>⚖️</span>
-            <span className='text-[14px] text-foreground'>Peso actual</span>
+            <span className='text-foreground text-[14px]'>Peso actual</span>
           </div>
           <div className='flex items-center gap-1.5'>
-            <span className='text-[13px] font-bold text-primary'>
+            <span className='text-primary text-[13px] font-bold'>
               {latestWeight ? `${latestWeight} kg` : '—'}
             </span>
             <svg
@@ -168,12 +168,12 @@ const ProfilePage = () => {
         >
           <div className='flex items-center gap-2.5'>
             <span className='text-[17px]'>📊</span>
-            <span className='text-[14px] text-foreground'>IMC</span>
+            <span className='text-foreground text-[14px]'>IMC</span>
           </div>
           <div className='flex items-center gap-1.5'>
             {bmi ? (
               <>
-                <span className='text-[13px] font-bold text-primary'>
+                <span className='text-primary text-[13px] font-bold'>
                   {bmi.toFixed(1)}
                 </span>
                 {bmiLabel && (
@@ -190,7 +190,7 @@ const ProfilePage = () => {
                 )}
               </>
             ) : (
-              <span className='text-[13px] text-muted'>—</span>
+              <span className='text-muted text-[13px]'>—</span>
             )}
             <svg
               width='16'
@@ -209,9 +209,9 @@ const ProfilePage = () => {
         <div className='flex items-center justify-between px-4 py-3.5'>
           <div className='flex items-center gap-2.5'>
             <span className='text-[17px]'>🎯</span>
-            <span className='text-[14px] text-foreground'>Objetivo</span>
+            <span className='text-foreground text-[14px]'>Objetivo</span>
           </div>
-          <span className='text-[13px] text-muted'>
+          <span className='text-muted text-[13px]'>
             {GOAL_LABEL[profile?.goal ?? ''] ?? '—'}
           </span>
         </div>
@@ -229,7 +229,7 @@ const ProfilePage = () => {
         <div className='flex items-center gap-3'>
           <span className='text-[28px]'>📊</span>
           <div className='text-left'>
-            <p className='text-[13px] font-bold text-primary'>
+            <p className='text-primary text-[13px] font-bold'>
               IMC y composición corporal
             </p>
             <p className='text-[11px] text-[#4a7a4a]'>
@@ -254,32 +254,32 @@ const ProfilePage = () => {
 
       {/* Estadísticas */}
       <div className='bg-card-dark mb-3 overflow-hidden rounded-[16px] border border-[#1e1e1e]'>
-        <p className='border-b border-[#1e1e1e] px-4 py-3 text-[11px] font-bold tracking-[.07em] text-muted uppercase'>
+        <p className='text-muted border-b border-[#1e1e1e] px-4 py-3 text-[11px] font-bold tracking-[.07em] uppercase'>
           Estadísticas
         </p>
         <div className='divide-card-dark flex divide-x'>
           <div className='flex flex-1 flex-col items-center py-3.5'>
-            <p className='font-display text-[30px] text-primary'>
+            <p className='font-display text-primary text-[30px]'>
               {stats?.totalSessions ?? 0}
             </p>
-            <p className='text-[11px] text-muted'>sesiones</p>
+            <p className='text-muted text-[11px]'>sesiones</p>
           </div>
           <div className='flex flex-1 flex-col items-center py-3.5'>
-            <p className='font-display text-[30px] text-foreground'>
+            <p className='font-display text-foreground text-[30px]'>
               {stats?.weeks ?? 0}
             </p>
-            <p className='text-[11px] text-muted'>semanas</p>
+            <p className='text-muted text-[11px]'>semanas</p>
           </div>
           <div className='flex flex-1 flex-col items-center py-3.5'>
-            <p className='font-display text-[30px] text-primary'>🔥{streak}</p>
-            <p className='text-[11px] text-muted'>racha días</p>
+            <p className='font-display text-primary text-[30px]'>🔥{streak}</p>
+            <p className='text-muted text-[11px]'>racha días</p>
           </div>
         </div>
       </div>
 
       {/* Ajustes */}
       <div className='bg-card-dark mb-3 overflow-hidden rounded-[16px] border border-[#1e1e1e]'>
-        <p className='border-b border-[#1e1e1e] px-4 py-3 text-[11px] font-bold tracking-[.07em] text-muted uppercase'>
+        <p className='text-muted border-b border-[#1e1e1e] px-4 py-3 text-[11px] font-bold tracking-[.07em] uppercase'>
           Ajustes
         </p>
         <button
@@ -288,7 +288,7 @@ const ProfilePage = () => {
         >
           <div className='flex items-center gap-2.5'>
             <span className='text-[17px]'>🔔</span>
-            <span className='text-[14px] text-foreground'>Notificaciones</span>
+            <span className='text-foreground text-[14px]'>Notificaciones</span>
           </div>
           <Toggle on={notifs} />
         </button>
@@ -298,17 +298,17 @@ const ProfilePage = () => {
         >
           <div className='flex items-center gap-2.5'>
             <span className='text-[17px]'>🌙</span>
-            <span className='text-[14px] text-foreground'>Tema oscuro</span>
+            <span className='text-foreground text-[14px]'>Tema oscuro</span>
           </div>
           <Toggle on={isDark} />
         </button>
         <div className='flex items-center justify-between px-4 py-3.5'>
           <div className='flex items-center gap-2.5'>
             <span className='text-[17px]'>🌐</span>
-            <span className='text-[14px] text-foreground'>Idioma</span>
+            <span className='text-foreground text-[14px]'>Idioma</span>
           </div>
           <div className='flex items-center gap-1.5'>
-            <span className='text-[13px] text-muted'>Español</span>
+            <span className='text-muted text-[13px]'>Español</span>
             <svg
               width='16'
               height='16'

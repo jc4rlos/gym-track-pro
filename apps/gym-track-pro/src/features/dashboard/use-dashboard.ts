@@ -96,10 +96,56 @@ export function useWeekSessions() {
   })
 }
 
+function getISOWeekAndYear(d: Date) {
+  const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
+  date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7))
+  const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1))
+  return {
+    weekNum: Math.ceil(
+      ((date.getTime() - yearStart.getTime()) / 86400000 + 1) / 7
+    ),
+    year: date.getUTCFullYear(),
+  }
+}
+
+export function useTodayPlan() {
+  const { user } = useAuthStore()
+  const today = new Date()
+  const todayDayIndex = today.getDay() === 0 ? 6 : today.getDay() - 1
+  const { weekNum, year } = getISOWeekAndYear(today)
+
+  return useQuery({
+    queryKey: ['today_plan', user?.id, weekNum, year, todayDayIndex],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('weekly_plan_days')
+        .select(
+          `
+          id, is_rest_day,
+          weekly_plans!inner(id, user_id, week_number, year),
+          weekly_plan_day_routines(
+            id,
+            routines(id, name, description)
+          )
+        `
+        )
+        .eq('weekly_plans.user_id', user!.id)
+        .eq('weekly_plans.week_number', weekNum)
+        .eq('weekly_plans.year', year)
+        .eq('day_of_week', todayDayIndex)
+        .maybeSingle()
+      if (error) throw error
+      return data
+    },
+    enabled: !!user,
+  })
+}
+
 export function useDashboardData() {
   const profileQ = useProfile()
   const muscleGroupsQ = useMuscleGroups()
   const weekSessionsQ = useWeekSessions()
+  const todayPlanQ = useTodayPlan()
   const { weekStart } = getWeekBounds()
 
   const weekDays = Array.from({ length: 7 }, (_, i) => {
@@ -163,6 +209,7 @@ export function useDashboardData() {
     weekMuscleSlugs,
     todayMuscleSlugs,
     bodyData,
+    todayPlan: todayPlanQ.data,
     isLoading: profileQ.isLoading || weekSessionsQ.isLoading,
   }
 }

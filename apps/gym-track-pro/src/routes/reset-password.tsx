@@ -59,30 +59,30 @@ const ResetPasswordPage = () => {
   }
 
   return (
-    <div className='flex min-h-screen items-center justify-center bg-background px-5'>
+    <div className='bg-background flex min-h-screen items-center justify-center px-5'>
       <div className='w-full max-w-sm'>
         <div className='mb-10 flex flex-col items-center'>
           <span className='mb-4 text-5xl'>🐷</span>
-          <h1 className='text-2xl font-bold text-foreground'>Chanchi</h1>
+          <h1 className='text-foreground text-2xl font-bold'>Chanchi</h1>
         </div>
 
-        <div className='rounded-3xl border border-border bg-card p-6 shadow-card'>
+        <div className='border-border bg-card shadow-card rounded-3xl border p-6'>
           {state === 'loading' && (
             <div className='flex justify-center py-6'>
-              <div className='h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent' />
+              <div className='border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent' />
             </div>
           )}
 
           {state === 'expired' && (
             <div className='flex flex-col items-center gap-3 py-4 text-center'>
               <span className='text-4xl'>⏰</span>
-              <p className='font-semibold text-foreground'>Enlace expirado</p>
-              <p className='text-sm text-muted'>
+              <p className='text-foreground font-semibold'>Enlace expirado</p>
+              <p className='text-muted text-sm'>
                 El enlace ya no es válido. Solicita uno nuevo.
               </p>
               <button
                 onClick={() => navigate({ to: '/login' })}
-                className='mt-2 text-sm font-medium text-primary'
+                className='text-primary mt-2 text-sm font-medium'
               >
                 Volver al inicio de sesión
               </button>
@@ -92,17 +92,17 @@ const ResetPasswordPage = () => {
           {state === 'success' && (
             <div className='flex flex-col items-center gap-3 py-4 text-center'>
               <span className='text-4xl'>✅</span>
-              <p className='font-semibold text-foreground'>Contraseña creada</p>
-              <p className='text-sm text-muted'>Redirigiendo al dashboard...</p>
+              <p className='text-foreground font-semibold'>Contraseña creada</p>
+              <p className='text-muted text-sm'>Redirigiendo al dashboard...</p>
             </div>
           )}
 
           {state === 'ready' && (
             <>
-              <h2 className='mb-1 text-lg font-semibold text-foreground'>
+              <h2 className='text-foreground mb-1 text-lg font-semibold'>
                 Crear contraseña
               </h2>
-              <p className='mb-5 text-sm text-muted'>
+              <p className='text-muted mb-5 text-sm'>
                 Elige una contraseña segura para tu cuenta.
               </p>
 
@@ -121,7 +121,7 @@ const ResetPasswordPage = () => {
                   <button
                     type='button'
                     onClick={() => setShowPwd((v) => !v)}
-                    className='absolute right-3 bottom-3 text-muted'
+                    className='text-muted absolute right-3 bottom-3'
                     tabIndex={-1}
                   >
                     {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}

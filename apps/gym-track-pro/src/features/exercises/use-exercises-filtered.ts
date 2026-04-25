@@ -1,32 +1,15 @@
 import { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { MUSCLE_OPTIONS } from '@/lib/exercise-constants'
 import { supabase } from '@/lib/supabase'
-
-type Category =
-  | 'all'
-  | 'chest'
-  | 'back'
-  | 'arms'
-  | 'legs'
-  | 'shoulders'
-  | 'core'
-
-const CATEGORY_MAP: Record<Category, string[]> = {
-  all: [],
-  chest: ['chest', 'pectoral'],
-  back: ['back', 'lats', 'trapezius'],
-  arms: ['biceps', 'triceps', 'forearm'],
-  legs: ['quadriceps', 'hamstring', 'glute'],
-  shoulders: ['shoulder', 'deltoid'],
-  core: ['abs', 'oblique'],
-}
 
 const PAGE_SIZE = 20
 
 export const useExercisesFiltered = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedSearch, setDebouncedSearch] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState<Category>('all')
+  const [selectedMuscles, setSelectedMuscles] = useState<string[]>([])
+  const [selectedEquipment, setSelectedEquipment] = useState<string[]>([])
   const [page, setPage] = useState(0)
 
   useEffect(() => {
@@ -35,7 +18,13 @@ export const useExercisesFiltered = () => {
   }, [searchQuery])
 
   const { data, isLoading } = useQuery({
-    queryKey: ['exercises', debouncedSearch, selectedCategory, page],
+    queryKey: [
+      'exercises',
+      debouncedSearch,
+      selectedMuscles,
+      selectedEquipment,
+      page,
+    ],
     queryFn: async () => {
       let query = supabase
         .from('exercises')
@@ -50,13 +39,21 @@ export const useExercisesFiltered = () => {
         )
       }
 
-      if (selectedCategory !== 'all') {
-        const targets = CATEGORY_MAP[selectedCategory]
-        if (targets.length > 0) {
+      if (selectedMuscles.length > 0) {
+        const muscleValues = selectedMuscles.flatMap(
+          (id) => MUSCLE_OPTIONS.find((m) => m.id === id)?.values ?? []
+        )
+        if (muscleValues.length > 0) {
           query = query.or(
-            targets.map((t) => `target_muscle.ilike.%${t}%`).join(',')
+            muscleValues.map((v) => `target_muscle.ilike.%${v}%`).join(',')
           )
         }
+      }
+
+      if (selectedEquipment.length > 0) {
+        query = query.or(
+          selectedEquipment.map((v) => `equipment.ilike.%${v}%`).join(',')
+        )
       }
 
       const from = page * PAGE_SIZE
@@ -79,6 +76,7 @@ export const useExercisesFiltered = () => {
     primaryMuscles: [ex.target_muscle || 'General'],
     secondaryMuscles: (ex.secondary_muscles || []) as string[],
     emoji: '💪',
+    imageUrl: ex.gif_url,
   }))
 
   const totalCount = data?.totalCount || 0
@@ -89,17 +87,24 @@ export const useExercisesFiltered = () => {
     setSearchQuery(q)
   }
 
-  const handleSetSelectedCategory = (cat: Category) => {
+  const handleSetSelectedMuscles = (ids: string[]) => {
     setPage(0)
-    setSelectedCategory(cat)
+    setSelectedMuscles(ids)
+  }
+
+  const handleSetSelectedEquipment = (values: string[]) => {
+    setPage(0)
+    setSelectedEquipment(values)
   }
 
   return {
     exercises,
     searchQuery,
     setSearchQuery: handleSetSearchQuery,
-    selectedCategory,
-    setSelectedCategory: handleSetSelectedCategory,
+    selectedMuscles,
+    setSelectedMuscles: handleSetSelectedMuscles,
+    selectedEquipment,
+    setSelectedEquipment: handleSetSelectedEquipment,
     isLoading,
     page,
     setPage,

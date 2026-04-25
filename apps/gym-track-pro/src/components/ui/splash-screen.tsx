@@ -36,10 +36,10 @@ export const SplashScreen = () => {
       </div>
 
       {/* Wordmark */}
-      <p className='font-display text-[44px] leading-none text-foreground'>
+      <p className='font-display text-foreground text-[44px] leading-none'>
         GymTrack
       </p>
-      <p className='font-display mb-2.5 text-[44px] leading-none text-primary'>
+      <p className='font-display text-primary mb-2.5 text-[44px] leading-none'>
         Pro
       </p>
 
@@ -50,7 +50,7 @@ export const SplashScreen = () => {
       <div className='w-[200px]'>
         <div className='mb-2 flex justify-between text-[11px]'>
           <span className='text-[#4a4a4a]'>Cargando...</span>
-          <span className='font-semibold text-primary'>{progress}%</span>
+          <span className='text-primary font-semibold'>{progress}%</span>
         </div>
         <div className='h-[6px] w-full overflow-hidden rounded-full bg-[#1a1a1a]'>
           <div

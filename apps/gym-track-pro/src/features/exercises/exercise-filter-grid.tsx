@@ -46,7 +46,7 @@ export const ExerciseFilterGrid = ({
                 {label}
               </span>
               {count && (
-                <span className='text-[10px] text-muted'>
+                <span className='text-muted text-[10px]'>
                   {count} {count === 1 ? 'ej.' : 'ejs.'}
                 </span>
               )}
