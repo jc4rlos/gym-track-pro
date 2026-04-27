@@ -105,7 +105,13 @@ export function useCreateSession() {
       if (error) throw error
       return data
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['today_session'] }),
+    onSuccess: (data) => {
+      qc.setQueryData(['today_session', user?.id, getTodayStr()], {
+        ...data,
+        session_muscle_groups: [],
+      })
+      qc.invalidateQueries({ queryKey: ['today_session'] })
+    },
   })
 }
 
@@ -222,7 +228,11 @@ const EXERCISE_MUSCLE_TO_SLUG: Record<string, string> = {
   delts: 'shoulders',
   deltoids: 'shoulders',
   'front deltoids': 'shoulders',
+  'front-deltoids': 'shoulders',
   'rear deltoids': 'shoulders',
+  'rear-deltoids': 'shoulders',
+  'side deltoids': 'shoulders',
+  'side-deltoids': 'shoulders',
   lats: 'lats',
   'upper back': 'back',
   'lower back': 'back',
@@ -288,6 +298,43 @@ export function useTogglePlanExercise() {
     onSuccess: (_, { sessionId }) => {
       qc.invalidateQueries({ queryKey: ['session_plan_exercises', sessionId] })
     },
+  })
+}
+
+export function useUpsertSessionMuscle() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async ({
+      sessionId,
+      bodyPart,
+    }: {
+      sessionId: string
+      bodyPart: string
+    }) => {
+      const slug = EXERCISE_MUSCLE_TO_SLUG[bodyPart.toLowerCase()] ?? bodyPart.toLowerCase()
+      const { data: groups } = await supabase
+        .from('muscle_groups')
+        .select('id')
+        .eq('slug', slug)
+        .limit(1)
+      if (!groups || groups.length === 0) return
+      const muscleGroupId = groups[0].id
+      // check if already exists to avoid duplicate
+      const { data: existing } = await supabase
+        .from('session_muscle_groups')
+        .select('id')
+        .eq('session_id', sessionId)
+        .eq('muscle_group_id', muscleGroupId)
+        .limit(1)
+      if (existing && existing.length > 0) return
+      await supabase.from('session_muscle_groups').insert({
+        session_id: sessionId,
+        muscle_group_id: muscleGroupId,
+        is_completed: true,
+        completed_at: new Date().toISOString(),
+      })
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['today_session'] }),
   })
 }
 

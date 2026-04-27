@@ -18,6 +18,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppTodayRouteImport } from './routes/_app/today'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppProfileRouteImport } from './routes/_app/profile'
+import { Route as AppPlansRouteImport } from './routes/_app/plans'
 import { Route as AppPlanRouteImport } from './routes/_app/plan'
 import { Route as AppHistoryRouteImport } from './routes/_app/history'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
@@ -71,6 +72,11 @@ const AppSettingsRoute = AppSettingsRouteImport.update({
 const AppProfileRoute = AppProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPlansRoute = AppPlansRouteImport.update({
+  id: '/plans',
+  path: '/plans',
   getParentRoute: () => AppRoute,
 } as any)
 const AppPlanRoute = AppPlanRouteImport.update({
@@ -134,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AppDashboardRoute
   '/history': typeof AppHistoryRouteWithChildren
   '/plan': typeof AppPlanRoute
+  '/plans': typeof AppPlansRoute
   '/profile': typeof AppProfileRoute
   '/settings': typeof AppSettingsRoute
   '/today': typeof AppTodayRoute
@@ -153,6 +160,7 @@ export interface FileRoutesByTo {
   '/body': typeof AppBodyRoute
   '/dashboard': typeof AppDashboardRoute
   '/plan': typeof AppPlanRoute
+  '/plans': typeof AppPlansRoute
   '/profile': typeof AppProfileRoute
   '/settings': typeof AppSettingsRoute
   '/today': typeof AppTodayRoute
@@ -175,6 +183,7 @@ export interface FileRoutesById {
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/history': typeof AppHistoryRouteWithChildren
   '/_app/plan': typeof AppPlanRoute
+  '/_app/plans': typeof AppPlansRoute
   '/_app/profile': typeof AppProfileRoute
   '/_app/settings': typeof AppSettingsRoute
   '/_app/today': typeof AppTodayRoute
@@ -197,6 +206,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/history'
     | '/plan'
+    | '/plans'
     | '/profile'
     | '/settings'
     | '/today'
@@ -216,6 +226,7 @@ export interface FileRouteTypes {
     | '/body'
     | '/dashboard'
     | '/plan'
+    | '/plans'
     | '/profile'
     | '/settings'
     | '/today'
@@ -237,6 +248,7 @@ export interface FileRouteTypes {
     | '/_app/dashboard'
     | '/_app/history'
     | '/_app/plan'
+    | '/_app/plans'
     | '/_app/profile'
     | '/_app/settings'
     | '/_app/today'
@@ -320,6 +332,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/plans': {
+      id: '/_app/plans'
+      path: '/plans'
+      fullPath: '/plans'
+      preLoaderRoute: typeof AppPlansRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/plan': {
@@ -412,6 +431,7 @@ interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppHistoryRoute: typeof AppHistoryRouteWithChildren
   AppPlanRoute: typeof AppPlanRoute
+  AppPlansRoute: typeof AppPlansRoute
   AppProfileRoute: typeof AppProfileRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppTodayRoute: typeof AppTodayRoute
@@ -427,6 +447,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppHistoryRoute: AppHistoryRouteWithChildren,
   AppPlanRoute: AppPlanRoute,
+  AppPlansRoute: AppPlansRoute,
   AppProfileRoute: AppProfileRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppTodayRoute: AppTodayRoute,

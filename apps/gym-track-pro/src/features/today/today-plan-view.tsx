@@ -1,85 +1,98 @@
 import { useState } from 'react'
-import { BookOpen, Info } from 'lucide-react'
+import { BookOpen, ChevronRight, Check, Dumbbell } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type {
   PlanRoutineWithExercises,
   PlanExercise,
 } from '@/features/plan/use-weekly-plan'
 
-interface ExerciseRowProps {
+type ExerciseCardProps = {
   ex: PlanExercise
   checked: boolean
   onToggle: () => void
-  onDetail?: (exerciseId: string) => void
+  onDetail: (exerciseId: string) => void
 }
 
-function ExerciseRow({ ex, checked, onToggle, onDetail }: ExerciseRowProps) {
+function ExerciseCard({ ex, checked, onToggle, onDetail }: ExerciseCardProps) {
   const name = ex.exercises?.name_es || ex.exercises?.name || '—'
-  const muscle = ex.exercises?.target_muscle
+  const imageUrl = ex.exercises?.image_url
+  const exerciseDbId = ex.exercises?.id
 
   return (
     <div
       className={cn(
-        'flex w-full items-center gap-3 rounded-xl p-3 transition-colors',
+        'flex flex-col overflow-hidden rounded-2xl border transition-all',
         checked
-          ? 'border-primary/20 bg-primary/5 border'
-          : 'border-border bg-background border'
+          ? 'border-primary bg-primary/5 shadow-[0_0_0_1px_theme(colors.primary)]'
+          : 'border-border bg-card'
       )}
     >
-      <button
-        onClick={onToggle}
-        className={cn(
-          'flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors',
-          checked ? 'border-primary bg-primary' : 'border-border bg-transparent'
+      <div className='relative aspect-square overflow-hidden bg-[#eee]'>
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={name}
+            className='h-full w-full object-contain p-2'
+          />
+        ) : (
+          <div className='flex h-full items-center justify-center'>
+            <Dumbbell size={32} className='text-soft' strokeWidth={1.5} />
+          </div>
         )}
-      >
         {checked && (
-          <svg width='11' height='11' viewBox='0 0 10 10'>
-            <polyline
-              points='1.5,5 4,7.5 8.5,2.5'
-              fill='none'
-              stroke='#0f0f0f'
-              strokeWidth='1.9'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-            />
-          </svg>
+          <div className='absolute top-2 right-2 flex h-6 w-6 items-center justify-center rounded-full bg-primary'>
+            <Check size={13} strokeWidth={3} className='text-primary-foreground' />
+          </div>
         )}
-      </button>
+      </div>
 
-      <div className='min-w-0 flex-1'>
+      <div className='flex flex-1 flex-col gap-1.5 p-2.5'>
         <p
           className={cn(
-            'text-sm font-semibold',
-            checked && 'text-muted line-through'
+            'line-clamp-2 flex-1 text-[12px] font-bold leading-tight',
+            checked ? 'text-muted line-through' : 'text-foreground'
           )}
         >
           {name}
         </p>
-        <p className='text-muted mt-0.5 text-xs'>
-          {ex.sets} series · {ex.reps} reps
+        <p className='text-muted text-[10px]'>
+          {ex.sets}×{ex.reps}
           {ex.rest_seconds ? ` · ${ex.rest_seconds}s` : ''}
-          {muscle ? ` · ${muscle}` : ''}
         </p>
-      </div>
 
-      {onDetail && ex.exercises?.id && (
-        <button
-          onClick={() => onDetail(ex.exercises!.id)}
-          className='text-muted hover:bg-primary/10 hover:text-primary shrink-0 rounded-lg p-1.5 transition-colors'
-        >
-          <Info size={15} />
-        </button>
-      )}
+        <div className='mt-auto flex items-center gap-1.5'>
+          <button
+            onClick={onToggle}
+            className={cn(
+              'flex flex-1 items-center justify-center gap-1 rounded-lg py-1.5 text-[11px] font-semibold transition-colors',
+              checked
+                ? 'bg-primary/10 text-primary'
+                : 'bg-card-dark text-muted'
+            )}
+          >
+            <Check size={12} strokeWidth={2.5} />
+            {checked ? 'Listo' : 'Check'}
+          </button>
+
+          {exerciseDbId && (
+            <button
+              onClick={() => onDetail(exerciseDbId)}
+              className='flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-card-dark text-muted transition-colors'
+            >
+              <ChevronRight size={14} strokeWidth={2} />
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
 
-interface TodayPlanViewProps {
+type TodayPlanViewProps = {
   routines: PlanRoutineWithExercises[]
   checked: Set<string>
   onToggle: (exerciseId: string) => void
-  onExerciseDetail?: (exerciseId: string) => void
+  onExerciseDetail: (exerciseId: string) => void
 }
 
 export function TodayPlanView({
@@ -114,7 +127,7 @@ export function TodayPlanView({
         return (
           <div
             key={r.id}
-            className='border-border bg-card overflow-hidden rounded-2xl border'
+            className='overflow-hidden rounded-2xl border border-border bg-card'
           >
             <button
               onClick={() => toggleExpand(r.id)}
@@ -142,9 +155,9 @@ export function TodayPlanView({
             </button>
 
             {isOpen && exercises.length > 0 && (
-              <div className='flex flex-col gap-2 px-4 pb-4'>
+              <div className='grid grid-cols-2 gap-2 px-3 pb-3'>
                 {exercises.map((ex) => (
-                  <ExerciseRow
+                  <ExerciseCard
                     key={ex.id}
                     ex={ex}
                     checked={checked.has(ex.id)}

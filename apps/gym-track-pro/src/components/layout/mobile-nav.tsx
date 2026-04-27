@@ -24,6 +24,7 @@ const PRIMARY: NavItem[] = [
 ]
 
 const MORE: NavItem[] = [
+  { to: '/plans', icon: CalendarDays, label: 'Mis planes' },
   { to: '/routines', icon: BookOpen, label: 'Rutinas' },
   { to: '/exercises', icon: Dumbbell, label: 'Ejercicios' },
   { to: '/body', icon: Activity, label: 'Mi cuerpo' },

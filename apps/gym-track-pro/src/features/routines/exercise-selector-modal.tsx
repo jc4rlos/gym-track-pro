@@ -105,27 +105,22 @@ export function ExerciseSelectorModal({
               />
 
               <div ref={scrollRef} className='flex-1 overflow-y-auto px-5 py-3'>
-                <div className='space-y-2'>
+                <div className='grid grid-cols-2 gap-3'>
                   {exercises.length === 0 && !isLoading ? (
-                    <div className='py-8 text-center'>
+                    <div className='col-span-2 py-8 text-center'>
                       <p className='text-muted text-sm'>
                         No se encontraron ejercicios
                       </p>
                     </div>
                   ) : (
                     exercises.map((ex) => (
-                      <div key={ex.id} onClick={() => setSelectedExercise(ex)}>
-                        <ExerciseCard
-                          name={ex.name}
-                          muscleGroup={ex.muscleGroup}
-                          equipment={ex.equipment}
-                          difficulty={ex.difficulty}
-                          primaryMuscles={ex.primaryMuscles}
-                          secondaryMuscles={ex.secondaryMuscles}
-                          emoji={ex.emoji}
-                          imageUrl={ex.imageUrl ?? ''}
-                        />
-                      </div>
+                      <ExerciseCard
+                        key={ex.id}
+                        name={ex.name}
+                        muscleGroup={ex.muscleGroup}
+                        imageUrl={ex.imageUrl}
+                        onClick={() => setSelectedExercise(ex)}
+                      />
                     ))
                   )}
                 </div>
@@ -149,9 +144,9 @@ export function ExerciseSelectorModal({
                 </p>
               </div>
 
-              <div className='space-y-4'>
+              <div className='flex flex-col gap-3'>
                 <div>
-                  <label className='text-muted mb-2 block text-xs font-semibold'>
+                  <label className='text-muted mb-1.5 block text-xs font-semibold'>
                     Series
                   </label>
                   <input
@@ -163,7 +158,7 @@ export function ExerciseSelectorModal({
                 </div>
 
                 <div>
-                  <label className='text-muted mb-2 block text-xs font-semibold'>
+                  <label className='text-muted mb-1.5 block text-xs font-semibold'>
                     Repeticiones
                   </label>
                   <input
@@ -175,7 +170,7 @@ export function ExerciseSelectorModal({
                 </div>
 
                 <div>
-                  <label className='text-muted mb-2 block text-xs font-semibold'>
+                  <label className='text-muted mb-1.5 block text-xs font-semibold'>
                     Descanso (segundos)
                   </label>
                   <input
@@ -185,14 +180,14 @@ export function ExerciseSelectorModal({
                     className='border-border bg-background w-full rounded-lg border px-3 py-2 text-center text-sm'
                   />
                 </div>
-              </div>
 
-              <button
-                onClick={handleConfirm}
-                className='bg-primary text-primary-foreground mt-auto w-full rounded-lg py-3 font-bold'
-              >
-                Confirmar
-              </button>
+                <button
+                  onClick={handleConfirm}
+                  className='bg-primary text-primary-foreground mt-2 w-full rounded-xl py-3.5 text-[15px] font-bold'
+                >
+                  Confirmar
+                </button>
+              </div>
             </div>
           )}
         </div>

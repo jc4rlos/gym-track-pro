@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: '14.5'
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
@@ -20,7 +20,7 @@ export type Database = {
           id: number
           new_data: Json | null
           old_data: Json | null
-          operation: Database['public']['Enums']['audit_op_type']
+          operation: Database["public"]["Enums"]["audit_op_type"]
           row_id: string | null
           table_name: string
           user_id: string | null
@@ -30,7 +30,7 @@ export type Database = {
           id?: number
           new_data?: Json | null
           old_data?: Json | null
-          operation: Database['public']['Enums']['audit_op_type']
+          operation: Database["public"]["Enums"]["audit_op_type"]
           row_id?: string | null
           table_name: string
           user_id?: string | null
@@ -40,7 +40,7 @@ export type Database = {
           id?: number
           new_data?: Json | null
           old_data?: Json | null
-          operation?: Database['public']['Enums']['audit_op_type']
+          operation?: Database["public"]["Enums"]["audit_op_type"]
           row_id?: string | null
           table_name?: string
           user_id?: string | null
@@ -80,11 +80,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'body_measurements_user_id_fkey'
-            columns: ['user_id']
+            foreignKeyName: "body_measurements_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -93,73 +93,82 @@ export type Database = {
           body_part: string | null
           created_at: string
           created_by: string | null
-          difficulty: Database['public']['Enums']['difficulty_type'] | null
+          difficulty: Database["public"]["Enums"]["difficulty_type"] | null
           equipment: string | null
+          execution: string | null
           exercisedb_id: string | null
           gif_url: string | null
           id: string
+          image_url: string | null
           instructions: string[] | null
           is_custom: boolean
           muscle_group_id: string | null
           name: string
           name_es: string | null
           secondary_muscles: string[] | null
+          starting_position: string | null
           target_muscle: string | null
         }
         Insert: {
           body_part?: string | null
           created_at?: string
           created_by?: string | null
-          difficulty?: Database['public']['Enums']['difficulty_type'] | null
+          difficulty?: Database["public"]["Enums"]["difficulty_type"] | null
           equipment?: string | null
+          execution?: string | null
           exercisedb_id?: string | null
           gif_url?: string | null
           id?: string
+          image_url?: string | null
           instructions?: string[] | null
           is_custom?: boolean
           muscle_group_id?: string | null
           name: string
           name_es?: string | null
           secondary_muscles?: string[] | null
+          starting_position?: string | null
           target_muscle?: string | null
         }
         Update: {
           body_part?: string | null
           created_at?: string
           created_by?: string | null
-          difficulty?: Database['public']['Enums']['difficulty_type'] | null
+          difficulty?: Database["public"]["Enums"]["difficulty_type"] | null
           equipment?: string | null
+          execution?: string | null
           exercisedb_id?: string | null
           gif_url?: string | null
           id?: string
+          image_url?: string | null
           instructions?: string[] | null
           is_custom?: boolean
           muscle_group_id?: string | null
           name?: string
           name_es?: string | null
           secondary_muscles?: string[] | null
+          starting_position?: string | null
           target_muscle?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: 'exercises_created_by_fkey'
-            columns: ['created_by']
+            foreignKeyName: "exercises_created_by_fkey"
+            columns: ["created_by"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'exercises_muscle_group_id_fkey'
-            columns: ['muscle_group_id']
+            foreignKeyName: "exercises_muscle_group_id_fkey"
+            columns: ["muscle_group_id"]
             isOneToOne: false
-            referencedRelation: 'muscle_groups'
-            referencedColumns: ['id']
+            referencedRelation: "muscle_groups"
+            referencedColumns: ["id"]
           },
         ]
       }
       muscle_groups: {
         Row: {
-          body_side: Database['public']['Enums']['body_side_type']
+          body_side: Database["public"]["Enums"]["body_side_type"]
           display_order: number
           id: string
           name_en: string
@@ -168,7 +177,7 @@ export type Database = {
           svg_path_id: string
         }
         Insert: {
-          body_side?: Database['public']['Enums']['body_side_type']
+          body_side?: Database["public"]["Enums"]["body_side_type"]
           display_order?: number
           id?: string
           name_en: string
@@ -177,7 +186,7 @@ export type Database = {
           svg_path_id: string
         }
         Update: {
-          body_side?: Database['public']['Enums']['body_side_type']
+          body_side?: Database["public"]["Enums"]["body_side_type"]
           display_order?: number
           id?: string
           name_en?: string
@@ -187,15 +196,130 @@ export type Database = {
         }
         Relationships: []
       }
+      plan_day_routines: {
+        Row: {
+          id: string
+          plan_day_id: string
+          routine_id: string
+        }
+        Insert: {
+          id?: string
+          plan_day_id: string
+          routine_id: string
+        }
+        Update: {
+          id?: string
+          plan_day_id?: string
+          routine_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plan_day_routines_plan_day_id_fkey"
+            columns: ["plan_day_id"]
+            isOneToOne: false
+            referencedRelation: "plan_days"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plan_day_routines_routine_id_fkey"
+            columns: ["routine_id"]
+            isOneToOne: false
+            referencedRelation: "routines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      plan_days: {
+        Row: {
+          day_of_week: number
+          id: string
+          is_rest_day: boolean
+          plan_id: string
+        }
+        Insert: {
+          day_of_week: number
+          id?: string
+          is_rest_day?: boolean
+          plan_id: string
+        }
+        Update: {
+          day_of_week?: number
+          id?: string
+          is_rest_day?: boolean
+          plan_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plan_days_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      plan_week_assignments: {
+        Row: {
+          id: string
+          plan_id: string
+          user_id: string
+          week_number: number
+          year: number
+        }
+        Insert: {
+          id?: string
+          plan_id: string
+          user_id: string
+          week_number: number
+          year: number
+        }
+        Update: {
+          id?: string
+          plan_id?: string
+          user_id?: string
+          week_number?: number
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plan_week_assignments_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      plans: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
-          activity_level: Database['public']['Enums']['activity_type'] | null
+          activity_level: Database["public"]["Enums"]["activity_type"] | null
           avatar_url: string | null
           birth_date: string | null
           created_at: string
           full_name: string
-          gender: Database['public']['Enums']['gender_type']
-          goal: Database['public']['Enums']['goal_type'] | null
+          gender: Database["public"]["Enums"]["gender_type"]
+          goal: Database["public"]["Enums"]["goal_type"] | null
           gym_days_per_week: number | null
           height_cm: number | null
           id: string
@@ -204,13 +328,13 @@ export type Database = {
           weight_kg: number | null
         }
         Insert: {
-          activity_level?: Database['public']['Enums']['activity_type'] | null
+          activity_level?: Database["public"]["Enums"]["activity_type"] | null
           avatar_url?: string | null
           birth_date?: string | null
           created_at?: string
           full_name?: string
-          gender?: Database['public']['Enums']['gender_type']
-          goal?: Database['public']['Enums']['goal_type'] | null
+          gender?: Database["public"]["Enums"]["gender_type"]
+          goal?: Database["public"]["Enums"]["goal_type"] | null
           gym_days_per_week?: number | null
           height_cm?: number | null
           id: string
@@ -219,13 +343,13 @@ export type Database = {
           weight_kg?: number | null
         }
         Update: {
-          activity_level?: Database['public']['Enums']['activity_type'] | null
+          activity_level?: Database["public"]["Enums"]["activity_type"] | null
           avatar_url?: string | null
           birth_date?: string | null
           created_at?: string
           full_name?: string
-          gender?: Database['public']['Enums']['gender_type']
-          goal?: Database['public']['Enums']['goal_type'] | null
+          gender?: Database["public"]["Enums"]["gender_type"]
+          goal?: Database["public"]["Enums"]["goal_type"] | null
           gym_days_per_week?: number | null
           height_cm?: number | null
           id?: string
@@ -268,18 +392,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'routine_exercises_exercise_id_fkey'
-            columns: ['exercise_id']
+            foreignKeyName: "routine_exercises_exercise_id_fkey"
+            columns: ["exercise_id"]
             isOneToOne: false
-            referencedRelation: 'exercises'
-            referencedColumns: ['id']
+            referencedRelation: "exercises"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'routine_exercises_routine_id_fkey'
-            columns: ['routine_id']
+            foreignKeyName: "routine_exercises_routine_id_fkey"
+            columns: ["routine_id"]
             isOneToOne: false
-            referencedRelation: 'routines'
-            referencedColumns: ['id']
+            referencedRelation: "routines"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -313,11 +437,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'routines_user_id_fkey'
-            columns: ['user_id']
+            foreignKeyName: "routines_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -354,18 +478,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'session_muscle_groups_muscle_group_id_fkey'
-            columns: ['muscle_group_id']
+            foreignKeyName: "session_muscle_groups_muscle_group_id_fkey"
+            columns: ["muscle_group_id"]
             isOneToOne: false
-            referencedRelation: 'muscle_groups'
-            referencedColumns: ['id']
+            referencedRelation: "muscle_groups"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'session_muscle_groups_session_id_fkey'
-            columns: ['session_id']
+            foreignKeyName: "session_muscle_groups_session_id_fkey"
+            columns: ["session_id"]
             isOneToOne: false
-            referencedRelation: 'workout_sessions'
-            referencedColumns: ['id']
+            referencedRelation: "workout_sessions"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -387,11 +511,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'session_plan_exercises_session_id_fkey'
-            columns: ['session_id']
+            foreignKeyName: "session_plan_exercises_session_id_fkey"
+            columns: ["session_id"]
             isOneToOne: false
-            referencedRelation: 'workout_sessions'
-            referencedColumns: ['id']
+            referencedRelation: "workout_sessions"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -413,18 +537,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'weekly_plan_day_muscles_muscle_group_id_fkey'
-            columns: ['muscle_group_id']
+            foreignKeyName: "weekly_plan_day_muscles_muscle_group_id_fkey"
+            columns: ["muscle_group_id"]
             isOneToOne: false
-            referencedRelation: 'muscle_groups'
-            referencedColumns: ['id']
+            referencedRelation: "muscle_groups"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'weekly_plan_day_muscles_plan_day_id_fkey'
-            columns: ['plan_day_id']
+            foreignKeyName: "weekly_plan_day_muscles_plan_day_id_fkey"
+            columns: ["plan_day_id"]
             isOneToOne: false
-            referencedRelation: 'weekly_plan_days'
-            referencedColumns: ['id']
+            referencedRelation: "weekly_plan_days"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -449,18 +573,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'weekly_plan_day_routines_plan_day_id_fkey'
-            columns: ['plan_day_id']
+            foreignKeyName: "weekly_plan_day_routines_plan_day_id_fkey"
+            columns: ["plan_day_id"]
             isOneToOne: false
-            referencedRelation: 'weekly_plan_days'
-            referencedColumns: ['id']
+            referencedRelation: "weekly_plan_days"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'weekly_plan_day_routines_routine_id_fkey'
-            columns: ['routine_id']
+            foreignKeyName: "weekly_plan_day_routines_routine_id_fkey"
+            columns: ["routine_id"]
             isOneToOne: false
-            referencedRelation: 'routines'
-            referencedColumns: ['id']
+            referencedRelation: "routines"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -494,18 +618,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'weekly_plan_days_routine_id_fkey'
-            columns: ['routine_id']
+            foreignKeyName: "weekly_plan_days_routine_id_fkey"
+            columns: ["routine_id"]
             isOneToOne: false
-            referencedRelation: 'routines'
-            referencedColumns: ['id']
+            referencedRelation: "routines"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'weekly_plan_days_weekly_plan_id_fkey'
-            columns: ['weekly_plan_id']
+            foreignKeyName: "weekly_plan_days_weekly_plan_id_fkey"
+            columns: ["weekly_plan_id"]
             isOneToOne: false
-            referencedRelation: 'weekly_plans'
-            referencedColumns: ['id']
+            referencedRelation: "weekly_plans"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -545,18 +669,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'weekly_plans_copied_from_id_fkey'
-            columns: ['copied_from_id']
+            foreignKeyName: "weekly_plans_copied_from_id_fkey"
+            columns: ["copied_from_id"]
             isOneToOne: false
-            referencedRelation: 'weekly_plans'
-            referencedColumns: ['id']
+            referencedRelation: "weekly_plans"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'weekly_plans_user_id_fkey'
-            columns: ['user_id']
+            foreignKeyName: "weekly_plans_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -599,11 +723,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'workout_sessions_user_id_fkey'
-            columns: ['user_id']
+            foreignKeyName: "workout_sessions_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -616,16 +740,16 @@ export type Database = {
     }
     Enums: {
       activity_type:
-        | 'sedentary'
-        | 'light'
-        | 'moderate'
-        | 'active'
-        | 'very_active'
-      audit_op_type: 'INSERT' | 'UPDATE' | 'DELETE'
-      body_side_type: 'front' | 'back' | 'both'
-      difficulty_type: 'beginner' | 'intermediate' | 'advanced'
-      gender_type: 'male' | 'female' | 'other'
-      goal_type: 'lose_weight' | 'gain_muscle' | 'maintain'
+        | "sedentary"
+        | "light"
+        | "moderate"
+        | "active"
+        | "very_active"
+      audit_op_type: "INSERT" | "UPDATE" | "DELETE"
+      body_side_type: "front" | "back" | "both"
+      difficulty_type: "beginner" | "intermediate" | "advanced"
+      gender_type: "male" | "female" | "other"
+      goal_type: "lose_weight" | "gain_muscle" | "maintain"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -633,33 +757,33 @@ export type Database = {
   }
 }
 
-type DatabaseWithoutInternals = Omit<Database, '__InternalSupabase'>
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, 'public'>]
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
-      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] &
-        DefaultSchema['Views'])
-    ? (DefaultSchema['Tables'] &
-        DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
         Row: infer R
       }
       ? R
@@ -668,23 +792,23 @@ export type Tables<
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema['Tables']
+    | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
-    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
         Insert: infer I
       }
       ? I
@@ -693,23 +817,23 @@ export type TablesInsert<
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema['Tables']
+    | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
-    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
         Update: infer U
       }
       ? U
@@ -718,53 +842,53 @@ export type TablesUpdate<
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema['Enums']
+    | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
-    ? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
     : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema['CompositeTypes']
+    | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
-    ? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
 
 export const Constants = {
   public: {
     Enums: {
       activity_type: [
-        'sedentary',
-        'light',
-        'moderate',
-        'active',
-        'very_active',
+        "sedentary",
+        "light",
+        "moderate",
+        "active",
+        "very_active",
       ],
-      audit_op_type: ['INSERT', 'UPDATE', 'DELETE'],
-      body_side_type: ['front', 'back', 'both'],
-      difficulty_type: ['beginner', 'intermediate', 'advanced'],
-      gender_type: ['male', 'female', 'other'],
-      goal_type: ['lose_weight', 'gain_muscle', 'maintain'],
+      audit_op_type: ["INSERT", "UPDATE", "DELETE"],
+      body_side_type: ["front", "back", "both"],
+      difficulty_type: ["beginner", "intermediate", "advanced"],
+      gender_type: ["male", "female", "other"],
+      goal_type: ["lose_weight", "gain_muscle", "maintain"],
     },
   },
 } as const

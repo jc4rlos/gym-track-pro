@@ -12,10 +12,10 @@ type Props = {
   equipment: string
   difficulty: Difficulty
   instructions: string[]
-  gifUrl?: string
+  startingPosition?: string | null
+  execution?: string | null
+  gifUrl?: string | null
   onBack: () => void
-  onAddToRoutine?: () => void
-  onAddToToday?: () => void
 }
 
 export const ExerciseDetailView = ({
@@ -25,10 +25,10 @@ export const ExerciseDetailView = ({
   equipment,
   difficulty,
   instructions,
+  startingPosition,
+  execution,
   gifUrl,
-  onBack,
-  onAddToRoutine,
-  onAddToToday,
+  onBack
 }: Props) => {
   const [isFavorite, setIsFavorite] = useState(false)
 
@@ -61,14 +61,20 @@ export const ExerciseDetailView = ({
         <div className='space-y-3'>
           <div className='border-border bg-card mx-auto flex h-50 w-fit items-center justify-center overflow-hidden rounded-[16px] border px-2'>
             {gifUrl ? (
-              <img src={gifUrl} alt={name} className='rounded-xl' />
+              <video
+                src={gifUrl}
+                controls
+                loop
+                muted
+                playsInline
+                className='rounded-xl h-full w-full object-contain'
+              />
             ) : (
               <div className='text-center'>
                 <div className='mb-2 text-5xl'>💪</div>
                 <p className='text-muted text-[12px]'>
-                  GIF animado del ejercicio
+                  Animación del ejercicio
                 </p>
-                <p className='text-soft mt-1 text-[11px]'>vía ExerciseDB API</p>
               </div>
             )}
           </div>
@@ -110,59 +116,62 @@ export const ExerciseDetailView = ({
             </div>
           </div>
 
-          {instructions.length > 0 && (
-            <div className='bg-card-dark border-border mx-5 rounded-[14px] border p-3'>
-              <p className='text-muted mb-3 text-[11px] font-bold tracking-wider uppercase'>
-                Instrucciones
+          {(startingPosition || execution || instructions.length > 0) && (
+            <div className='bg-card-dark border-border mx-5 rounded-[14px] border p-4'>
+              <p className='text-foreground mb-4 text-[14px] font-bold'>
+                Guía para realizar el ejercicio
               </p>
-              <div className='space-y-2.5'>
-                {instructions.map((instruction, i) => (
-                  <div key={i} className='flex items-start gap-3'>
-                    <div
-                      className={cn(
-                        'flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-[10px] font-bold',
-                        i === 0
-                          ? 'bg-primary text-primary-foreground'
-                          : 'bg-primary-light text-primary border border-[#2a4a1a]'
-                      )}
-                    >
-                      {i + 1}
-                    </div>
-                    <p className='text-foreground pt-0.5 text-[13px] leading-relaxed'>
-                      {instruction}
-                    </p>
+
+              {startingPosition && (
+                <div className='mb-4'>
+                  <p className='text-primary mb-1.5 text-[11px] font-semibold uppercase tracking-wide'>
+                    Posición inicial
+                  </p>
+                  <p className='text-foreground text-[13px] leading-relaxed'>
+                    {startingPosition}
+                  </p>
+                </div>
+              )}
+
+              {execution && (
+                <div className='mb-4'>
+                  <p className='text-primary mb-1.5 text-[11px] font-semibold uppercase tracking-wide'>
+                    Ejecución
+                  </p>
+                  <p className='text-foreground text-[13px] leading-relaxed'>
+                    {execution}
+                  </p>
+                </div>
+              )}
+
+              {instructions.length > 0 && (
+                <div>
+                  <p className='text-primary mb-2.5 text-[11px] font-semibold uppercase tracking-wide'>
+                    Durante todo el movimiento:
+                  </p>
+                  <div className='space-y-2.5'>
+                    {instructions.map((instruction, i) => (
+                      <div key={i} className='flex items-start gap-3'>
+                        <div
+                          className={cn(
+                            'flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-[10px] font-bold',
+                            i === 0
+                              ? 'bg-primary text-primary-foreground'
+                              : 'bg-primary-light text-primary border border-[#2a4a1a]'
+                          )}
+                        >
+                          {i + 1}
+                        </div>
+                        <p className='text-foreground pt-0.5 text-[13px] leading-relaxed'>
+                          {instruction}
+                        </p>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              )}
             </div>
           )}
-
-          <div className='flex flex-col gap-2 px-5'>
-            <button
-              onClick={onAddToRoutine}
-              className='bg-primary text-primary-foreground flex w-full items-center justify-center gap-2 rounded-[14px] py-3.5 text-[15px] font-bold'
-              style={{ boxShadow: '0 4px 24px rgba(163,230,53,.2)' }}
-            >
-              <svg
-                width='16'
-                height='16'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                strokeWidth='2.5'
-              >
-                <line x1='12' y1='5' x2='12' y2='19' />
-                <line x1='5' y1='12' x2='19' y2='12' />
-              </svg>
-              Agregar a rutina
-            </button>
-            <button
-              onClick={onAddToToday}
-              className='hover:bg-card-dark border-border bg-card text-foreground w-full rounded-[14px] border py-3.5 text-[15px] font-bold transition-colors'
-            >
-              Agregar al plan de hoy
-            </button>
-          </div>
         </div>
       </div>
     </div>

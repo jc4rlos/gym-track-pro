@@ -10,6 +10,9 @@ export type Exercise = {
   secondaryMuscles: string[]
   emoji?: string
   imageUrl?: string | null
+  gifUrl?: string | null
+  startingPosition?: string | null
+  execution?: string | null
 }
 
 type Props = {
@@ -45,17 +48,12 @@ export const ExerciseList = ({
           </p>
         </div>
       ) : (
-        <div className='flex flex-col gap-2'>
+        <div className='grid grid-cols-2 gap-3'>
           {exercises.map((exercise) => (
             <ExerciseCard
               key={exercise.id}
               name={exercise.name}
               muscleGroup={exercise.muscleGroup}
-              equipment={exercise.equipment}
-              difficulty={exercise.difficulty}
-              primaryMuscles={exercise.primaryMuscles}
-              secondaryMuscles={exercise.secondaryMuscles}
-              emoji={exercise.emoji}
               imageUrl={exercise.imageUrl}
               onClick={() => onSelectExercise?.(exercise)}
             />

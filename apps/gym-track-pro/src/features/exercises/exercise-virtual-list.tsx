@@ -23,19 +23,14 @@ export const ExerciseVirtualList = ({
         </div>
       ) : (
         <div className='px-5 py-3'>
-          <div className='space-y-2'>
+          <div className='grid grid-cols-2 gap-3'>
             {exercises.map((exercise) => (
               <ExerciseCard
                 key={exercise.id}
                 name={exercise.name}
                 muscleGroup={exercise.muscleGroup}
-                equipment={exercise.equipment}
-                difficulty={exercise.difficulty}
-                primaryMuscles={exercise.primaryMuscles}
-                secondaryMuscles={exercise.secondaryMuscles}
-                emoji={exercise.emoji}
-                onClick={() => onSelectExercise(exercise)}
                 imageUrl={exercise.imageUrl}
+                onClick={() => onSelectExercise(exercise)}
               />
             ))}
           </div>

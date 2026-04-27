@@ -1,24 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuthStore } from '@/stores/auth-store'
 import { supabase } from '@/lib/supabase'
+import { getISOWeek, todayDayOfWeek } from './plan-utils'
 
-function getISOWeek(date: Date): { week: number; year: number } {
-  const d = new Date(date)
-  d.setHours(0, 0, 0, 0)
-  d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7))
-  const w1 = new Date(d.getFullYear(), 0, 4)
-  const week =
-    1 +
-    Math.round(
-      ((d.getTime() - w1.getTime()) / 86400000 - 3 + ((w1.getDay() + 6) % 7)) /
-        7
-    )
-  return { week, year: d.getFullYear() }
-}
-
-export function todayDayOfWeek() {
-  return (new Date().getDay() + 6) % 7
-}
+export { todayDayOfWeek }
 
 export type DayRoutine = {
   id: string
@@ -48,7 +33,7 @@ export function useCurrentWeekPlan() {
   const { user } = useAuthStore()
   const { week, year } = getISOWeek(new Date())
   return useQuery({
-    queryKey: ['weekly_plan', 'current', user?.id, week, year],
+    queryKey: ['weekly_plan', 'current', user?.id],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('weekly_plans')
@@ -72,7 +57,7 @@ export function usePreviousWeekPlan() {
   prev.setDate(prev.getDate() - 7)
   const { week, year } = getISOWeek(prev)
   return useQuery({
-    queryKey: ['weekly_plan', 'previous', user?.id, week, year],
+    queryKey: ['weekly_plan', 'previous', user?.id],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('weekly_plans')
@@ -212,7 +197,10 @@ export type PlanExercise = {
     id: string
     name: string
     name_es: string | null
+    body_part: string | null
     target_muscle: string | null
+    image_url: string | null
+    gif_url: string | null
   } | null
 }
 
@@ -234,17 +222,18 @@ export function useTodayPlanRoutines() {
     queryKey: ['today_plan_routines', user?.id, week, year, dow],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('weekly_plans')
+        .from('plan_week_assignments')
         .select(
           `
-          id,
-          weekly_plan_days!inner(
-            id, day_of_week, is_rest_day,
-            weekly_plan_day_routines(
-              id, routine_id,
-              routines(
-                id, name,
-                routine_exercises(id, sets, reps, rest_seconds, exercises(id, name, name_es, target_muscle))
+          plans(
+            plan_days(
+              id, day_of_week, is_rest_day,
+              plan_day_routines(
+                id, routine_id,
+                routines(
+                  id, name,
+                  routine_exercises(id, sets, reps, rest_seconds, exercises(id, name, name_es, body_part, target_muscle, image_url, gif_url))
+                )
               )
             )
           )
@@ -253,15 +242,15 @@ export function useTodayPlanRoutines() {
         .eq('user_id', user!.id)
         .eq('week_number', week)
         .eq('year', year)
-        .eq('weekly_plan_days.day_of_week', dow)
         .maybeSingle()
       if (error) throw error
-      const planDay = (
-        data?.weekly_plan_days as unknown as WeeklyPlanDay[]
-      )?.[0]
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const plans = (data as any)?.plans
+      const planDay = plans?.plan_days?.find(
+        (d: { day_of_week: number }) => d.day_of_week === dow
+      )
       if (!planDay || planDay.is_rest_day) return null
-      return (planDay.weekly_plan_day_routines ??
-        []) as PlanRoutineWithExercises[]
+      return (planDay.plan_day_routines ?? []) as PlanRoutineWithExercises[]
     },
     enabled: !!user,
   })

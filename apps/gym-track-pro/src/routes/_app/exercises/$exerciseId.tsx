@@ -39,15 +39,11 @@ function ExerciseDetailPage() {
         (exercise.difficulty as 'beginner' | 'intermediate' | 'advanced') ||
         'beginner'
       }
-      instructions={exercise.instructions || []}
+      instructions={(exercise.instructions as string[]) || []}
+      startingPosition={(exercise as { starting_position?: string | null }).starting_position}
+      execution={(exercise as { execution?: string | null }).execution}
       gifUrl={exercise.gif_url || undefined}
       onBack={() => navigate({ to: '/exercises' })}
-      onAddToRoutine={() => {
-        alert(`Agregado: ${exercise.name_es || exercise.name}`)
-      }}
-      onAddToToday={() => {
-        alert(`Agregado a hoy: ${exercise.name_es || exercise.name}`)
-      }}
     />
   )
 }

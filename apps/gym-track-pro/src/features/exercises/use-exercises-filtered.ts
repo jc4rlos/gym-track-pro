@@ -29,7 +29,7 @@ export const useExercisesFiltered = () => {
       let query = supabase
         .from('exercises')
         .select(
-          'id, name, name_es, body_part, target_muscle, secondary_muscles, equipment, gif_url, instructions, difficulty',
+          'id, name, name_es, body_part, target_muscle, secondary_muscles, equipment, image_url, gif_url, instructions, difficulty',
           { count: 'exact' }
         )
 
@@ -76,7 +76,8 @@ export const useExercisesFiltered = () => {
     primaryMuscles: [ex.target_muscle || 'General'],
     secondaryMuscles: (ex.secondary_muscles || []) as string[],
     emoji: '💪',
-    imageUrl: ex.gif_url,
+    imageUrl: ex.image_url ?? null,
+    gifUrl: ex.gif_url ?? null,
   }))
 
   const totalCount = data?.totalCount || 0

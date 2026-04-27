@@ -5,6 +5,7 @@ import { useTodayPlanRoutines } from '@/features/plan/use-weekly-plan'
 import { AddMuscleSheet } from '@/features/today/add-muscle-sheet'
 import { MuscleItem } from '@/features/today/muscle-item'
 import { TodayPlanView } from '@/features/today/today-plan-view'
+import { ExerciseDetailModal } from '@/features/exercises/exercise-detail-modal'
 import {
   useTodaySession,
   useCreateSession,
@@ -13,6 +14,7 @@ import {
   useUpdateNotes,
   useSessionPlanExercises,
   useTogglePlanExercise,
+  useUpsertSessionMuscle,
 } from '@/features/today/use-today'
 
 // ── Timer ────────────────────────────────────────────────
@@ -95,7 +97,7 @@ const NoSession = ({ onCreate }: { onCreate: () => void }) => (
 const TodayPage = () => {
   const navigate = useNavigate()
   const { data: session, isLoading } = useTodaySession()
-  const { data: planRoutines, isLoading: isPlanLoading } =
+  const { data: planRoutines } =
     useTodayPlanRoutines()
   const createSession = useCreateSession()
   const finishSession = useFinishSession()
@@ -105,27 +107,42 @@ const TodayPage = () => {
   const finishPlanSession = useFinishPlanSession()
   const { data: sessionExercises } = useSessionPlanExercises(session?.id)
   const togglePlanExercise = useTogglePlanExercise()
+  const upsertMuscle = useUpsertSessionMuscle()
   const checkedExercises = sessionExercises ?? new Set<string>()
 
   const toggleExercise = (id: string) => {
     if (!session) return
+    const isChecking = !checkedExercises.has(id)
     togglePlanExercise.mutate({
       sessionId: session.id,
       exerciseId: id,
-      checked: !checkedExercises.has(id),
+      checked: isChecking,
     })
+    if (isChecking) {
+      const allEx = (planRoutines ?? []).flatMap((r) => r.routines?.routine_exercises ?? [])
+      const planEx = allEx.find((e) => e.id === id)
+      const bodyPart = planEx?.exercises?.body_part
+      if (bodyPart) upsertMuscle.mutate({ sessionId: session.id, bodyPart })
+    }
   }
   const elapsed = useElapsed(
     session?.started_at ?? null,
     session?.finished_at ?? null
   )
   const [showAdd, setShowAdd] = useState(false)
+  const [detailExerciseId, setDetailExerciseId] = useState<string | null>(null)
   const notesRef = useRef<HTMLTextAreaElement>(null)
   const notesTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  if (isLoading) return null
+  if (isLoading || createSession.isPending) {
+    return (
+      <div className='flex min-h-[60vh] items-center justify-center'>
+        <div className='border-primary h-8 w-8 animate-spin rounded-full border-2 border-t-transparent' />
+      </div>
+    )
+  }
 
-  if (!session && !createSession.isPending) {
+  if (!session) {
     if (hasPlan) {
       return (
         <div className='flex flex-col gap-4 pb-10'>
@@ -139,12 +156,7 @@ const TodayPage = () => {
             routines={planRoutines!}
             checked={new Set()}
             onToggle={() => {}}
-            onExerciseDetail={(id) =>
-              navigate({
-                to: '/exercises/$exerciseId',
-                params: { exerciseId: id },
-              })
-            }
+            onExerciseDetail={setDetailExerciseId}
           />
           <button
             onClick={() => createSession.mutate()}
@@ -153,6 +165,14 @@ const TodayPage = () => {
           >
             Comenzar entrenamiento
           </button>
+          {detailExerciseId && (
+            <ExerciseDetailModal
+              exerciseId={detailExerciseId}
+              isChecked={false}
+              onToggle={() => {}}
+              onClose={() => setDetailExerciseId(null)}
+            />
+          )}
         </div>
       )
     }
@@ -162,8 +182,6 @@ const TodayPage = () => {
       </div>
     )
   }
-
-  if (!session) return null
 
   const muscles = session.session_muscle_groups ?? []
 
@@ -179,7 +197,14 @@ const TodayPage = () => {
   const total = hasPlan ? totalExercises : muscles.length
   const doneCount = hasPlan ? doneExercises : done.length
   const pct = total > 0 ? Math.round((doneCount / total) * 100) : 0
-  const isFinished = !!session.finished_at
+  // treat as active if finished_at equals started_at (trigger bug) or within 10s of creation
+  const finishedInstantly =
+    session.finished_at &&
+    Math.abs(
+      new Date(session.finished_at).getTime() -
+        new Date(session.started_at).getTime()
+    ) < 10000
+  const isFinished = !!session.finished_at && !finishedInstantly
 
   const todayLabel = formatDate(new Date())
   const muscleNames = muscles
@@ -196,7 +221,7 @@ const TodayPage = () => {
   }
 
   return (
-    <div className='flex flex-col gap-3.5 pb-10'>
+    <div className='flex flex-col gap-3.5 pb-32'>
       {/* Header */}
       <div className='border-border flex items-center gap-3 border-b pb-3'>
         <button
@@ -276,12 +301,7 @@ const TodayPage = () => {
             routines={planRoutines!}
             checked={checkedExercises}
             onToggle={toggleExercise}
-            onExerciseDetail={(id) =>
-              navigate({
-                to: '/exercises/$exerciseId',
-                params: { exerciseId: id },
-              })
-            }
+            onExerciseDetail={setDetailExerciseId}
           />
         </div>
       ) : (
@@ -335,77 +355,67 @@ const TodayPage = () => {
         />
       </div>
 
-      {/* Finish / finished */}
-      {!isFinished ? (
-        <button
-          onClick={() => {
-            if (hasPlan) {
-              finishPlanSession.mutate({
-                sessionId: session.id,
-                allExercises: allPlanExercises.map((e) => ({
-                  id: e.id,
-                  target_muscle: e.exercises?.target_muscle ?? null,
-                })),
-              })
-            } else {
-              finishSession.mutate(session.id)
-            }
-          }}
-          disabled={
-            finishSession.isPending ||
-            finishPlanSession.isPending ||
-            isPlanLoading
-          }
-          className='bg-primary flex w-full items-center justify-center gap-2.5 rounded-[14px] py-3.5 disabled:opacity-60'
-          style={{ boxShadow: '0 4px 24px rgba(163,230,53,.25)' }}
-        >
-          <svg
-            width='18'
-            height='18'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='#0f0f0f'
-            strokeWidth='2.5'
-            strokeLinecap='round'
-          >
-            <path d='M8 3v3a2 2 0 01-2 2H3m18 0h-3a2 2 0 01-2-2V3m0 18v-3a2 2 0 012-2h3M3 16h3a2 2 0 012 2v3' />
-          </svg>
-          <div className='text-left'>
-            <p className='text-primary-foreground text-[15px] font-bold'>
-              {finishSession.isPending
-                ? 'Guardando...'
-                : 'Finalizar entrenamiento'}
-            </p>
-            <p className='text-[10px] text-[#1a3a00]'>
-              Marcará el sello del día ✓
-            </p>
-          </div>
-        </button>
-      ) : (
-        <div className='bg-primary-light flex items-center justify-center gap-2 rounded-[14px] border border-[#2a4a1a] py-4'>
-          <svg width='18' height='18' viewBox='0 0 10 10'>
-            <polyline
-              points='1.5,5 4,7.5 8.5,2.5'
-              fill='none'
-              stroke='#a3e635'
-              strokeWidth='1.9'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-            />
-          </svg>
-          <p className='text-primary text-[15px] font-bold'>
-            Entrenamiento finalizado
-          </p>
-        </div>
-      )}
-
-      {/* Add muscle sheet */}
       {showAdd && (
         <AddMuscleSheet
           sessionId={session.id}
           existing={muscles}
           onClose={() => setShowAdd(false)}
         />
+      )}
+
+      {detailExerciseId && (
+        <ExerciseDetailModal
+          exerciseId={detailExerciseId}
+          isChecked={checkedExercises.has(
+            allPlanExercises.find((e) => e.exercises?.id === detailExerciseId)?.id ?? ''
+          )}
+          onToggle={() => {
+            const planEx = allPlanExercises.find(
+              (e) => e.exercises?.id === detailExerciseId
+            )
+            if (planEx) toggleExercise(planEx.id)
+          }}
+          onClose={() => setDetailExerciseId(null)}
+        />
+      )}
+
+      {isFinished ? (
+        <div className='rounded-2xl border border-primary/30 bg-primary/5 p-4 text-center'>
+          <p className='text-primary text-[15px] font-bold'>¡Entrenamiento completado! ✓</p>
+          <p className='text-muted mt-0.5 text-[12px]'>
+            Duración: {fmtTime(elapsed)}
+          </p>
+        </div>
+      ) : (
+        <button
+          onClick={() => {
+            if (hasPlan) {
+              finishPlanSession.mutate(
+                {
+                  sessionId: session.id,
+                  allExercises: allPlanExercises.map((e) => ({
+                    id: e.id,
+                    target_muscle: e.exercises?.target_muscle ?? null,
+                  })),
+                },
+                { onSuccess: () => navigate({ to: '/dashboard' }) }
+              )
+            } else {
+              finishSession.mutate(session.id, {
+                onSuccess: () => navigate({ to: '/dashboard' }),
+              })
+            }
+          }}
+          disabled={finishSession.isPending || finishPlanSession.isPending}
+          className='bg-primary text-primary-foreground flex w-full items-center justify-center gap-2 rounded-2xl py-4 text-[15px] font-bold shadow-primary disabled:opacity-60'
+          style={{ boxShadow: '0 4px 24px rgba(163,230,53,.25)' }}
+        >
+          {finishSession.isPending || finishPlanSession.isPending
+            ? 'Guardando...'
+            : hasPlan && doneCount === totalExercises && totalExercises > 0
+              ? '¡Todos listos! Finalizar entrenamiento'
+              : 'Finalizar entrenamiento'}
+        </button>
       )}
     </div>
   )
