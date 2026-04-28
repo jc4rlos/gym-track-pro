@@ -42,6 +42,8 @@ export type TodaySession = {
   notes: string | null
   week_number: number
   year: number
+  intensity: string | null
+  calories_burned: number | null
   session_muscle_groups: SessionMuscle[]
 }
 
@@ -55,6 +57,7 @@ export function useTodaySession() {
         .select(
           `
           id, user_id, session_date, started_at, finished_at, notes, week_number, year,
+          intensity, calories_burned,
           session_muscle_groups(
             id, session_id, muscle_group_id, is_completed, completed_at, sets_count, notes,
             muscle_groups(id, slug, name_es, body_side)
@@ -99,6 +102,7 @@ export function useCreateSession() {
           started_at: now.toISOString(),
           week_number: getWeekNumber(now),
           year: now.getFullYear(),
+          intensity: 'moderate',
         })
         .select()
         .single()
@@ -112,6 +116,20 @@ export function useCreateSession() {
       })
       qc.invalidateQueries({ queryKey: ['today_session'] })
     },
+  })
+}
+
+export function useUpdateIntensity() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async ({ sessionId, intensity }: { sessionId: string; intensity: string }) => {
+      const { error } = await supabase
+        .from('workout_sessions')
+        .update({ intensity })
+        .eq('id', sessionId)
+      if (error) throw error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['today_session'] }),
   })
 }
 
@@ -204,10 +222,19 @@ export function useFinishSession() {
   const { user } = useAuthStore()
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async (sessionId: string) => {
+    mutationFn: async ({
+      sessionId,
+      calories,
+    }: {
+      sessionId: string
+      calories: number | null
+    }) => {
       const { error } = await supabase
         .from('workout_sessions')
-        .update({ finished_at: new Date().toISOString() })
+        .update({
+          finished_at: new Date().toISOString(),
+          calories_burned: calories,
+        })
         .eq('id', sessionId)
       if (error) throw error
     },
@@ -216,6 +243,7 @@ export function useFinishSession() {
         queryKey: ['today_session', user?.id, getTodayStr()],
       })
       qc.invalidateQueries({ queryKey: ['week_sessions'] })
+      qc.invalidateQueries({ queryKey: ['today_calories'] })
     },
   })
 }
@@ -233,6 +261,7 @@ const EXERCISE_MUSCLE_TO_SLUG: Record<string, string> = {
   'rear-deltoids': 'shoulders',
   'side deltoids': 'shoulders',
   'side-deltoids': 'shoulders',
+  'hind-deltoids': 'shoulders',
   lats: 'lats',
   'upper back': 'back',
   'lower back': 'back',
@@ -319,7 +348,6 @@ export function useUpsertSessionMuscle() {
         .limit(1)
       if (!groups || groups.length === 0) return
       const muscleGroupId = groups[0].id
-      // check if already exists to avoid duplicate
       const { data: existing } = await supabase
         .from('session_muscle_groups')
         .select('id')
@@ -345,9 +373,11 @@ export function useFinishPlanSession() {
     mutationFn: async ({
       sessionId,
       allExercises,
+      calories,
     }: {
       sessionId: string
       allExercises: { id: string; target_muscle: string | null }[]
+      calories: number | null
     }) => {
       if (allExercises.length > 0) {
         const exerciseRows = allExercises.map((e) => ({
@@ -400,7 +430,10 @@ export function useFinishPlanSession() {
 
       const { error } = await supabase
         .from('workout_sessions')
-        .update({ finished_at: new Date().toISOString() })
+        .update({
+          finished_at: new Date().toISOString(),
+          calories_burned: calories,
+        })
         .eq('id', sessionId)
       if (error) throw error
     },
@@ -410,6 +443,7 @@ export function useFinishPlanSession() {
       })
       qc.invalidateQueries({ queryKey: ['week_sessions'] })
       qc.invalidateQueries({ queryKey: ['session_plan_exercises', sessionId] })
+      qc.invalidateQueries({ queryKey: ['today_calories'] })
     },
   })
 }

@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import { Check, Flame, Clock, Dumbbell } from 'lucide-react'
+import { Check, Flame, Clock, Dumbbell, Footprints } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import {
-  useSessionsByMonth,
-  useSessionStats,
-  useCurrentStreak,
-  useAvailableMonths,
+  useHistoryMeta,
+  useHistoryMonth,
   type SessionWithMuscles,
 } from './use-history'
+import { calcStepsCalories, INTENSITY_LABELS, INTENSITY_ICONS } from '@/features/calories/calorie-utils'
+import type { Intensity } from '@/features/calories/calorie-utils'
 
 const MONTH_LABELS = [
   'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
@@ -64,15 +64,24 @@ function MuscleBar({ name, count, max }: MuscleBarProps) {
   )
 }
 
-type SessionCardProps = { session: SessionWithMuscles }
+type SessionCardProps = {
+  session: SessionWithMuscles
+  steps?: number
+  weightKg?: number
+}
 
-function SessionCard({ session }: SessionCardProps) {
+function SessionCard({ session, steps, weightKg = 70 }: SessionCardProps) {
   const isComplete = !!session.finished_at
   const durationMin = sessionDurationMin(session.started_at, session.finished_at)
   const muscles = session.session_muscle_groups ?? []
   const completedCount = muscles.filter((m) => m.is_completed).length
   const totalCount = muscles.length
   const progressPct = totalCount > 0 ? (completedCount / totalCount) * 100 : 0
+
+  const workoutCal = session.calories_burned ?? 0
+  const stepsCal = steps ? calcStepsCalories(steps, weightKg) : 0
+  const totalCal = workoutCal + stepsCal
+  const intensity = session.intensity as Intensity | null
 
   return (
     <div className='rounded-2xl border border-border bg-card p-3.5'>
@@ -85,21 +94,40 @@ function SessionCard({ session }: SessionCardProps) {
             {durationMin != null ? `${durationMin} min · ` : ''}
             {formatSessionTime(session.started_at)}
           </p>
+          {intensity && (
+            <p className='text-muted mt-0.5 text-[10px]'>
+              {INTENSITY_ICONS[intensity]} {INTENSITY_LABELS[intensity]}
+            </p>
+          )}
         </div>
-        {isComplete ? (
-          <div className='flex items-center gap-1 rounded-full border border-primary-mid bg-primary-light px-2.5 py-1'>
-            <Check size={11} className='text-primary' strokeWidth={2.5} />
-            <span className='text-primary text-[11px] font-semibold'>
-              Completo
-            </span>
-          </div>
-        ) : (
-          <div className='rounded-full border border-orange-900/50 bg-orange-950/40 px-2.5 py-1'>
-            <span className='text-[11px] font-semibold text-orange-400'>
-              Incompleto
-            </span>
-          </div>
-        )}
+        <div className='flex flex-col items-end gap-1.5'>
+          {isComplete ? (
+            <div className='flex items-center gap-1 rounded-full border border-primary-mid bg-primary-light px-2.5 py-1'>
+              <Check size={11} className='text-primary' strokeWidth={2.5} />
+              <span className='text-primary text-[11px] font-semibold'>Completo</span>
+            </div>
+          ) : (
+            <div className='rounded-full border border-orange-900/50 bg-orange-950/40 px-2.5 py-1'>
+              <span className='text-[11px] font-semibold text-orange-400'>Incompleto</span>
+            </div>
+          )}
+          {totalCal > 0 && (
+            <div className='flex items-center gap-1'>
+              <span className='text-[11px]'>🔥</span>
+              <span className='text-[11px] font-semibold text-orange-400'>
+                {totalCal.toLocaleString()} kcal
+              </span>
+            </div>
+          )}
+          {steps != null && steps > 0 && (
+            <div className='flex items-center gap-1'>
+              <Footprints size={11} className='text-muted' />
+              <span className='text-muted text-[11px]'>
+                {steps.toLocaleString()} pasos
+              </span>
+            </div>
+          )}
+        </div>
       </div>
 
       {muscles.length > 0 && (
@@ -149,10 +177,15 @@ export function HistoryPage() {
     month: now.getMonth() + 1,
   })
 
-  const { data: availableMonths = [] } = useAvailableMonths()
-  const { data: sessions = [] } = useSessionsByMonth(selected.year, selected.month)
-  const { data: stats } = useSessionStats(selected.year, selected.month)
-  const { data: streak = 0 } = useCurrentStreak()
+  const { data: meta } = useHistoryMeta()
+  const { data: monthData } = useHistoryMonth(selected.year, selected.month)
+
+  const availableMonths = meta?.availableMonths ?? []
+  const streak = meta?.streak ?? 0
+  const sessions = monthData?.sessions ?? []
+  const stats = monthData?.stats
+  const stepsByDate = monthData?.stepsByDate ?? {}
+  const weightKg = monthData?.weightKg ?? 70
 
   const topMuscles = Object.entries(stats?.muscleCounts ?? {})
     .sort((a, b) => b[1] - a[1])
@@ -231,7 +264,12 @@ export function HistoryPage() {
             Sesiones
           </p>
           {sessions.map((s) => (
-            <SessionCard key={s.id} session={s} />
+            <SessionCard
+              key={s.id}
+              session={s}
+              steps={stepsByDate[s.session_date]}
+              weightKg={weightKg}
+            />
           ))}
         </div>
       ) : (

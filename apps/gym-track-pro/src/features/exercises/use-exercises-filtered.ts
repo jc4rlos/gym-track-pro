@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { MUSCLE_OPTIONS } from '@/lib/exercise-constants'
+import { MAIN_MUSCLE_OPTIONS } from '@/lib/exercise-constants'
 import { supabase } from '@/lib/supabase'
 
 const PAGE_SIZE = 20
@@ -9,7 +9,6 @@ export const useExercisesFiltered = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedSearch, setDebouncedSearch] = useState('')
   const [selectedMuscles, setSelectedMuscles] = useState<string[]>([])
-  const [selectedEquipment, setSelectedEquipment] = useState<string[]>([])
   const [page, setPage] = useState(0)
 
   useEffect(() => {
@@ -18,13 +17,7 @@ export const useExercisesFiltered = () => {
   }, [searchQuery])
 
   const { data, isLoading } = useQuery({
-    queryKey: [
-      'exercises',
-      debouncedSearch,
-      selectedMuscles,
-      selectedEquipment,
-      page,
-    ],
+    queryKey: ['exercises', debouncedSearch, selectedMuscles.join(','), page],
     queryFn: async () => {
       let query = supabase
         .from('exercises')
@@ -41,19 +34,15 @@ export const useExercisesFiltered = () => {
 
       if (selectedMuscles.length > 0) {
         const muscleValues = selectedMuscles.flatMap(
-          (id) => MUSCLE_OPTIONS.find((m) => m.id === id)?.values ?? []
+          (id) => MAIN_MUSCLE_OPTIONS.find((m) => m.id === id)?.values ?? []
         )
         if (muscleValues.length > 0) {
-          query = query.or(
-            muscleValues.map((v) => `target_muscle.ilike.%${v}%`).join(',')
-          )
+          const filters = muscleValues.flatMap((v) => [
+            `target_muscle.ilike.%${v}%`,
+            `body_part.ilike.%${v}%`,
+          ])
+          query = query.or(filters.join(','))
         }
-      }
-
-      if (selectedEquipment.length > 0) {
-        query = query.or(
-          selectedEquipment.map((v) => `equipment.ilike.%${v}%`).join(',')
-        )
       }
 
       const from = page * PAGE_SIZE
@@ -93,19 +82,12 @@ export const useExercisesFiltered = () => {
     setSelectedMuscles(ids)
   }
 
-  const handleSetSelectedEquipment = (values: string[]) => {
-    setPage(0)
-    setSelectedEquipment(values)
-  }
-
   return {
     exercises,
     searchQuery,
     setSearchQuery: handleSetSearchQuery,
     selectedMuscles,
     setSelectedMuscles: handleSetSelectedMuscles,
-    selectedEquipment,
-    setSelectedEquipment: handleSetSelectedEquipment,
     isLoading,
     page,
     setPage,

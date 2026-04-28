@@ -62,6 +62,27 @@ export function useSessionStats() {
   })
 }
 
+export function useUpdateProfile() {
+  const { user } = useAuthStore()
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (fields: {
+      full_name?: string
+      gender?: 'male' | 'female' | 'other'
+      height_cm?: number | null
+      goal?: 'lose_weight' | 'gain_muscle' | 'maintain'
+      daily_steps_goal?: number
+    }) => {
+      const { error } = await supabase
+        .from('profiles')
+        .update(fields)
+        .eq('id', user!.id)
+      if (error) throw error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['profile'] }),
+  })
+}
+
 export function useSaveMeasurement() {
   const { user } = useAuthStore()
   const qc = useQueryClient()

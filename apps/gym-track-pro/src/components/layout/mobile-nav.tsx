@@ -11,8 +11,11 @@ import {
   User,
   MoreHorizontal,
   X,
+  Footprints,
+  Shield,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useUserRole } from '@/features/admin/use-admin'
 
 type NavItem = { to: string; icon: React.ElementType; label: string }
 
@@ -24,6 +27,7 @@ const PRIMARY: NavItem[] = [
 ]
 
 const MORE: NavItem[] = [
+  { to: '/steps', icon: Footprints, label: 'Pasos' },
   { to: '/plans', icon: CalendarDays, label: 'Mis planes' },
   { to: '/routines', icon: BookOpen, label: 'Rutinas' },
   { to: '/exercises', icon: Dumbbell, label: 'Ejercicios' },
@@ -111,12 +115,16 @@ export const MobileNav = () => {
   const { location } = useRouterState()
   const path = location.pathname
   const [open, setOpen] = useState(false)
+  const { data: role } = useUserRole()
+  const moreItems = role === 'admin'
+    ? [...MORE, { to: '/admin', icon: Shield, label: 'Admin' }]
+    : MORE
 
   useEffect(() => {
     setOpen(false)
   }, [path])
 
-  const moreActive = MORE.some((item) => isActiveRoute(path, item.to))
+  const moreActive = moreItems.some((item) => isActiveRoute(path, item.to))
 
   return (
     <>
@@ -141,7 +149,7 @@ export const MobileNav = () => {
         </p>
 
         <div className='grid grid-cols-3 gap-2'>
-          {MORE.map((item) => (
+          {moreItems.map((item) => (
             <MoreSheetItem key={item.to} item={item} onClose={() => setOpen(false)} />
           ))}
         </div>

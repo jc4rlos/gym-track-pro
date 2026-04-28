@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { SlidersHorizontal, X } from 'lucide-react'
-import { MUSCLE_OPTIONS, EQUIPMENT_OPTIONS } from '@/lib/exercise-constants'
+import { MAIN_MUSCLE_OPTIONS } from '@/lib/exercise-constants'
 import { cn } from '@/lib/utils'
 import { ExerciseFilterSheet } from '@/features/exercises/exercise-filter-sheet'
 import { ExercisePagination } from '@/features/exercises/exercise-pagination'
@@ -20,8 +20,6 @@ function ExercisesPage() {
     setSearchQuery,
     selectedMuscles,
     setSelectedMuscles,
-    selectedEquipment,
-    setSelectedEquipment,
     isLoading,
     page,
     setPage,
@@ -36,10 +34,7 @@ function ExercisesPage() {
   const removeMuscle = (id: string) =>
     setSelectedMuscles(selectedMuscles.filter((m) => m !== id))
 
-  const removeEquipment = (value: string) =>
-    setSelectedEquipment(selectedEquipment.filter((e) => e !== value))
-
-  const activeFilterCount = selectedMuscles.length + selectedEquipment.length
+  const activeFilterCount = selectedMuscles.length
 
   return (
     <div className='bg-background flex min-h-screen flex-col'>
@@ -71,28 +66,14 @@ function ExercisesPage() {
           )}
         </button>
 
-        {/* Active filter chips */}
+        {/* Active filter chips — solo nombre */}
         {selectedMuscles.map((id) => {
-          const opt = MUSCLE_OPTIONS.find((m) => m.id === id)
+          const opt = MAIN_MUSCLE_OPTIONS.find((m) => m.id === id)
           if (!opt) return null
           return (
             <button
               key={id}
               onClick={() => removeMuscle(id)}
-              className='border-primary bg-primary/10 text-primary flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-medium'
-            >
-              {opt.label}
-              <X size={10} strokeWidth={2.5} />
-            </button>
-          )
-        })}
-        {selectedEquipment.map((value) => {
-          const opt = EQUIPMENT_OPTIONS.find((e) => e.value === value)
-          if (!opt) return null
-          return (
-            <button
-              key={value}
-              onClick={() => removeEquipment(value)}
               className='border-primary bg-primary/10 text-primary flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-medium'
             >
               {opt.label}
@@ -129,8 +110,6 @@ function ExercisesPage() {
         onClose={() => setSheetOpen(false)}
         selectedMuscles={selectedMuscles}
         onMusclesChange={setSelectedMuscles}
-        selectedEquipment={selectedEquipment}
-        onEquipmentChange={setSelectedEquipment}
       />
     </div>
   )

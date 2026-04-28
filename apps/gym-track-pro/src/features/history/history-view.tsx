@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useSessionsByMonth, useSessionStats } from './use-history'
+import { useHistoryMonth, type SessionWithMuscles } from './use-history'
 
 const MONTHS = [
   'Ene',
@@ -21,13 +21,11 @@ export function HistoryView() {
   const [selectedMonth, setSelectedMonth] = useState(today.getMonth() + 1)
   const [selectedYear, setSelectedYear] = useState(today.getFullYear())
 
-  const { data: sessions, isLoading } = useSessionsByMonth(
-    selectedYear,
-    selectedMonth
-  )
-  const { data: stats } = useSessionStats(selectedYear, selectedMonth)
+  const { data, isLoading } = useHistoryMonth(selectedYear, selectedMonth)
+  const sessions = data?.sessions
+  const stats = data?.stats
 
-  const completedSessions = sessions?.filter((s) => s.finished_at) || []
+  const completedSessions = sessions?.filter((s: SessionWithMuscles) => s.finished_at) || []
   const totalCompleted = completedSessions.length
 
   const topMuscles = stats

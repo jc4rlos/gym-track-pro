@@ -40,12 +40,14 @@ export const RegisterForm = () => {
       password,
       options: { data: { full_name: fullName.trim(), gender } },
     })
+    // signUp auto-signs in — sign out immediately since account awaits approval
+    await supabase.auth.signOut()
     setLoading(false)
     if (authError) {
       setError(authError.message)
       return
     }
-    navigate({ to: '/onboarding' })
+    navigate({ to: '/login' })
   }
 
   return (

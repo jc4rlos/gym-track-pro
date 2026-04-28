@@ -19,13 +19,25 @@ export const LoginForm = () => {
     e.preventDefault()
     setError(null)
     setLoading(true)
-    const { error: authError } = await supabase.auth.signInWithPassword({
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
       email,
       password,
     })
-    setLoading(false)
     if (authError) {
+      setLoading(false)
       setError('Correo o contraseña incorrectos')
+      return
+    }
+    // Check approval status
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('is_active')
+      .eq('id', authData.user.id)
+      .single()
+    setLoading(false)
+    if (profile?.is_active === false) {
+      await supabase.auth.signOut()
+      setError('Tu cuenta está pendiente de aprobación por un administrador.')
       return
     }
     navigate({ to: '/dashboard' })
@@ -146,18 +158,6 @@ export const LoginForm = () => {
           required
           autoComplete='current-password'
         />
-      </div>
-      <div className='text-right'>
-        <button
-          type='button'
-          onClick={() => {
-            setView('forgot')
-            setError(null)
-          }}
-          className='text-primary text-xs font-medium'
-        >
-          ¿Olvidaste tu contraseña?
-        </button>
       </div>
       {error && (
         <p className='bg-destructive/10 text-destructive rounded-xl px-4 py-3 text-sm'>

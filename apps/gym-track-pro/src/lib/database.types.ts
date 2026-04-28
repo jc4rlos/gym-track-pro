@@ -88,6 +88,41 @@ export type Database = {
           },
         ]
       }
+      daily_steps: {
+        Row: {
+          created_at: string
+          id: string
+          step_date: string
+          steps: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          step_date?: string
+          steps?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          step_date?: string
+          steps?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_steps_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       exercises: {
         Row: {
           body_part: string | null
@@ -317,12 +352,16 @@ export type Database = {
           avatar_url: string | null
           birth_date: string | null
           created_at: string
+          daily_steps_goal: number
           full_name: string
           gender: Database["public"]["Enums"]["gender_type"]
           goal: Database["public"]["Enums"]["goal_type"] | null
           gym_days_per_week: number | null
           height_cm: number | null
           id: string
+          is_active: boolean
+          must_change_password: boolean | null
+          role: string | null
           updated_at: string
           username: string
           weight_kg: number | null
@@ -332,12 +371,16 @@ export type Database = {
           avatar_url?: string | null
           birth_date?: string | null
           created_at?: string
+          daily_steps_goal?: number
           full_name?: string
           gender?: Database["public"]["Enums"]["gender_type"]
           goal?: Database["public"]["Enums"]["goal_type"] | null
           gym_days_per_week?: number | null
           height_cm?: number | null
           id: string
+          is_active?: boolean
+          must_change_password?: boolean | null
+          role?: string | null
           updated_at?: string
           username: string
           weight_kg?: number | null
@@ -347,12 +390,16 @@ export type Database = {
           avatar_url?: string | null
           birth_date?: string | null
           created_at?: string
+          daily_steps_goal?: number
           full_name?: string
           gender?: Database["public"]["Enums"]["gender_type"]
           goal?: Database["public"]["Enums"]["goal_type"] | null
           gym_days_per_week?: number | null
           height_cm?: number | null
           id?: string
+          is_active?: boolean
+          must_change_password?: boolean | null
+          role?: string | null
           updated_at?: string
           username?: string
           weight_kg?: number | null
@@ -686,9 +733,11 @@ export type Database = {
       }
       workout_sessions: {
         Row: {
+          calories_burned: number | null
           created_at: string
           finished_at: string | null
           id: string
+          intensity: string | null
           notes: string | null
           session_date: string
           started_at: string
@@ -698,9 +747,11 @@ export type Database = {
           year: number
         }
         Insert: {
+          calories_burned?: number | null
           created_at?: string
           finished_at?: string | null
           id?: string
+          intensity?: string | null
           notes?: string | null
           session_date?: string
           started_at?: string
@@ -710,9 +761,11 @@ export type Database = {
           year?: number
         }
         Update: {
+          calories_burned?: number | null
           created_at?: string
           finished_at?: string | null
           id?: string
+          intensity?: string | null
           notes?: string | null
           session_date?: string
           started_at?: string
@@ -737,6 +790,22 @@ export type Database = {
     }
     Functions: {
       auto_finish_old_sessions: { Args: never; Returns: undefined }
+      get_admin_users: {
+        Args: {
+          page_limit?: number
+          page_offset?: number
+          search_query?: string
+        }
+        Returns: {
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          is_active: boolean
+          role: string
+          total: number
+        }[]
+      }
     }
     Enums: {
       activity_type:

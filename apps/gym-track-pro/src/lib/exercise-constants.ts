@@ -6,6 +6,55 @@ export type MuscleFilterOption = {
   emoji: string
 }
 
+export type MainMuscleOption = {
+  id: string
+  label: string
+  values: string[]
+}
+
+export const MAIN_MUSCLE_OPTIONS: MainMuscleOption[] = [
+  {
+    id: 'chest',
+    label: 'Pecho',
+    values: ['chest', 'pectorals', 'upper chest'],
+  },
+  {
+    id: 'back',
+    label: 'Espalda',
+    values: ['lats', 'latissimus dorsi', 'back', 'upper back', 'rhomboids', 'lower back', 'spine', 'traps', 'trapezius'],
+  },
+  {
+    id: 'shoulders',
+    label: 'Hombros',
+    values: ['shoulders', 'deltoids', 'delts', 'rear deltoids'],
+  },
+  {
+    id: 'biceps',
+    label: 'Bíceps',
+    values: ['biceps', 'brachialis'],
+  },
+  {
+    id: 'triceps',
+    label: 'Tríceps',
+    values: ['triceps'],
+  },
+  {
+    id: 'abdominals',
+    label: 'Abdominales',
+    values: ['abs', 'abdominals', 'lower abs', 'obliques', 'core'],
+  },
+  {
+    id: 'legs',
+    label: 'Piernas',
+    values: ['quadriceps', 'quads', 'hamstrings', 'glutes', 'hip flexors', 'adductors', 'abductors'],
+  },
+  {
+    id: 'calves',
+    label: 'Gemelos',
+    values: ['calves', 'soleus'],
+  },
+]
+
 export type EquipmentFilterOption = {
   value: string
   label: string

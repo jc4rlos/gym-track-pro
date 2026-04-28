@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { createFileRoute, Navigate, useNavigate } from '@tanstack/react-router'
+import { useQueryClient } from '@tanstack/react-query'
 import { useAuthStore } from '@/stores/auth-store'
 import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
@@ -32,6 +33,7 @@ const gymDayOptions = [2, 3, 4, 5, 6]
 const OnboardingPage = () => {
   const { user, isLoading } = useAuthStore()
   const navigate = useNavigate()
+  const qc = useQueryClient()
 
   const [height, setHeight] = useState('')
   const [weight, setWeight] = useState('')
@@ -67,6 +69,7 @@ const OnboardingPage = () => {
       setError(dbError.message)
       return
     }
+    qc.invalidateQueries({ queryKey: ['profile', user.id] })
     navigate({ to: '/dashboard' })
   }
 

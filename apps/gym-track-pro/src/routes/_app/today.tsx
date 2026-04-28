@@ -6,16 +6,63 @@ import { AddMuscleSheet } from '@/features/today/add-muscle-sheet'
 import { MuscleItem } from '@/features/today/muscle-item'
 import { TodayPlanView } from '@/features/today/today-plan-view'
 import { ExerciseDetailModal } from '@/features/exercises/exercise-detail-modal'
+import { useProfile } from '@/features/profile/use-body'
 import {
   useTodaySession,
   useCreateSession,
   useFinishSession,
   useFinishPlanSession,
   useUpdateNotes,
+  useUpdateIntensity,
   useSessionPlanExercises,
   useTogglePlanExercise,
   useUpsertSessionMuscle,
 } from '@/features/today/use-today'
+import {
+  type Intensity,
+  INTENSITY_LABELS,
+  INTENSITY_COLORS,
+  INTENSITY_ICONS,
+  calcWorkoutCalories,
+} from '@/features/calories/calorie-utils'
+
+const INTENSITIES: Intensity[] = ['low', 'moderate', 'high', 'very_high']
+
+function IntensitySelector({
+  value,
+  onChange,
+}: {
+  value: Intensity
+  onChange: (v: Intensity) => void
+}) {
+  return (
+    <div className='flex gap-2'>
+      {INTENSITIES.map((intensity) => {
+        const active = value === intensity
+        return (
+          <button
+            key={intensity}
+            type='button'
+            onClick={() => onChange(intensity)}
+            className='flex flex-1 flex-col items-center gap-1 rounded-xl border py-2 transition-colors'
+            style={{
+              borderColor: active ? INTENSITY_COLORS[intensity] : '#2a2a2a',
+              background: active ? `${INTENSITY_COLORS[intensity]}15` : '#131313',
+            }}
+          >
+            <span className='text-[15px]'>{INTENSITY_ICONS[intensity]}</span>
+            <span
+              className='text-[10px] font-semibold'
+              style={{ color: active ? INTENSITY_COLORS[intensity] : '#737373' }}
+            >
+              {INTENSITY_LABELS[intensity]}
+            </span>
+          </button>
+        )
+      })}
+    </div>
+  )
+}
 
 // ── Timer ────────────────────────────────────────────────
 function useElapsed(
@@ -97,11 +144,12 @@ const NoSession = ({ onCreate }: { onCreate: () => void }) => (
 const TodayPage = () => {
   const navigate = useNavigate()
   const { data: session, isLoading } = useTodaySession()
-  const { data: planRoutines } =
-    useTodayPlanRoutines()
+  const { data: profile } = useProfile()
+  const { data: planRoutines } = useTodayPlanRoutines()
   const createSession = useCreateSession()
   const finishSession = useFinishSession()
   const updateNotes = useUpdateNotes()
+  const updateIntensity = useUpdateIntensity()
 
   const hasPlan = planRoutines != null && planRoutines.length > 0
   const finishPlanSession = useFinishPlanSession()
@@ -125,6 +173,7 @@ const TodayPage = () => {
       if (bodyPart) upsertMuscle.mutate({ sessionId: session.id, bodyPart })
     }
   }
+
   const elapsed = useElapsed(
     session?.started_at ?? null,
     session?.finished_at ?? null
@@ -197,7 +246,7 @@ const TodayPage = () => {
   const total = hasPlan ? totalExercises : muscles.length
   const doneCount = hasPlan ? doneExercises : done.length
   const pct = total > 0 ? Math.round((doneCount / total) * 100) : 0
-  // treat as active if finished_at equals started_at (trigger bug) or within 10s of creation
+
   const finishedInstantly =
     session.finished_at &&
     Math.abs(
@@ -212,6 +261,19 @@ const TodayPage = () => {
     .map((m) => m.muscle_groups?.name_es)
     .filter(Boolean)
     .join(' · ')
+
+  const currentIntensity = (session.intensity as Intensity) ?? 'moderate'
+
+  const handleIntensityChange = (intensity: Intensity) => {
+    updateIntensity.mutate({ sessionId: session.id, intensity })
+  }
+
+  const computeCalories = (): number | null => {
+    const weightKg = profile?.weight_kg
+    if (!weightKg) return null
+    const durationMin = Math.max(1, Math.floor(elapsed / 60))
+    return calcWorkoutCalories(Number(weightKg), durationMin, currentIntensity)
+  }
 
   const handleNotesChange = (val: string) => {
     if (notesTimer.current) clearTimeout(notesTimer.current)
@@ -274,9 +336,14 @@ const TodayPage = () => {
               {fmtTime(elapsed)}
             </p>
             <p className='text-muted text-[10px]'>tiempo activo</p>
+            {isFinished && session.calories_burned ? (
+              <p className='text-primary mt-0.5 text-[12px] font-bold'>
+                🔥 {session.calories_burned} kcal
+              </p>
+            ) : null}
           </div>
         </div>
-        {/* Progress bar with dot */}
+        {/* Progress bar */}
         <div className='relative h-2 overflow-visible rounded-full bg-[#1a1a1a]'>
           <div
             className='bg-primary h-full rounded-full transition-all duration-500'
@@ -290,6 +357,36 @@ const TodayPage = () => {
           )}
         </div>
       </div>
+
+      {/* Intensity selector (only when active) */}
+      {!isFinished && (
+        <div className='rounded-[14px] border border-[#1e1e1e] bg-[#131313] p-3.5'>
+          <p className='text-muted mb-2.5 text-[11px] font-semibold tracking-wide uppercase'>
+            Intensidad del entrenamiento
+          </p>
+          <IntensitySelector
+            value={currentIntensity}
+            onChange={handleIntensityChange}
+          />
+          {profile?.weight_kg ? (
+            <p className='text-muted mt-2 text-center text-[10px]'>
+              Estimado:{' '}
+              <span className='text-primary font-bold'>
+                ~{calcWorkoutCalories(
+                  Number(profile.weight_kg),
+                  Math.max(1, Math.floor(elapsed / 60)),
+                  currentIntensity
+                )} kcal
+              </span>{' '}
+              al finalizar
+            </p>
+          ) : (
+            <p className='text-muted mt-2 text-center text-[10px]'>
+              Configurá tu peso en el perfil para estimar calorías
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Exercise / Muscle list */}
       {hasPlan ? (
@@ -384,11 +481,15 @@ const TodayPage = () => {
           <p className='text-primary text-[15px] font-bold'>¡Entrenamiento completado! ✓</p>
           <p className='text-muted mt-0.5 text-[12px]'>
             Duración: {fmtTime(elapsed)}
+            {session.calories_burned
+              ? ` · 🔥 ${session.calories_burned} kcal quemadas`
+              : ''}
           </p>
         </div>
       ) : (
         <button
           onClick={() => {
+            const calories = computeCalories()
             if (hasPlan) {
               finishPlanSession.mutate(
                 {
@@ -397,13 +498,15 @@ const TodayPage = () => {
                     id: e.id,
                     target_muscle: e.exercises?.target_muscle ?? null,
                   })),
+                  calories,
                 },
                 { onSuccess: () => navigate({ to: '/dashboard' }) }
               )
             } else {
-              finishSession.mutate(session.id, {
-                onSuccess: () => navigate({ to: '/dashboard' }),
-              })
+              finishSession.mutate(
+                { sessionId: session.id, calories },
+                { onSuccess: () => navigate({ to: '/dashboard' }) }
+              )
             }
           }}
           disabled={finishSession.isPending || finishPlanSession.isPending}

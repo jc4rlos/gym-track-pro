@@ -118,24 +118,41 @@ export function useTodayPlan() {
     queryKey: ['today_plan', user?.id, weekNum, year, todayDayIndex],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('weekly_plan_days')
+        .from('plan_week_assignments')
         .select(
           `
-          id, is_rest_day,
-          weekly_plans!inner(id, user_id, week_number, year),
-          weekly_plan_day_routines(
-            id,
-            routines(id, name, description)
+          plans(
+            plan_days(
+              id, day_of_week, is_rest_day,
+              plan_day_routines(
+                id,
+                routines(id, name, description)
+              )
+            )
           )
         `
         )
-        .eq('weekly_plans.user_id', user!.id)
-        .eq('weekly_plans.week_number', weekNum)
-        .eq('weekly_plans.year', year)
-        .eq('day_of_week', todayDayIndex)
+        .eq('user_id', user!.id)
+        .eq('week_number', weekNum)
+        .eq('year', year)
         .maybeSingle()
       if (error) throw error
-      return data
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const plans = (data as any)?.plans
+      const planDay = plans?.plan_days?.find(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (d: any) => d.day_of_week === todayDayIndex
+      )
+      if (!planDay) return null
+
+      return {
+        is_rest_day: planDay.is_rest_day as boolean,
+        weekly_plan_day_routines: (planDay.plan_day_routines ?? []) as Array<{
+          id: string
+          routines: { id: string; name: string; description: string | null } | null
+        }>,
+      }
     },
     enabled: !!user,
   })

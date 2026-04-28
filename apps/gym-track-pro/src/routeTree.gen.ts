@@ -16,6 +16,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppTodayRouteImport } from './routes/_app/today'
+import { Route as AppStepsRouteImport } from './routes/_app/steps'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppProfileRouteImport } from './routes/_app/profile'
 import { Route as AppPlansRouteImport } from './routes/_app/plans'
@@ -23,6 +24,7 @@ import { Route as AppPlanRouteImport } from './routes/_app/plan'
 import { Route as AppHistoryRouteImport } from './routes/_app/history'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppBodyRouteImport } from './routes/_app/body'
+import { Route as AppAdminRouteImport } from './routes/_app/admin'
 import { Route as AppRoutinesIndexRouteImport } from './routes/_app/routines/index'
 import { Route as AppHistoryIndexRouteImport } from './routes/_app/history/index'
 import { Route as AppExercisesIndexRouteImport } from './routes/_app/exercises/index'
@@ -64,6 +66,11 @@ const AppTodayRoute = AppTodayRouteImport.update({
   path: '/today',
   getParentRoute: () => AppRoute,
 } as any)
+const AppStepsRoute = AppStepsRouteImport.update({
+  id: '/steps',
+  path: '/steps',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -97,6 +104,11 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
 const AppBodyRoute = AppBodyRouteImport.update({
   id: '/body',
   path: '/body',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminRoute = AppAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => AppRoute,
 } as any)
 const AppRoutinesIndexRoute = AppRoutinesIndexRouteImport.update({
@@ -136,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin': typeof AppAdminRoute
   '/body': typeof AppBodyRoute
   '/dashboard': typeof AppDashboardRoute
   '/history': typeof AppHistoryRouteWithChildren
@@ -143,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/plans': typeof AppPlansRoute
   '/profile': typeof AppProfileRoute
   '/settings': typeof AppSettingsRoute
+  '/steps': typeof AppStepsRoute
   '/today': typeof AppTodayRoute
   '/exercises/$exerciseId': typeof AppExercisesExerciseIdRoute
   '/routines/$routineId': typeof AppRoutinesRoutineIdRoute
@@ -157,12 +171,14 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin': typeof AppAdminRoute
   '/body': typeof AppBodyRoute
   '/dashboard': typeof AppDashboardRoute
   '/plan': typeof AppPlanRoute
   '/plans': typeof AppPlansRoute
   '/profile': typeof AppProfileRoute
   '/settings': typeof AppSettingsRoute
+  '/steps': typeof AppStepsRoute
   '/today': typeof AppTodayRoute
   '/exercises/$exerciseId': typeof AppExercisesExerciseIdRoute
   '/routines/$routineId': typeof AppRoutinesRoutineIdRoute
@@ -179,6 +195,7 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_app/admin': typeof AppAdminRoute
   '/_app/body': typeof AppBodyRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/history': typeof AppHistoryRouteWithChildren
@@ -186,6 +203,7 @@ export interface FileRoutesById {
   '/_app/plans': typeof AppPlansRoute
   '/_app/profile': typeof AppProfileRoute
   '/_app/settings': typeof AppSettingsRoute
+  '/_app/steps': typeof AppStepsRoute
   '/_app/today': typeof AppTodayRoute
   '/_app/exercises/$exerciseId': typeof AppExercisesExerciseIdRoute
   '/_app/routines/$routineId': typeof AppRoutinesRoutineIdRoute
@@ -202,6 +220,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/register'
     | '/reset-password'
+    | '/admin'
     | '/body'
     | '/dashboard'
     | '/history'
@@ -209,6 +228,7 @@ export interface FileRouteTypes {
     | '/plans'
     | '/profile'
     | '/settings'
+    | '/steps'
     | '/today'
     | '/exercises/$exerciseId'
     | '/routines/$routineId'
@@ -223,12 +243,14 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/register'
     | '/reset-password'
+    | '/admin'
     | '/body'
     | '/dashboard'
     | '/plan'
     | '/plans'
     | '/profile'
     | '/settings'
+    | '/steps'
     | '/today'
     | '/exercises/$exerciseId'
     | '/routines/$routineId'
@@ -244,6 +266,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/register'
     | '/reset-password'
+    | '/_app/admin'
     | '/_app/body'
     | '/_app/dashboard'
     | '/_app/history'
@@ -251,6 +274,7 @@ export interface FileRouteTypes {
     | '/_app/plans'
     | '/_app/profile'
     | '/_app/settings'
+    | '/_app/steps'
     | '/_app/today'
     | '/_app/exercises/$exerciseId'
     | '/_app/routines/$routineId'
@@ -320,6 +344,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTodayRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/steps': {
+      id: '/_app/steps'
+      path: '/steps'
+      fullPath: '/steps'
+      preLoaderRoute: typeof AppStepsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/settings': {
       id: '/_app/settings'
       path: '/settings'
@@ -367,6 +398,13 @@ declare module '@tanstack/react-router' {
       path: '/body'
       fullPath: '/body'
       preLoaderRoute: typeof AppBodyRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/admin': {
+      id: '/_app/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AppAdminRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/routines/': {
@@ -427,6 +465,7 @@ const AppHistoryRouteWithChildren = AppHistoryRoute._addFileChildren(
 )
 
 interface AppRouteChildren {
+  AppAdminRoute: typeof AppAdminRoute
   AppBodyRoute: typeof AppBodyRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppHistoryRoute: typeof AppHistoryRouteWithChildren
@@ -434,6 +473,7 @@ interface AppRouteChildren {
   AppPlansRoute: typeof AppPlansRoute
   AppProfileRoute: typeof AppProfileRoute
   AppSettingsRoute: typeof AppSettingsRoute
+  AppStepsRoute: typeof AppStepsRoute
   AppTodayRoute: typeof AppTodayRoute
   AppExercisesExerciseIdRoute: typeof AppExercisesExerciseIdRoute
   AppRoutinesRoutineIdRoute: typeof AppRoutinesRoutineIdRoute
@@ -443,6 +483,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAdminRoute: AppAdminRoute,
   AppBodyRoute: AppBodyRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppHistoryRoute: AppHistoryRouteWithChildren,
@@ -450,6 +491,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppPlansRoute: AppPlansRoute,
   AppProfileRoute: AppProfileRoute,
   AppSettingsRoute: AppSettingsRoute,
+  AppStepsRoute: AppStepsRoute,
   AppTodayRoute: AppTodayRoute,
   AppExercisesExerciseIdRoute: AppExercisesExerciseIdRoute,
   AppRoutinesRoutineIdRoute: AppRoutinesRoutineIdRoute,

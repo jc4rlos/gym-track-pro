@@ -7,7 +7,7 @@ import {
   Check,
   Trash2,
 } from 'lucide-react'
-import { MUSCLE_OPTIONS, EQUIPMENT_OPTIONS } from '@/lib/exercise-constants'
+import { MAIN_MUSCLE_OPTIONS } from '@/lib/exercise-constants'
 import { cn } from '@/lib/utils'
 import { ExerciseFilterSheet } from '@/features/exercises/exercise-filter-sheet'
 import { ExercisePagination } from '@/features/exercises/exercise-pagination'
@@ -211,8 +211,6 @@ export function RoutineWizard({
     setSearchQuery,
     selectedMuscles,
     setSelectedMuscles,
-    selectedEquipment,
-    setSelectedEquipment,
     isLoading,
     page,
     setPage,
@@ -220,7 +218,7 @@ export function RoutineWizard({
   } = useExercisesFiltered()
 
   const selectedIds = new Set(selected.map((e) => e.exerciseId))
-  const activeFilterCount = selectedMuscles.length + selectedEquipment.length
+  const activeFilterCount = selectedMuscles.length
 
   const toggleExercise = (exerciseId: string) => {
     if (selectedIds.has(exerciseId)) {
@@ -366,32 +364,13 @@ export function RoutineWizard({
           </button>
 
           {selectedMuscles.map((id) => {
-            const opt = MUSCLE_OPTIONS.find((m) => m.id === id)
+            const opt = MAIN_MUSCLE_OPTIONS.find((m) => m.id === id)
             if (!opt) return null
             return (
               <button
                 key={id}
                 onClick={() =>
                   setSelectedMuscles(selectedMuscles.filter((m) => m !== id))
-                }
-                className='border-primary bg-primary/10 text-primary flex shrink-0 items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-medium'
-              >
-                {opt.label}
-                <X size={10} strokeWidth={2.5} />
-              </button>
-            )
-          })}
-
-          {selectedEquipment.map((value) => {
-            const opt = EQUIPMENT_OPTIONS.find((e) => e.value === value)
-            if (!opt) return null
-            return (
-              <button
-                key={value}
-                onClick={() =>
-                  setSelectedEquipment(
-                    selectedEquipment.filter((e) => e !== value)
-                  )
                 }
                 className='border-primary bg-primary/10 text-primary flex shrink-0 items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-medium'
               >
@@ -462,8 +441,6 @@ export function RoutineWizard({
           onClose={() => setSheetOpen(false)}
           selectedMuscles={selectedMuscles}
           onMusclesChange={setSelectedMuscles}
-          selectedEquipment={selectedEquipment}
-          onEquipmentChange={setSelectedEquipment}
         />
       </div>
     )

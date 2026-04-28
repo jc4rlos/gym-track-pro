@@ -4,6 +4,8 @@ import { BodyCard } from '@/features/dashboard/body-card'
 import { MuscleProgress } from '@/features/dashboard/muscle-progress'
 import { useDashboardData } from '@/features/dashboard/use-dashboard'
 import { WeekStamps } from '@/features/dashboard/week-stamps'
+import { StepsDashboardWidget } from '@/features/steps/steps-dashboard-widget'
+import { CaloriesWidget } from '@/features/dashboard/calories-widget'
 
 const DAY_LABELS_ES = [
   'Lunes',
@@ -96,13 +98,16 @@ const DashboardPage = () => {
         weekMuscleSlugs={weekMuscleSlugs}
       />
 
+      <StepsDashboardWidget />
+
+      <CaloriesWidget />
+
       {/* Today's plan */}
       <div>
         <p className='text-muted mb-2 text-[12px] font-semibold tracking-wide uppercase'>
           Plan de hoy — {todayLabel}
         </p>
         <div
-          onClick={() => navigate({ to: '/today' })}
           className='bg-primary-light flex cursor-pointer items-center justify-between rounded-[14px] border border-[#2a4a1a] px-3.5 py-3'
         >
           {todayPlan?.is_rest_day ? (
@@ -120,7 +125,6 @@ const DashboardPage = () => {
               </div>
             </>
           ) : todayPlan?.weekly_plan_day_routines?.length ? (
-            <>
               <div className='flex items-center gap-2.5'>
                 <Dumbbell size={16} className='text-primary' />
                 <div>
@@ -145,8 +149,6 @@ const DashboardPage = () => {
                   )}
                 </div>
               </div>
-              <ChevronRight size={18} className='text-primary' />
-            </>
           ) : (
             <>
               <div>

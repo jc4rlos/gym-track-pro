@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { X } from 'lucide-react'
 import { useAuthStore } from '@/stores/auth-store'
 import { useTheme } from '@/context/theme-provider'
 import { useDashboardData } from '@/features/dashboard/use-dashboard'
+import { supabase } from '@/lib/supabase'
 import {
   calcBmi,
   getBmiCategory,
@@ -14,6 +16,107 @@ import {
   useBodyMeasurements,
   useSessionStats,
 } from '@/features/profile/use-body'
+import { ProfileEditSheet } from '@/features/profile/profile-edit-sheet'
+
+function ChangePasswordSheet({ onClose }: { onClose: () => void }) {
+  const [password, setPassword] = useState('')
+  const [confirm, setConfirm] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState(false)
+
+  const inputCls =
+    'border-border bg-background text-foreground w-full rounded-xl border px-4 py-2.5 text-[14px] focus:outline-none'
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError(null)
+    if (password.length < 6) {
+      setError('Mínimo 6 caracteres.')
+      return
+    }
+    if (password !== confirm) {
+      setError('Las contraseñas no coinciden.')
+      return
+    }
+    setLoading(true)
+    const { error: authError } = await supabase.auth.updateUser({ password })
+    setLoading(false)
+    if (authError) {
+      setError(authError.message)
+      return
+    }
+    setSuccess(true)
+    setTimeout(onClose, 1500)
+  }
+
+  return (
+    <>
+      <div className='fixed inset-0 z-50 bg-black/70 backdrop-blur-sm' onClick={onClose} />
+      <div className='fixed inset-0 z-50 flex items-center justify-center px-4'>
+      <div className='w-full max-w-sm rounded-3xl border border-[#1e1e1e] bg-card px-5 pt-5 pb-8'>
+        <div className='mb-4 flex items-center justify-between'>
+          <h2 className='text-foreground text-[16px] font-bold'>Cambiar contraseña</h2>
+          <button
+            onClick={onClose}
+            className='flex h-8 w-8 items-center justify-center rounded-full bg-card-dark'
+          >
+            <X size={15} className='text-muted' />
+          </button>
+        </div>
+
+        {success ? (
+          <div className='py-6 text-center'>
+            <p className='text-[32px]'>✅</p>
+            <p className='text-foreground mt-2 font-semibold'>Contraseña actualizada</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className='flex flex-col gap-3'>
+            <div>
+              <label className='text-muted mb-1.5 block text-[11px] font-semibold uppercase tracking-wide'>
+                Nueva contraseña
+              </label>
+              <input
+                type='password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder='Mínimo 6 caracteres'
+                required
+                className={inputCls}
+              />
+            </div>
+            <div>
+              <label className='text-muted mb-1.5 block text-[11px] font-semibold uppercase tracking-wide'>
+                Confirmar contraseña
+              </label>
+              <input
+                type='password'
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                placeholder='Repetí la contraseña'
+                required
+                className={inputCls}
+              />
+            </div>
+            {error && (
+              <p className='rounded-xl bg-red-950/40 px-3 py-2 text-[12px] text-red-400'>
+                {error}
+              </p>
+            )}
+            <button
+              type='submit'
+              disabled={loading || !password || !confirm}
+              className='bg-primary text-primary-foreground mt-1 w-full rounded-2xl py-3.5 text-[15px] font-bold disabled:opacity-60'
+            >
+              {loading ? 'Guardando...' : 'Guardar contraseña'}
+            </button>
+          </form>
+        )}
+      </div>
+      </div>
+    </>
+  )
+}
 
 const GENDER_LABEL: Record<string, string> = {
   male: 'Masculino',
@@ -30,12 +133,10 @@ const GOAL_LABEL: Record<string, string> = {
 function Toggle({ on }: { on: boolean }) {
   return (
     <div
-      className='relative h-6.5 w-11 rounded-full'
-      style={{ background: on ? '#a3e635' : '#2a2a2a' }}
+      className={`relative h-6 w-11 rounded-full transition-colors ${on ? 'bg-primary' : 'bg-card-dark border border-border'}`}
     >
       <div
-        className='absolute top-0.75 h-5 w-5 rounded-full bg-[#0f0f0f]'
-        style={{ [on ? 'right' : 'left']: '3px' }}
+        className={`absolute top-0.5 h-5 w-5 rounded-full shadow transition-all ${on ? 'bg-primary-foreground right-0.5' : 'bg-muted left-0.5'}`}
       />
     </div>
   )
@@ -49,6 +150,8 @@ const ProfilePage = () => {
   const { data: stats } = useSessionStats()
   const dash = useDashboardData()
 
+  const [showEdit, setShowEdit] = useState(false)
+  const [showChangePwd, setShowChangePwd] = useState(false)
   const [notifs, setNotifs] = useState(true)
   const { isDark, toggleTheme } = useTheme()
 
@@ -94,7 +197,10 @@ const ProfilePage = () => {
             )}
           </div>
         </div>
-        <button className='flex h-[34px] w-[34px] flex-shrink-0 items-center justify-center rounded-full border border-[#2a2a2a] bg-[#1a1a1a]'>
+        <button
+          onClick={() => setShowEdit(true)}
+          className='flex h-[34px] w-[34px] flex-shrink-0 items-center justify-center rounded-full border border-[#2a2a2a] bg-[#1a1a1a]'
+        >
           <svg
             width='16'
             height='16'
@@ -206,13 +312,23 @@ const ProfilePage = () => {
           </div>
         </button>
         {/* Objetivo */}
-        <div className='flex items-center justify-between px-4 py-3.5'>
+        <div className='border-card-dark flex items-center justify-between border-b px-4 py-3.5'>
           <div className='flex items-center gap-2.5'>
             <span className='text-[17px]'>🎯</span>
             <span className='text-foreground text-[14px]'>Objetivo</span>
           </div>
           <span className='text-muted text-[13px]'>
             {GOAL_LABEL[profile?.goal ?? ''] ?? '—'}
+          </span>
+        </div>
+        {/* Meta de pasos */}
+        <div className='flex items-center justify-between px-4 py-3.5'>
+          <div className='flex items-center gap-2.5'>
+            <span className='text-[17px]'>👟</span>
+            <span className='text-foreground text-[14px]'>Meta de pasos</span>
+          </div>
+          <span className='text-primary text-[13px] font-bold'>
+            {profile?.daily_steps_goal ? profile.daily_steps_goal.toLocaleString() : '10,000'} /día
           </span>
         </div>
       </div>
@@ -302,6 +418,26 @@ const ProfilePage = () => {
           </div>
           <Toggle on={isDark} />
         </button>
+        <button
+          className='flex w-full items-center justify-between border-b border-[#131313] px-4 py-3.5'
+          onClick={() => setShowChangePwd(true)}
+        >
+          <div className='flex items-center gap-2.5'>
+            <span className='text-[17px]'>🔑</span>
+            <span className='text-foreground text-[14px]'>Cambiar contraseña</span>
+          </div>
+          <svg
+            width='16'
+            height='16'
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='#737373'
+            strokeWidth='2'
+            strokeLinecap='round'
+          >
+            <polyline points='9 18 15 12 9 6' />
+          </svg>
+        </button>
         <div className='flex items-center justify-between px-4 py-3.5'>
           <div className='flex items-center gap-2.5'>
             <span className='text-[17px]'>🌐</span>
@@ -333,10 +469,25 @@ const ProfilePage = () => {
         Cerrar sesión
       </button>
 
+      {showChangePwd && <ChangePasswordSheet onClose={() => setShowChangePwd(false)} />}
+
+      {showEdit && profile && (
+        <ProfileEditSheet
+          profile={{
+            full_name: profile.full_name ?? '',
+            gender: (profile.gender as 'male' | 'female' | 'other') ?? 'other',
+            height_cm: profile.height_cm ?? null,
+            goal: (profile.goal as 'lose_weight' | 'gain_muscle' | 'maintain') ?? 'maintain',
+            daily_steps_goal: profile.daily_steps_goal ?? 10000,
+          }}
+          onClose={() => setShowEdit(false)}
+        />
+      )}
+
       {/* Version */}
       <div className='bg-card-dark mt-2 rounded-[14px] border border-[#1e1e1e] py-3 text-center'>
         <p className='text-[11px] text-[#3a3a3a]'>
-          GymTrack Pro v2.0.0 · PWA · React + Supabase
+          GymTrack Pro v2.0.0 · PWA 
         </p>
       </div>
     </div>
