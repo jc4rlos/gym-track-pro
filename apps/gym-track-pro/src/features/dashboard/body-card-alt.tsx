@@ -64,7 +64,7 @@ export function BodyCardAlt({ weekMuscleSlugs, todayMuscleSlugs, gender, primary
     <div className='bg-card-dark rounded-[20px] border border-[#1e1e1e] p-3.5'>
       <div className='mb-2.5 flex items-center justify-between'>
         <span className='text-foreground text-[13px] font-bold'>
-          Músculos esta semana <span className='text-muted text-[10px] font-normal'>(alt)</span>
+          Músculos esta semana
         </span>
         <div className='flex rounded-full bg-[#1a1a1a] p-0.5'>
           <button
