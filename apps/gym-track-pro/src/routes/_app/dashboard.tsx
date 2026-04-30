@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { SportShoe, ChevronRight, Moon, Dumbbell } from 'lucide-react'
 import { BodyCard } from '@/features/dashboard/body-card'
+import { BodyCardAlt } from '@/features/dashboard/body-card-alt'
 import { MuscleProgress } from '@/features/dashboard/muscle-progress'
 import { useDashboardData } from '@/features/dashboard/use-dashboard'
 import { WeekStamps } from '@/features/dashboard/week-stamps'
@@ -54,6 +55,7 @@ const DashboardPage = () => {
     trainedDates,
     streak,
     weekMuscleSlugs,
+    todayMuscleSlugs,
     bodyData,
     todayPlan,
   } = useDashboardData()
@@ -89,8 +91,15 @@ const DashboardPage = () => {
       {/* Week stamps */}
       <WeekStamps weekDays={weekDays} trainedDates={trainedDates} />
 
-      {/* Body silhouette */}
+      {/* Body silhouette — A/B comparison */}
       <BodyCard bodyData={bodyData} />
+      <BodyCardAlt
+          weekMuscleSlugs={weekMuscleSlugs}
+          todayMuscleSlugs={todayMuscleSlugs}
+          gender={profile?.gender}
+          primaryColor={profile?.muscle_primary_color}
+          secondaryColor={profile?.muscle_secondary_color}
+        />
 
       {/* Muscle progress */}
       <MuscleProgress

@@ -125,3 +125,21 @@ export function useSaveMeasurement() {
     },
   })
 }
+
+export function useUpdateMuscleColors() {
+  const { user } = useAuthStore()
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (colors: {
+      muscle_primary_color: string
+      muscle_secondary_color: string
+    }) => {
+      const { error } = await supabase
+        .from('profiles')
+        .update(colors)
+        .eq('id', user!.id)
+      if (error) throw error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['profile'] }),
+  })
+}

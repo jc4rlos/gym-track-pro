@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { X } from 'lucide-react'
-import { useUpdateProfile } from './use-body'
+import { useUpdateProfile, useUpdateMuscleColors } from './use-body'
 
 type Profile = {
   full_name: string
@@ -8,6 +8,8 @@ type Profile = {
   height_cm: number | null
   goal: 'lose_weight' | 'gain_muscle' | 'maintain'
   daily_steps_goal: number
+  muscle_primary_color?: string | null
+  muscle_secondary_color?: string | null
 }
 
 type Props = {
@@ -64,6 +66,13 @@ export function ProfileEditSheet({ profile, onClose }: Props) {
   const [stepsGoal, setStepsGoal] = useState(String(profile.daily_steps_goal ?? 10000))
 
   const update = useUpdateProfile()
+  const [primaryColor, setPrimaryColor] = useState(
+    profile.muscle_primary_color ?? '#0984e3'
+  )
+  const [secondaryColor, setSecondaryColor] = useState(
+    profile.muscle_secondary_color ?? '#a3e635'
+  )
+  const updateColors = useUpdateMuscleColors()
 
   const handleSave = () => {
     update.mutate(
@@ -74,7 +83,14 @@ export function ProfileEditSheet({ profile, onClose }: Props) {
         goal,
         daily_steps_goal: parseInt(stepsGoal) || 10000,
       },
-      { onSuccess: onClose }
+      {
+        onSuccess: () => {
+          updateColors.mutate(
+            { muscle_primary_color: primaryColor, muscle_secondary_color: secondaryColor },
+            { onSuccess: onClose }
+          )
+        },
+      }
     )
   }
 
@@ -169,16 +185,53 @@ export function ProfileEditSheet({ profile, onClose }: Props) {
                   placeholder='10000'
                 />
               </div>
+
+              <div>
+                <label className='text-muted mb-1.5 block text-[11px] font-semibold uppercase tracking-wide'>
+                  Colores de músculos
+                </label>
+                <div className='flex gap-3'>
+                  <div className='flex flex-1 flex-col gap-1.5'>
+                    <span className='text-muted text-[10px]'>Hoy</span>
+                    <div className='border-border flex items-center gap-2 rounded-xl border px-3 py-2'>
+                      <input
+                        type='color'
+                        value={primaryColor}
+                        onChange={(e) => setPrimaryColor(e.target.value)}
+                        className='h-6 w-6 cursor-pointer rounded border-0 bg-transparent p-0'
+                      />
+                      <span className='text-foreground font-mono text-[12px]'>{primaryColor}</span>
+                    </div>
+                  </div>
+                  <div className='flex flex-1 flex-col gap-1.5'>
+                    <span className='text-muted text-[10px]'>Esta semana</span>
+                    <div className='border-border flex items-center gap-2 rounded-xl border px-3 py-2'>
+                      <input
+                        type='color'
+                        value={secondaryColor}
+                        onChange={(e) => setSecondaryColor(e.target.value)}
+                        className='h-6 w-6 cursor-pointer rounded border-0 bg-transparent p-0'
+                      />
+                      <span className='text-foreground font-mono text-[12px]'>{secondaryColor}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className='border-border mt-2 flex items-center gap-2 rounded-xl border px-3 py-2'>
+                  <div className='h-3 w-3 rounded-full' style={{ background: primaryColor }} />
+                  <div className='h-3 w-3 rounded-full' style={{ background: secondaryColor }} />
+                  <span className='text-muted text-[10px]'>Preview combinación</span>
+                </div>
+              </div>
             </div>
           </div>
 
           <div className='border-border border-t px-5 py-4'>
             <button
               onClick={handleSave}
-              disabled={update.isPending}
+              disabled={update.isPending || updateColors.isPending}
               className='bg-primary text-primary-foreground w-full rounded-2xl py-3.5 text-[15px] font-bold disabled:opacity-60'
             >
-              {update.isPending ? 'Guardando...' : 'Guardar cambios'}
+              {update.isPending || updateColors.isPending ? 'Guardando...' : 'Guardar cambios'}
             </button>
           </div>
         </div>

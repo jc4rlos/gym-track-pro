@@ -360,6 +360,8 @@ export type Database = {
           height_cm: number | null
           id: string
           is_active: boolean
+          muscle_primary_color: string | null
+          muscle_secondary_color: string | null
           must_change_password: boolean | null
           role: string | null
           updated_at: string
@@ -379,6 +381,8 @@ export type Database = {
           height_cm?: number | null
           id: string
           is_active?: boolean
+          muscle_primary_color?: string | null
+          muscle_secondary_color?: string | null
           must_change_password?: boolean | null
           role?: string | null
           updated_at?: string
@@ -398,6 +402,8 @@ export type Database = {
           height_cm?: number | null
           id?: string
           is_active?: boolean
+          muscle_primary_color?: string | null
+          muscle_secondary_color?: string | null
           must_change_password?: boolean | null
           role?: string | null
           updated_at?: string

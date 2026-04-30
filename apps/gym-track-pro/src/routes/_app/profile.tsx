@@ -479,6 +479,8 @@ const ProfilePage = () => {
             height_cm: profile.height_cm ?? null,
             goal: (profile.goal as 'lose_weight' | 'gain_muscle' | 'maintain') ?? 'maintain',
             daily_steps_goal: profile.daily_steps_goal ?? 10000,
+            muscle_primary_color: profile.muscle_primary_color,
+            muscle_secondary_color: profile.muscle_secondary_color,
           }}
           onClose={() => setShowEdit(false)}
         />
